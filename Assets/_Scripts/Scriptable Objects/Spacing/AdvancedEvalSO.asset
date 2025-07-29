@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29611864799377a409dbfd7831e445cb, type: 3}
+  m_Name: AdvancedEvalSO
+  m_EditorClassIdentifier: 
+  timer: 360
+  spacinglevels:
+  - starttime: 0
+    speed: 6
+    rows: 8
+    columns: 8
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 45
+    speed: 5.5
+    rows: 10
+    columns: 10
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    speed: 5
+    rows: 12
+    columns: 12
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 135
+    speed: 4.5
+    rows: 14
+    columns: 14
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 180
+    speed: 4
+    rows: 16
+    columns: 16
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 225
+    speed: 3.5
+    rows: 18
+    columns: 18
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 270
+    speed: 3
+    rows: 20
+    columns: 20
+    isflickering: 1
+    flickeringspeed: 0.2
+  - starttime: 315
+    speed: 2.5
+    rows: 18
+    columns: 18
+    isflickering: 1
+    flickeringspeed: 0.4
