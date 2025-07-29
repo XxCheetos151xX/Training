@@ -4,13 +4,13 @@ using System.Collections;
 
 public class DecisionManager : MonoBehaviour
 {
-    [Header("Game Refrences")]
+    [Header("Game References")]
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
     [SerializeField] private List<Color> colors = new List<Color>();
-
     [SerializeField] private DecisionSO activeDecisionSO;
+
     private Camera cam;
     private float timer;
     private float initial_timer;
@@ -24,13 +24,13 @@ public class DecisionManager : MonoBehaviour
     private GameObject spawned_target;
     private SpriteRenderer lefthand_renderer;
     private SpriteRenderer righthand_renderer;
+    private SpriteRenderer spawnedTargetRenderer;
+    private SpriteRenderer targetFollowHand;
     private List<float> start_time = new List<float>();
     private List<float> target_life_span = new List<float>();
     private List<float> color_change_time = new List<float>();
     private List<float> flickering_speed = new List<float>();
     private List<bool> _isflickering = new List<bool>();
-
-
 
     private void Start()
     {
@@ -40,19 +40,16 @@ public class DecisionManager : MonoBehaviour
         StartCoroutine(SpawnTargets());
     }
 
-
     void GameSetup()
     {
         initial_timer = activeDecisionSO.timer;
-
         cam = Camera.main;
-
         timer = 0;
 
         lefthand_renderer = left_hand.GetComponent<SpriteRenderer>();
         righthand_renderer = right_hand.GetComponent<SpriteRenderer>();
 
-
+   
         do
         {
             index1 = Random.Range(0, colors.Count);
@@ -62,7 +59,7 @@ public class DecisionManager : MonoBehaviour
         lefthand_renderer.color = colors[index1];
         righthand_renderer.color = colors[index2];
 
-
+   
         float aspectRatio = (float)Screen.width / Screen.height;
         float verticalSize = Camera.main.orthographicSize * 2;
         float horizontalSize = verticalSize * aspectRatio;
@@ -73,7 +70,7 @@ public class DecisionManager : MonoBehaviour
         maxX = cam.transform.position.x + halfWidth;
         maxY = cam.transform.position.y + halfHeight;
 
-
+        
         for (int i = 0; i < activeDecisionSO.decisionlevels.Count; i++)
         {
             start_time.Add(activeDecisionSO.decisionlevels[i].starttime);
@@ -86,12 +83,10 @@ public class DecisionManager : MonoBehaviour
 
     public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
 
-
     IEnumerator SwitchColors()
     {
         while (true)
         {
-
             index1 = Random.Range(0, colors.Count);
             index2 = Random.Range(0, colors.Count);
 
@@ -99,46 +94,56 @@ public class DecisionManager : MonoBehaviour
             {
                 lefthand_renderer.color = colors[index1];
                 righthand_renderer.color = colors[index2];
-                yield return new WaitForSeconds(colorchangetime); 
+                yield return new WaitForSeconds(colorchangetime);
             }
             else
+            {
                 yield return null;
-
+            }
         }
     }
-
 
     IEnumerator SpawnTargets()
     {
         while (true)
         {
+            
             float x = Random.Range(minX, maxX);
             float y = Random.Range(minY, maxY);
 
-            Color currentLeft = lefthand_renderer.color;
-            Color currentRight = righthand_renderer.color;
+            
+            bool useLeft = Random.value > 0.5f;
+            targetFollowHand = useLeft ? lefthand_renderer : righthand_renderer;
 
-            Color targetColor = (Random.value > 0.5f) ? currentLeft : currentRight;
-
+            
             spawned_target = Instantiate(target_prefab, new Vector3(x, y, 0), Quaternion.identity);
-            spawned_target.GetComponent<SpriteRenderer>().color = targetColor;
+            spawnedTargetRenderer = spawned_target.GetComponent<SpriteRenderer>();
+            spawnedTargetRenderer.color = targetFollowHand.color;
 
-            yield return new WaitForSeconds(targetlifespan);
+            float elapsed = 0f;
+
+            
+            while (elapsed < targetlifespan)
+            {
+                if (spawned_target != null && targetFollowHand != null)
+                {
+                    spawnedTargetRenderer.color = targetFollowHand.color;
+                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
 
             if (spawned_target != null)
                 Destroy(spawned_target);
         }
     }
 
-
-
-
     IEnumerator GameLoop()
     {
         while (timer != initial_timer)
         {
             initial_timer -= Time.deltaTime;
-
             timer += Time.deltaTime;
 
             for (int i = 0; i < start_time.Count; i++)
@@ -151,6 +156,7 @@ public class DecisionManager : MonoBehaviour
                     flickeringspeed = flickering_speed[i];
                 }
             }
+
             yield return null;
         }
     }
