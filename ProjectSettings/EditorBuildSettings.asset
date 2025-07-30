@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Spacing.unity
     guid: bdc1d5db0c8c8ae4da1d490e8f869886
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Decision.unity
     guid: 695b5d471fb4fc246a2b84f28351c6a5
   m_configObjects:

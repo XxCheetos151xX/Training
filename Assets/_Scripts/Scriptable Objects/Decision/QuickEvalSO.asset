@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb85ad9ef63cf241a4f2bb0530fe925, type: 3}
   m_Name: QuickEvalSO
   m_EditorClassIdentifier: 
-  timer: 0
-  decisionlevels: []
+  timer: 30
+  decisionlevels:
+  - starttime: 0
+    color_changetimer: 5
+    nottodo_prob: 5
+    switchcolors: 1
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 15
+    color_changetimer: 3
+    nottodo_prob: 8
+    switchcolors: 1
+    isflickering: 1
+    flickerspeed: 0.2

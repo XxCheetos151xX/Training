@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.Events;
+using TMPro;
+using UnityEngine.UI;
 
 public class DecisionManager : MonoBehaviour
 {
@@ -9,10 +12,15 @@ public class DecisionManager : MonoBehaviour
     [SerializeField] private GameObject false_target_prefab;
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
+    [SerializeField] private GameObject end_screen;
+    [SerializeField] private Image black_screen;
+    [SerializeField] private TextMeshProUGUI score_txt;
+    [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private float delay;
     [SerializeField] private float button_size = 1;
     [SerializeField] private float target_size = 1;
     [SerializeField] private List<Color> colors = new List<Color>();
+    [SerializeField] private UnityEvent GameEnd;
 
     private DecisionSO activeDecisionSO;
     private Camera cam;
@@ -26,6 +34,7 @@ public class DecisionManager : MonoBehaviour
     private float missed_targets;
     private float wrong_targets;
     private float not_todo_prob;
+    private float score;
     private int index1;
     private int index2;
     private bool isflickering;
@@ -67,7 +76,7 @@ public class DecisionManager : MonoBehaviour
 
         left_hand.transform.localScale = new Vector3(button_size, button_size, button_size);
         right_hand.transform.localScale = new Vector3(button_size, button_size, button_size);
-   
+
         do
         {
             index1 = Random.Range(0, colors.Count);
@@ -77,7 +86,7 @@ public class DecisionManager : MonoBehaviour
         lefthand_renderer.color = colors[index1];
         righthand_renderer.color = colors[index2];
 
-   
+
         float aspectRatio = (float)Screen.width / Screen.height;
         float verticalSize = Camera.main.orthographicSize * 2;
         float horizontalSize = verticalSize * aspectRatio;
@@ -88,8 +97,8 @@ public class DecisionManager : MonoBehaviour
         maxX = cam.transform.position.x + halfWidth;
         maxY = cam.transform.position.y + halfHeight;
 
-        
-        
+
+
         for (int i = 0; i < activeDecisionSO.decisionlevels.Count; i++)
         {
             start_time.Add(activeDecisionSO.decisionlevels[i].starttime);
@@ -168,6 +177,25 @@ public class DecisionManager : MonoBehaviour
         print(wrong_targets);
     }
 
+
+    public void GameEnded()
+    {
+        StopAllCoroutines();
+
+        if (spawned_target != null)
+        {
+            Destroy(spawned_target);
+        }
+        if (spawned_false_target != null)
+        {
+            Destroy(spawned_false_target);
+        }
+
+        score = (captured_targtes / total_targets) * 100;
+        score_txt.text = score.ToString("F2") + "%";
+        end_screen.SetActive(true);
+    }
+
     public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
 
 
@@ -194,7 +222,7 @@ public class DecisionManager : MonoBehaviour
                     yield return new WaitForSeconds(delay);
                 }
             }
-            else 
+            else
             {
                 bool useLeft = Random.value > 0.5f;
                 targetFollowHand = useLeft ? lefthand_renderer : righthand_renderer;
@@ -245,6 +273,44 @@ public class DecisionManager : MonoBehaviour
         }
     }
 
+    IEnumerator Flickering()
+    {
+        float flickerTimer = 0f;
+        float currentFlickerSpeed = 0f;
+        bool isFlickering = false;
+
+        while (true)
+        {
+            for (int i = start_time.Count - 1; i >= 0; i--)
+            {
+                if (timer >= start_time[i])
+                {
+                    isFlickering = _isflickering[i];
+                    currentFlickerSpeed = flickering_speed[i];
+                    break;
+                }
+            }
+
+            if (isFlickering)
+            {
+                flickerTimer += Time.deltaTime;
+                if (flickerTimer >= currentFlickerSpeed)
+                {
+                    black_screen.enabled = !black_screen.enabled;
+                    flickerTimer = 0f;
+                }
+            }
+            else
+            {
+                if (black_screen.enabled)
+                    black_screen.enabled = false;
+            }
+
+            yield return null;
+        }
+
+        
+    }
 
     IEnumerator GameLoop()
     {
@@ -252,6 +318,10 @@ public class DecisionManager : MonoBehaviour
         {
             initial_timer -= Time.deltaTime;
             timer += Time.deltaTime;
+
+            int minutes = Mathf.FloorToInt(initial_timer / 60f);
+            int seconds = Mathf.FloorToInt(initial_timer % 60f);
+            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             for (int i = 0; i < start_time.Count; i++)
             {
@@ -265,12 +335,16 @@ public class DecisionManager : MonoBehaviour
                 }
             }
 
+            if (initial_timer <= 0)
+            {
+                GameEnd.Invoke();
+            }
             yield return null;
         }
+
+
+
     }
-
-
-
-
 }
+
 
