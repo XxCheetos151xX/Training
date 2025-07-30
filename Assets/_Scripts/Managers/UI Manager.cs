@@ -14,4 +14,9 @@ public class UIManager : MonoBehaviour
         scene_name = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(scene_name);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 } 

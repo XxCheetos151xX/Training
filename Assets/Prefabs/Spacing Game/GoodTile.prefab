@@ -110,6 +110,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnRelease:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7522164751844984007
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +189,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 452b44130af83574aa0d66e39f54d964, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b788ac1581d7a4a4f96cd42b674af7d2, type: 3}
   m_Color: {r: 0.053106308, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0

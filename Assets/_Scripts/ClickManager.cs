@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
@@ -9,6 +10,8 @@ public class ClickManager : MonoBehaviour
     private void OnEnable()
     {
         mainCam = Camera.main;
+
+        // Touch support
         EnhancedTouchSupport.Enable();
         Touch.onFingerDown += OnFingerDown;
         Touch.onFingerUp += OnFingerUp;
@@ -16,14 +19,38 @@ public class ClickManager : MonoBehaviour
 
     private void OnDisable()
     {
+        // Unsubscribe
         Touch.onFingerDown -= OnFingerDown;
         Touch.onFingerUp -= OnFingerUp;
         EnhancedTouchSupport.Disable();
     }
 
+    private void Update()
+    {
+        // Handle mouse click
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            HandleClick(Mouse.current.position.ReadValue());
+        }
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            HandleRelease(Mouse.current.position.ReadValue());
+        }
+    }
+
     private void OnFingerDown(Finger finger)
     {
-        Vector2 screenPos = finger.screenPosition;
+        HandleClick(finger.screenPosition);
+    }
+
+    private void OnFingerUp(Finger finger)
+    {
+        HandleRelease(finger.screenPosition);
+    }
+
+    private void HandleClick(Vector2 screenPos)
+    {
         Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, mainCam.nearClipPlane));
         worldPos.z = 0;
 
@@ -38,10 +65,8 @@ public class ClickManager : MonoBehaviour
         }
     }
 
-
-    private void OnFingerUp(Finger finger)
+    private void HandleRelease(Vector2 screenPos)
     {
-        Vector2 screenPos = finger.screenPosition;
         Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, mainCam.nearClipPlane));
         worldPos.z = 0;
 
@@ -51,9 +76,8 @@ public class ClickManager : MonoBehaviour
             ClickableObject clickable = col.GetComponent<ClickableObject>();
             if (clickable != null)
             {
-                clickable.HandleRelease(); // true = released, not canceled
+                clickable.HandleRelease();
             }
         }
     }
-
 }

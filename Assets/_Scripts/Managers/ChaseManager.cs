@@ -221,7 +221,6 @@ public class ChaseManager : MonoBehaviour
         while (timer != activeChaseSO.timer)
         {
             timer += Time.deltaTime;
-            print(timer + "/" + activeChaseSO.timer);
             initial_time -= Time.deltaTime;
             int minutes = Mathf.FloorToInt(initial_time / 60f);
             int seconds = Mathf.FloorToInt(initial_time % 60f);

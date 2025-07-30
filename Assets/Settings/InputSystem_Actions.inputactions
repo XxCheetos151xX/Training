@@ -504,7 +504,7 @@
                 },
                 {
                     "name": "",
-                    "id": "410cfcd7-a3cc-42ce-9547-c45690ae9b6f",
+                    "id": "479e8693-1423-4101-a1ce-e92bd4f99091",
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
@@ -526,8 +526,8 @@
                 },
                 {
                     "name": "",
-                    "id": "1be81f65-b7c2-4b23-a6f1-9a97878423bf",
-                    "path": "<Mouse>/press",
+                    "id": "f33e73c1-a19b-4003-9b24-ff1e0a2a497e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
