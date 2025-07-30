@@ -14,8 +14,9 @@ public class DecisionSO : AbsGameSO
 public class DecisionVariables
 {
     public float starttime;
-    public float targetlifespan;
     public float color_changetimer;
+    [Range(1, 10)] public float nottodo_prob;
+    public bool switchcolors;
     public bool isflickering;
     public float flickerspeed;
 }

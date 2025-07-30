@@ -225,13 +225,25 @@ MonoBehaviour:
       m_Calls: []
   _Onclick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1236925881}
+        m_TargetAssemblyTypeName: DecisionManager, Assembly-CSharp
+        m_MethodName: LeftHandPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnRelease:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1236925881}
         m_TargetAssemblyTypeName: DecisionManager, Assembly-CSharp
-        m_MethodName: A
+        m_MethodName: LeftHandReleasd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -391,13 +403,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target_prefab: {fileID: 4090664958652535201, guid: dc0561b7da91b0b4fa5961f3908d5788, type: 3}
+  false_target_prefab: {fileID: 6862561377355392295, guid: 684770b4399239e4f9b48ab5121be8c4, type: 3}
   left_hand: {fileID: 293256063}
   right_hand: {fileID: 2115128483}
+  delay: 0.5
+  button_size: 1
+  target_size: 1
   colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 0.2333653, b: 1, a: 1}
+  - {r: 0.5327544, g: 0, b: 1, a: 1}
   - {r: 1, g: 0.87289613, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0.17721939, a: 1}
+  - {r: 0, g: 1, b: 0.08595133, a: 1}
+  - {r: 0, g: 0.013665199, b: 1, a: 1}
 --- !u!114 &1236925882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,10 +745,34 @@ MonoBehaviour:
       m_Calls: []
   _Onclick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1236925881}
+        m_TargetAssemblyTypeName: DecisionManager, Assembly-CSharp
+        m_MethodName: RightHandPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnRelease:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1236925881}
+        m_TargetAssemblyTypeName: DecisionManager, Assembly-CSharp
+        m_MethodName: RightHandReleased
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &2115128487
 BoxCollider2D:
   m_ObjectHideFlags: 0

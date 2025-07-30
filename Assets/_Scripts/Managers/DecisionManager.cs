@@ -6,38 +6,53 @@ public class DecisionManager : MonoBehaviour
 {
     [Header("Game References")]
     [SerializeField] private GameObject target_prefab;
+    [SerializeField] private GameObject false_target_prefab;
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
+    [SerializeField] private float delay;
+    [SerializeField] private float button_size = 1;
+    [SerializeField] private float target_size = 1;
     [SerializeField] private List<Color> colors = new List<Color>();
-    [SerializeField] private DecisionSO activeDecisionSO;
 
+    private DecisionSO activeDecisionSO;
     private Camera cam;
     private float timer;
     private float initial_timer;
-    private float targetlifespan;
     private float colorchangetime;
     private float flickeringspeed;
     private float minY, minX, maxX, maxY;
+    private float total_targets;
+    private float captured_targtes;
+    private float missed_targets;
+    private float wrong_targets;
+    private float not_todo_prob;
     private int index1;
     private int index2;
     private bool isflickering;
+    private bool first_switch;
+    private bool lefthandpressed = false;
+    private bool righthandpressed = false;
+    private bool gamestarted = false;
+    private bool switch_colors;
     private GameObject spawned_target;
+    private GameObject spawned_false_target;
+    private ClickableObject target_clickableobject;
+    private CircleCollider2D target_collider;
     private SpriteRenderer lefthand_renderer;
     private SpriteRenderer righthand_renderer;
     private SpriteRenderer spawnedTargetRenderer;
     private SpriteRenderer targetFollowHand;
     private List<float> start_time = new List<float>();
-    private List<float> target_life_span = new List<float>();
     private List<float> color_change_time = new List<float>();
     private List<float> flickering_speed = new List<float>();
+    private List<float> _not_todo_prob = new List<float>();
     private List<bool> _isflickering = new List<bool>();
+    private List<bool> _switch_colors = new List<bool>();
 
     private void Start()
     {
         GameSetup();
-        StartCoroutine(GameLoop());
-        StartCoroutine(SwitchColors());
-        StartCoroutine(SpawnTargets());
+        SwitchColor();
     }
 
     void GameSetup()
@@ -45,10 +60,13 @@ public class DecisionManager : MonoBehaviour
         initial_timer = activeDecisionSO.timer;
         cam = Camera.main;
         timer = 0;
+        first_switch = true;
 
         lefthand_renderer = left_hand.GetComponent<SpriteRenderer>();
         righthand_renderer = right_hand.GetComponent<SpriteRenderer>();
 
+        left_hand.transform.localScale = new Vector3(button_size, button_size, button_size);
+        right_hand.transform.localScale = new Vector3(button_size, button_size, button_size);
    
         do
         {
@@ -71,73 +89,162 @@ public class DecisionManager : MonoBehaviour
         maxY = cam.transform.position.y + halfHeight;
 
         
+        
         for (int i = 0; i < activeDecisionSO.decisionlevels.Count; i++)
         {
             start_time.Add(activeDecisionSO.decisionlevels[i].starttime);
-            target_life_span.Add(activeDecisionSO.decisionlevels[i].targetlifespan);
             color_change_time.Add(activeDecisionSO.decisionlevels[i].color_changetimer);
+            _switch_colors.Add(activeDecisionSO.decisionlevels[i].switchcolors);
+            _not_todo_prob.Add(activeDecisionSO.decisionlevels[i].nottodo_prob);
             flickering_speed.Add(activeDecisionSO.decisionlevels[i].flickerspeed);
             _isflickering.Add(activeDecisionSO.decisionlevels[i].isflickering);
         }
     }
 
-    public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
 
-    IEnumerator SwitchColors()
+    public void SwitchColor()
     {
-        while (true)
+        if (switch_colors || first_switch)
         {
-            index1 = Random.Range(0, colors.Count);
-            index2 = Random.Range(0, colors.Count);
+            do
+            {
+                index1 = Random.Range(0, colors.Count);
+                index2 = Random.Range(0, colors.Count);
+            } while (index1 == index2);
 
-            if (index1 != index2)
-            {
-                lefthand_renderer.color = colors[index1];
-                righthand_renderer.color = colors[index2];
-                yield return new WaitForSeconds(colorchangetime);
-            }
-            else
-            {
-                yield return null;
-            }
+            lefthand_renderer.color = colors[index1];
+            righthand_renderer.color = colors[index2];
+
+            first_switch = false;
         }
     }
+
+
+    public void LeftHandPressed()
+    {
+        lefthandpressed = true;
+        CheckGameStarted();
+    }
+
+    public void LeftHandReleasd()
+    {
+        lefthandpressed = false;
+    }
+
+    public void RightHandPressed()
+    {
+        righthandpressed = true;
+        CheckGameStarted();
+    }
+
+    public void RightHandReleased()
+    {
+        righthandpressed = false;
+    }
+
+
+    void CheckGameStarted()
+    {
+        if (!gamestarted && righthandpressed && lefthandpressed)
+        {
+            StartCoroutine(GameLoop());
+            StartCoroutine(SpawnTargets());
+            gamestarted = true;
+        }
+    }
+
+
+    void TargetCaptured()
+    {
+        captured_targtes++;
+        SwitchColor();
+        //StopCoroutine(SpawnTargets());
+        //StartCoroutine(SpawnTargets());
+    }
+
+    void FalseTargetCaptured()
+    {
+        wrong_targets++;
+        print(wrong_targets);
+    }
+
+    public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
+
 
     IEnumerator SpawnTargets()
     {
         while (true)
         {
-            
             float x = Random.Range(minX, maxX);
-            float y = Random.Range(minY, maxY);
+            float y = Random.Range(minY + 2.5f, maxY - 2.5f);
 
-            
-            bool useLeft = Random.value > 0.5f;
-            targetFollowHand = useLeft ? lefthand_renderer : righthand_renderer;
+            bool spawn_wrong_target = Random.value > ((11 - not_todo_prob) / 10);
 
-            
-            spawned_target = Instantiate(target_prefab, new Vector3(x, y, 0), Quaternion.identity);
-            spawnedTargetRenderer = spawned_target.GetComponent<SpriteRenderer>();
-            spawnedTargetRenderer.color = targetFollowHand.color;
-
-            float elapsed = 0f;
-
-            
-            while (elapsed < targetlifespan)
+            if (spawn_wrong_target)
             {
-                if (spawned_target != null && targetFollowHand != null)
+                spawned_false_target = Instantiate(false_target_prefab, new Vector3(x, y, 0), Quaternion.identity);
+                spawned_false_target.GetComponent<ClickableObject>()._Onclick.AddListener(FalseTargetCaptured);
+
+                yield return new WaitForSeconds(colorchangetime);
+
+                if (spawned_false_target != null)
                 {
-                    spawnedTargetRenderer.color = targetFollowHand.color;
+                    Destroy(spawned_false_target);
+                    SwitchColor();
+                    yield return new WaitForSeconds(delay);
+                }
+            }
+            else 
+            {
+                bool useLeft = Random.value > 0.5f;
+                targetFollowHand = useLeft ? lefthand_renderer : righthand_renderer;
+
+                spawned_target = Instantiate(target_prefab, new Vector3(x, y, 0), Quaternion.identity);
+                spawned_target.transform.localScale = new Vector3(target_size, target_size, target_size);
+                spawnedTargetRenderer = spawned_target.GetComponent<SpriteRenderer>();
+                target_clickableobject = spawned_target.GetComponent<ClickableObject>();
+                target_collider = spawned_target.GetComponent<CircleCollider2D>();
+                target_clickableobject._Onclick.AddListener(TargetCaptured);
+                spawnedTargetRenderer.color = targetFollowHand.color;
+                total_targets++;
+
+                float elapsed = 0f;
+                while (elapsed < colorchangetime)
+                {
+                    if (spawned_target != null && targetFollowHand != null)
+                    {
+                        spawnedTargetRenderer.color = targetFollowHand.color;
+                    }
+
+                    if (spawned_target != null)
+                    {
+
+                        bool exactlyOneHandPressed = lefthandpressed ^ righthandpressed;
+
+                        bool correctHandPressed = (useLeft && righthandpressed) || (!useLeft && lefthandpressed);
+
+                        if (target_collider != null)
+                        {
+                            target_collider.enabled = exactlyOneHandPressed && correctHandPressed;
+                        }
+                    }
+
+                    elapsed += Time.deltaTime;
+                    yield return null;
                 }
 
-                elapsed += Time.deltaTime;
-                yield return null;
+                if (spawned_target != null)
+                {
+                    Destroy(spawned_target);
+                    missed_targets++;
+                    SwitchColor();
+                    yield return new WaitForSeconds(delay);
+                }
             }
 
-            if (spawned_target != null)
-                Destroy(spawned_target);
         }
     }
+
 
     IEnumerator GameLoop()
     {
@@ -150,14 +257,20 @@ public class DecisionManager : MonoBehaviour
             {
                 if (timer >= start_time[i])
                 {
-                    targetlifespan = target_life_span[i];
                     colorchangetime = color_change_time[i];
                     isflickering = _isflickering[i];
+                    switch_colors = _switch_colors[i];
                     flickeringspeed = flickering_speed[i];
+                    not_todo_prob = _not_todo_prob[i];
                 }
             }
 
             yield return null;
         }
     }
+
+
+
+
 }
+

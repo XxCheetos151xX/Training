@@ -19,6 +19,7 @@ public class SpacingManager : MonoBehaviour
     [SerializeField] private float grid_delay;
     [SerializeField] UnityEvent GameEnded;
 
+
     private SpacingSO activeSpacingSO;
     private float minY, minX, maxX, maxY;
     private float timer;
@@ -42,7 +43,8 @@ public class SpacingManager : MonoBehaviour
     private List<int> columns = new List<int>();
     private List<Vector2Int> allPositions = new List<Vector2Int>();
     private List<GameObject> active_tiles = new List<GameObject>();
-    private List<GameObject> grid_lines = new List<GameObject>();  
+    private List<GameObject> grid_lines = new List<GameObject>();
+    
     private void Start()
     {
         GameSetup();
