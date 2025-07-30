@@ -158,6 +158,7 @@ public class DecisionManager : MonoBehaviour
         {
             StartCoroutine(GameLoop());
             StartCoroutine(SpawnTargets());
+            StartCoroutine(Flickering());
             gamestarted = true;
         }
     }
@@ -181,6 +182,8 @@ public class DecisionManager : MonoBehaviour
     public void GameEnded()
     {
         StopAllCoroutines();
+        end_screen.SetActive(true);
+        timer_txt.enabled = false;
 
         if (spawned_target != null)
         {
@@ -193,7 +196,6 @@ public class DecisionManager : MonoBehaviour
 
         score = (captured_targtes / total_targets) * 100;
         score_txt.text = score.ToString("F2") + "%";
-        end_screen.SetActive(true);
     }
 
     public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
@@ -276,25 +278,14 @@ public class DecisionManager : MonoBehaviour
     IEnumerator Flickering()
     {
         float flickerTimer = 0f;
-        float currentFlickerSpeed = 0f;
-        bool isFlickering = false;
 
         while (true)
         {
-            for (int i = start_time.Count - 1; i >= 0; i--)
-            {
-                if (timer >= start_time[i])
-                {
-                    isFlickering = _isflickering[i];
-                    currentFlickerSpeed = flickering_speed[i];
-                    break;
-                }
-            }
-
-            if (isFlickering)
+           
+            if (isflickering)
             {
                 flickerTimer += Time.deltaTime;
-                if (flickerTimer >= currentFlickerSpeed)
+                if (flickerTimer >= flickeringspeed)
                 {
                     black_screen.enabled = !black_screen.enabled;
                     flickerTimer = 0f;
