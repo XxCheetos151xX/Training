@@ -37,6 +37,7 @@ public enum GameType
     Focus,
     Spacing,
     Decision,
+    Memory,
 }
 [Serializable]
 public enum GameMode

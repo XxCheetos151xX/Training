@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c850f2da142d939499595c9f6a922ec6
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 264079
+  packageName: Multi-Platform Build Tool
+  packageVersion: 1.0.0
+  assetPath: Assets/Multi Platfrom Build Tool/Demo/Scenes/Demo Scene.unity
+  uploadId: 609800

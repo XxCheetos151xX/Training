@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 35a22de6c0cd0a240b5168f9b9530a37
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 264079
+  packageName: Multi-Platform Build Tool
+  packageVersion: 1.0.0
+  assetPath: Assets/Multi Platfrom Build Tool/Demo/Scripts/FindMyPlatform.cs
+  uploadId: 609800
