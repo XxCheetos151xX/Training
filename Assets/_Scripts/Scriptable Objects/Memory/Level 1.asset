@@ -15,10 +15,26 @@ MonoBehaviour:
   timer: 30
   memorylevels:
   - starttime: 0
-    usertimewindow: 5
-    patternsize: 4
+    usertimewindow: 2
+    patternsize: 2
+    rows: 6
+    cols: 6
+    isflickering: 1
+    flickeringspeed: 0.1
+    nottodoprob: 0
+  - starttime: 10
+    usertimewindow: 2
+    patternsize: 3
     rows: 8
     cols: 8
     isflickering: 0
-    flickeringspeed: 0
+    flickeringspeed: 1
+    nottodoprob: 0
+  - starttime: 20
+    usertimewindow: 2
+    patternsize: 4
+    rows: 10
+    cols: 10
+    isflickering: 1
+    flickeringspeed: 2
     nottodoprob: 0
