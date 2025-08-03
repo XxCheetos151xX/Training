@@ -13,12 +13,12 @@ public class MemorySO : AbsGameSO
 
 public class MemoryVariables
 {
-    public float starttime;
+    public float flickerstarttime;
+    public float patternspeed;
     public float usertimewindow;
     public int patternsize;
     public int rows;
     public int cols;
     public bool isflickering;
     public float flickeringspeed;
-    [Range(1, 10)] public float nottodoprob;
 }

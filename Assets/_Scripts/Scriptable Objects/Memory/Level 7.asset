@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2becadaa36d584fb72c2d9d4b62507, type: 3}
   m_Name: Level 7
   m_EditorClassIdentifier: 
-  timer: 0
-  memorylevels: []
+  timer: 90
+  memorylevels:
+  - flickerstarttime: 0
+    patternspeed: 0.7
+    usertimewindow: 2.5
+    patternsize: 5
+    rows: 18
+    cols: 18
+    isflickering: 1
+    flickeringspeed: 0.1

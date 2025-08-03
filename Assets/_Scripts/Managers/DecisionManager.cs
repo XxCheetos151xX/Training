@@ -168,8 +168,6 @@ public class DecisionManager : MonoBehaviour
     {
         captured_targtes++;
         SwitchColor();
-        //StopCoroutine(SpawnTargets());
-        //StartCoroutine(SpawnTargets());
     }
 
     void FalseTargetCaptured()
@@ -205,9 +203,10 @@ public class DecisionManager : MonoBehaviour
     {
         while (true)
         {
-            float x = Random.Range(minX, maxX);
-            float y = Random.Range(minY + 2.5f, maxY - 2.5f);
+        StartNextSpawn:
 
+            float x = Random.Range(minX, maxX);
+            float y = Random.Range(minY + 3.5f, maxY - 2.5f);
             bool spawn_wrong_target = Random.value > ((11 - not_todo_prob) / 10);
 
             if (spawn_wrong_target)
@@ -215,14 +214,24 @@ public class DecisionManager : MonoBehaviour
                 spawned_false_target = Instantiate(false_target_prefab, new Vector3(x, y, 0), Quaternion.identity);
                 spawned_false_target.GetComponent<ClickableObject>()._Onclick.AddListener(FalseTargetCaptured);
 
-                yield return new WaitForSeconds(colorchangetime);
+                float elapsed = 0f;
+                while (elapsed < colorchangetime)
+                {
+                    if (spawned_false_target == null)
+                        goto StartNextSpawn;
+
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
 
                 if (spawned_false_target != null)
                 {
                     Destroy(spawned_false_target);
+                    missed_targets++;
                     SwitchColor();
-                    yield return new WaitForSeconds(delay);
                 }
+
+                continue;
             }
             else
             {
@@ -241,22 +250,19 @@ public class DecisionManager : MonoBehaviour
                 float elapsed = 0f;
                 while (elapsed < colorchangetime)
                 {
-                    if (spawned_target != null && targetFollowHand != null)
-                    {
+                    if (spawned_target == null)
+                        goto StartNextSpawn;
+
+                    if (targetFollowHand != null)
                         spawnedTargetRenderer.color = targetFollowHand.color;
-                    }
 
                     if (spawned_target != null)
                     {
-
                         bool exactlyOneHandPressed = lefthandpressed ^ righthandpressed;
-
                         bool correctHandPressed = (useLeft && righthandpressed) || (!useLeft && lefthandpressed);
 
                         if (target_collider != null)
-                        {
                             target_collider.enabled = exactlyOneHandPressed && correctHandPressed;
-                        }
                     }
 
                     elapsed += Time.deltaTime;
@@ -268,12 +274,14 @@ public class DecisionManager : MonoBehaviour
                     Destroy(spawned_target);
                     missed_targets++;
                     SwitchColor();
-                    yield return new WaitForSeconds(delay);
                 }
-            }
 
+                continue;
+            }
         }
     }
+
+
 
     IEnumerator Flickering()
     {

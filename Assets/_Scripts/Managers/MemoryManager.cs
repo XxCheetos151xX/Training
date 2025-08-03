@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class MemoryManager : MonoBehaviour
 {
@@ -32,16 +33,18 @@ public class MemoryManager : MonoBehaviour
     private float missed_patterns;
     private float score;
     private float minX, maxX, minY, maxY;
-    private float start_time;
     private float user_time_window;
     private float flickering_time;
+    private float pattern_speed;
     private int row, col, pattern_size;
-    private int lastActivatedLevel = -1;
+    private int current_stage;
+    private int streak;
     private bool is_flickering;
     private bool stopPattern = false;
     private Color original_color;
     private Coroutine patternCoroutine;
-    private List<float> _starttime = new List<float>();
+    private List<float> _flickerstarttime = new List<float>();
+    private List<float> _paternspeed = new List<float>();
     private List<float> _usertimewindow = new List<float>();
     private List<float> _flickeringtime = new List<float>();
     private List<int> _rows = new List<int>();
@@ -57,7 +60,9 @@ public class MemoryManager : MonoBehaviour
     private void Start()
     {
         GameSetup();
+        GenerateGrid();
         StartCoroutine(GameLoop());
+        patternCoroutine = StartCoroutine(GeneratePattern());
         StartCoroutine(Flickering());
     }
 
@@ -66,6 +71,8 @@ public class MemoryManager : MonoBehaviour
         timer = 0;
         initial_timer = activeMemorySO.timer;
         original_color = tile_prefab.GetComponent<SpriteRenderer>().color;
+
+        current_stage = 0;
 
         float aspectRatio = (float)Screen.width / Screen.height;
         float verticalSize = Camera.main.orthographicSize * 2;
@@ -79,7 +86,8 @@ public class MemoryManager : MonoBehaviour
 
         for (int i = 0; i < activeMemorySO.memorylevels.Count; i++)
         {
-            _starttime.Add(activeMemorySO.memorylevels[i].starttime);
+            _paternspeed.Add(activeMemorySO.memorylevels[i].patternspeed);
+            _flickerstarttime.Add(activeMemorySO.memorylevels[i].flickerstarttime);
             _usertimewindow.Add(activeMemorySO.memorylevels[i].usertimewindow);
             _patternsize.Add(activeMemorySO.memorylevels[i].patternsize);
             _rows.Add(activeMemorySO.memorylevels[i].rows);
@@ -87,6 +95,15 @@ public class MemoryManager : MonoBehaviour
             _isflickering.Add(activeMemorySO.memorylevels[i].isflickering);
             _flickeringtime.Add(activeMemorySO.memorylevels[i].flickeringspeed);
         }
+
+        pattern_speed = _paternspeed[current_stage];
+        user_time_window = _usertimewindow[current_stage];
+        pattern_size = _patternsize[current_stage];
+        row = _rows[current_stage];
+        col = _columns[current_stage];
+        is_flickering = _isflickering[current_stage];
+        flickering_time = _flickeringtime[current_stage];
+
     }
 
     void GenerateGrid()
@@ -155,6 +172,7 @@ public class MemoryManager : MonoBehaviour
 
     void TileClicked(GameObject t)
     {
+
         if (t == null) return;
 
         if (stopPattern) return;
@@ -191,6 +209,21 @@ public class MemoryManager : MonoBehaviour
         if (!wrong_tile && pressed_tiles.Count == pattern.Count)
         {
             correct_patterns++;
+            streak++;
+
+            if (streak >= 3 && current_stage + 1 < _usertimewindow.Count)
+            {
+                current_stage++;
+                pattern_speed = _paternspeed[current_stage];
+                user_time_window = _usertimewindow[current_stage];
+                pattern_size = _patternsize[current_stage];
+                row = _rows[current_stage];
+                col = _columns[current_stage];
+                is_flickering = _isflickering[current_stage];
+                flickering_time = _flickeringtime[current_stage];
+                StartCoroutine(DelayOnly());
+                streak = 0;
+            }
 
             foreach (var tile in pressed_tiles)
             {
@@ -224,33 +257,15 @@ public class MemoryManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(initial_timer % 60f);
             timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-            for (int i = 0; i < _starttime.Count; i++)
+            for (int i = 0; i < _flickerstarttime.Count; i++)
             {
-                if (timer >= _starttime[i] && i > lastActivatedLevel)
+                if (timer >= _flickerstarttime[i])
                 {
-                    lastActivatedLevel = i;
-
-                    stopPattern = true;
-                    if (patternCoroutine != null)
-                    {
-                        StopCoroutine(patternCoroutine);
-                        patternCoroutine = null;
-                    }
-
-                    start_time = _starttime[i];
-                    user_time_window = _usertimewindow[i];
-                    pattern_size = _patternsize[i];
-                    row = _rows[i];
-                    col = _columns[i];
                     is_flickering = _isflickering[i];
                     flickering_time = _flickeringtime[i];
-
-                    pattern.Clear();
-
-                    GenerateGrid();
-                    patternCoroutine = StartCoroutine(GeneratePattern());
                 }
             }
+
 
             if (initial_timer <= 0)
             {
@@ -263,87 +278,102 @@ public class MemoryManager : MonoBehaviour
 
     IEnumerator GeneratePattern()
     {
-        stopPattern = false;
-
-        total_patterns++;
-
-        // Disable interaction
-        foreach (var t in active_tiles)
-            if (t != null && t.TryGetComponent(out BoxCollider2D col))
-                col.enabled = false;
-
-        pattern.Clear();
-        pressed_tiles.Clear();
-
-        GameObject lastTile = null;
-        SpriteRenderer lastRend = null;
-
-        for (int i = 0; i < pattern_size; i++)
+        while (true)
         {
-            if (stopPattern) break;
+            stopPattern = false;
+            total_patterns++;
 
-            GameObject tile = active_tiles[Random.Range(0, active_tiles.Count)];
-            if (tile != null && tile.TryGetComponent(out SpriteRenderer rend))
+            // Disable interaction
+            foreach (var t in active_tiles)
+                if (t != null && t.TryGetComponent(out BoxCollider2D col))
+                    col.enabled = false;
+
+            pattern.Clear();
+            pressed_tiles.Clear();
+
+            GameObject lastTile = null;
+            SpriteRenderer lastRend = null;
+
+            for (int i = 0; i < pattern_size; i++)
             {
-                pattern.Add(tile);
+                if (stopPattern) yield break;
 
-                rend.color = pattern_color;
-                lastTile = tile;
-                lastRend = rend;
+                GameObject tile = active_tiles[Random.Range(0, active_tiles.Count)];
 
-                float elapsed = 0f;
-                while (elapsed < 1f)
+                if (tile != null && tile.TryGetComponent(out SpriteRenderer rend))
                 {
-                    if (stopPattern) break;
-                    elapsed += Time.deltaTime;
-                    yield return null;
-                }
+                    pattern.Add(tile);
 
-                if (!stopPattern && tile != null && rend != null)
-                    rend.color = original_color;
+                    rend.color = pattern_color;
+                    lastTile = tile;
+                    lastRend = rend;
 
-                float pause = 0f;
-                while (pause < 0.2f)
-                {
-                    if (stopPattern) break;
-                    pause += Time.deltaTime;
-                    yield return null;
+                    float elapsed = 0f;
+                    while (elapsed < pattern_speed)
+                    {
+                        if (stopPattern)
+                        {
+                            rend.color = original_color;
+                            yield break;
+                        }
+                        elapsed += Time.deltaTime;
+                        yield return null;
+                    }
+
+                    if (!stopPattern && rend != null)
+                        rend.color = original_color;
+
+                    float pause = 0f;
+                    while (pause < 0.2f)
+                    {
+                        if (stopPattern) yield break;
+                        pause += Time.deltaTime;
+                        yield return null;
+                    }
                 }
             }
-        }
 
-        // Safety: reset color if stopped mid-flash
-        if (stopPattern && lastTile != null && lastRend != null)
-            lastRend.color = original_color;
+            // Enable interaction
+            foreach (var t in active_tiles)
+                if (t != null && t.TryGetComponent(out BoxCollider2D col))
+                    col.enabled = true;
 
-        // Enable interaction if not cancelled
-        foreach (var t in active_tiles)
-            if (t != null && t.TryGetComponent(out BoxCollider2D col))
-                col.enabled = true;
-
-        if (stopPattern) yield break;
-
-        float timePassed = 0f;
-        while (timePassed < user_time_window)
-        {
             if (stopPattern) yield break;
 
-            if (pressed_tiles.Count == pattern.Count)
+            float timePassed = 0f;
+            while (timePassed < user_time_window)
+            {
+                if (stopPattern) yield break;
+
+                if (pressed_tiles.Count == pattern.Count)
+                    yield break;
+
+                timePassed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (stopPattern) yield break;
+
+            if (pressed_tiles.Count < pattern.Count)
+            {
+                missed_patterns++;
+                StartCoroutine(DelayedResetAndGenerate());
                 yield break;
-
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (pressed_tiles.Count < pattern.Count)
-        {
-            missed_patterns++;
-            StartCoroutine(DelayedResetAndGenerate());
+            }
         }
     }
 
+
     IEnumerator DelayedResetAndGenerate()
     {
+        if (patternCoroutine != null)
+        {
+            stopPattern = true;
+            StopCoroutine(patternCoroutine);
+            patternCoroutine = null;
+        }
+
+
         yield return new WaitForSeconds(delay);
 
         foreach (var tile in pressed_tiles)
@@ -354,16 +384,15 @@ public class MemoryManager : MonoBehaviour
 
         pressed_tiles.Clear();
 
-        if (patternCoroutine != null)
-        {
-            stopPattern = true;
-            StopCoroutine(patternCoroutine);
-            patternCoroutine = null;
-        }
-
         patternCoroutine = StartCoroutine(GeneratePattern());
     }
 
+
+    IEnumerator DelayOnly()
+    {
+        yield return new WaitForSeconds(delay);
+        GenerateGrid();
+    }
 
     IEnumerator Flickering()
     {
@@ -373,9 +402,9 @@ public class MemoryManager : MonoBehaviour
 
         while (true)
         {
-            for (int i = _starttime.Count - 1; i >= 0; i--)
+            for (int i = _flickerstarttime.Count - 1; i >= 0; i--)
             {
-                if (timer >= _starttime[i])
+                if (timer >= _flickerstarttime[i])
                 {
                     isFlickering = is_flickering;
                     currentFlickerSpeed = flickering_time;

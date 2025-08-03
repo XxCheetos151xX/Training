@@ -16,7 +16,7 @@ MonoBehaviour:
   decisionlevels:
   - starttime: 0
     color_changetimer: 5
-    nottodo_prob: 10
-    switchcolors: 1
+    nottodo_prob: 0
+    switchcolors: 0
     isflickering: 0
     flickerspeed: 0

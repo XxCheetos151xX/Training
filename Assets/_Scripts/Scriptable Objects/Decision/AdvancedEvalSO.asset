@@ -12,5 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb85ad9ef63cf241a4f2bb0530fe925, type: 3}
   m_Name: AdvancedEvalSO
   m_EditorClassIdentifier: 
-  timer: 0
-  decisionlevels: []
+  timer: 360
+  decisionlevels:
+  - starttime: 0
+    color_changetimer: 5
+    nottodo_prob: 0
+    switchcolors: 0
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 45
+    color_changetimer: 4.5
+    nottodo_prob: 0
+    switchcolors: 0
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 90
+    color_changetimer: 4
+    nottodo_prob: 0
+    switchcolors: 0
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 135
+    color_changetimer: 3.5
+    nottodo_prob: 2
+    switchcolors: 1
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 180
+    color_changetimer: 3
+    nottodo_prob: 3
+    switchcolors: 1
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 225
+    color_changetimer: 2.5
+    nottodo_prob: 4
+    switchcolors: 1
+    isflickering: 0
+    flickerspeed: 0
+  - starttime: 270
+    color_changetimer: 2
+    nottodo_prob: 6
+    switchcolors: 1
+    isflickering: 1
+    flickerspeed: 0.1
+  - starttime: 315
+    color_changetimer: 2
+    nottodo_prob: 7
+    switchcolors: 1
+    isflickering: 1
+    flickerspeed: 0.5
