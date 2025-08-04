@@ -11,11 +11,9 @@ public class SpacingManager : MonoBehaviour
     [SerializeField] private GameObject bad_tile_prefab;
     [SerializeField] private GameObject good_tile_prefab;
     [SerializeField] private GameObject end_panel;
-    [SerializeField] private GameObject grid_line_prefab;  
     [SerializeField] private Image blackscreen;
     [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private TextMeshProUGUI timer_txt;
-    [SerializeField] private float lineThickness;
     [SerializeField] private float grid_delay;
     [SerializeField] UnityEvent GameEnded;
 
@@ -105,34 +103,9 @@ public class SpacingManager : MonoBehaviour
         float cellHeight = totalHeight / row;
 
         // Calculate vertical offset to make lines extend lower
-        float verticalExtension = 1.0f; // Adjust this value to control how much lower the lines go
-        float adjustedMinY = minY - verticalExtension;
-        float adjustedTotalHeight = totalHeight + verticalExtension;
+       
 
-        // Draw vertical lines (extending below original grid)
-        for (int x = 1; x < column; x++)
-        {
-            float xPos = minX + (x * cellWidth);
-            // Position at center of extended height
-            float yCenter = adjustedMinY + adjustedTotalHeight / 2f;
-            GameObject vLine = Instantiate(grid_line_prefab,
-                new Vector3(xPos, yCenter, 0),
-                Quaternion.identity);
-            // Scale to full extended height
-            vLine.transform.localScale = new Vector3(lineThickness, adjustedTotalHeight, 1f);
-            grid_lines.Add(vLine);
-        }
-
-        // Draw horizontal lines (normal positioning)
-        for (int y = 1; y < row; y++)
-        {
-            float yPos = minY + (y * cellHeight);
-            GameObject hLine = Instantiate(grid_line_prefab,
-                new Vector3(0, yPos, 0),
-                Quaternion.identity);
-            hLine.transform.localScale = new Vector3(totalWidth, lineThickness, 1f);
-            grid_lines.Add(hLine);
-        }
+ 
 
         // Rest of your grid generation code (tile creation) remains the same...
         // Create all grid positions
@@ -165,7 +138,7 @@ public class SpacingManager : MonoBehaviour
             if (i < 2)
             {
                 tile = Instantiate(good_tile_prefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
-                tile.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
+                tile.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
                 total_targets++;
             }
             else
@@ -193,8 +166,9 @@ public class SpacingManager : MonoBehaviour
     }
 
 
-    public void TargetClicked()
+    public void TargetClicked(GameObject good_tile)
     {
+        good_tile.GetComponent<SpriteRenderer>().color = Color.green;
         captured_targets += 1;
         streak++;
         if (streak >= 2)

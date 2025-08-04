@@ -122,6 +122,7 @@ public class FocusManager : MonoBehaviour
                 if (used_radius < radius.Count - 1)
                 {
                     used_radius++;
+                    print(used_radius);
                 }
                 streak = 0;
             }
@@ -164,9 +165,15 @@ public class FocusManager : MonoBehaviour
 
             spawned_targets += 2;
 
-            yield return new WaitForSeconds(life_span);
+            float t = 0f;
+            while (t < life_span && (spawned_target1.activeSelf || spawned_target2.activeSelf))
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
 
-         
+
+
             if (spawned_target1.activeSelf)
             {
                 missed_targets++;

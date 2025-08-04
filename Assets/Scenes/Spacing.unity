@@ -510,14 +510,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa51169dc2b09b043969405ca867dfbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bad_tile_prefab: {fileID: 3493061459766197062, guid: 5dd6c15a976facb4c9f5b72a3bcaa2fc, type: 3}
-  good_tile_prefab: {fileID: 3493061459766197062, guid: 86c6aeeb6977c0645b1f798e035dccea, type: 3}
+  bad_tile_prefab: {fileID: 1009124486371709544, guid: 1512c2dd1a00fd144bc31cd3d82a48bf, type: 3}
+  good_tile_prefab: {fileID: 401481114912225890, guid: 0ea3965dcb8082d419acaab6d3d9a6ee, type: 3}
   end_panel: {fileID: 1032352575}
-  grid_line_prefab: {fileID: 2262013932064006402, guid: 729f24dcbaba3d34ca16f07a2e2446a8, type: 3}
   blackscreen: {fileID: 262141832}
   score_txt: {fileID: 1567516141}
   timer_txt: {fileID: 115777091}
-  lineThickness: 0.03
   grid_delay: 0.5
   GameEnded:
     m_PersistentCalls:
