@@ -38,6 +38,7 @@ public enum GameType
     Spacing,
     Decision,
     Memory,
+    Depth,
 }
 [Serializable]
 public enum GameMode

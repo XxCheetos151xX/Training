@@ -63,6 +63,7 @@ public class ChaseManager : MonoBehaviour
         ClickActionRef.action.performed -= OnClickPerformed;
         ClickActionRef.action.canceled -= OnClickCanceled;
         TouchActionRef.action.Disable();
+        ClickActionRef.action.Disable();
     }
 
     private void Start()
@@ -128,13 +129,11 @@ public class ChaseManager : MonoBehaviour
     private void OnClickPerformed(InputAction.CallbackContext ctx)
     {
         is_touching = true;
-        print(is_touching);
     }
 
     private void OnClickCanceled(InputAction.CallbackContext ctx)
     {
         is_touching = false;
-        print(is_touching);
     }
    
 
