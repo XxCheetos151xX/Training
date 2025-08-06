@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 1257854672}
   - component: {fileID: 1257854675}
   - component: {fileID: 1257854676}
+  - component: {fileID: 1257854677}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -517,6 +518,7 @@ MonoBehaviour:
   score_txt: {fileID: 1567516141}
   timer_txt: {fileID: 115777091}
   grid_delay: 0.5
+  flickering_manager: {fileID: 1257854677}
   GameEnded:
     m_PersistentCalls:
       m_Calls:
@@ -571,6 +573,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1257854677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257854671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b308b9cd81d72a24fa8680034ea08f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  black_screen: {fileID: 262141832}
 --- !u!114 &1567516141 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 830503405634558922, guid: 0d9205eb6592855429835a2164bb0948, type: 3}

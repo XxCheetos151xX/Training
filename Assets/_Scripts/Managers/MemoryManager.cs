@@ -12,9 +12,9 @@ public class MemoryManager : MonoBehaviour
     [SerializeField] private GameObject tile_prefab;
     [SerializeField] private GameObject line_prefab;
     [SerializeField] private GameObject end_panel;
-    [SerializeField] private Image black_screen;
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private TextMeshProUGUI score_txt;
+    [SerializeField] private FlickeringManager flickering_manager;
 
 
     [Header("Game Settings")]
@@ -34,12 +34,10 @@ public class MemoryManager : MonoBehaviour
     private float score;
     private float minX, maxX, minY, maxY;
     private float user_time_window;
-    private float flickering_time;
     private float pattern_speed;
     private int row, col, pattern_size;
     private int current_stage;
     private int streak;
-    private bool is_flickering;
     private bool stopPattern = false;
     private Color original_color;
     private Coroutine patternCoroutine;
@@ -63,7 +61,7 @@ public class MemoryManager : MonoBehaviour
         GenerateGrid();
         StartCoroutine(GameLoop());
         patternCoroutine = StartCoroutine(GeneratePattern());
-        StartCoroutine(Flickering());
+        StartCoroutine(flickering_manager.Flickering());
     }
 
     private void GameSetup()
@@ -101,9 +99,8 @@ public class MemoryManager : MonoBehaviour
         pattern_size = _patternsize[current_stage];
         row = _rows[current_stage];
         col = _columns[current_stage];
-        is_flickering = _isflickering[current_stage];
-        flickering_time = _flickeringtime[current_stage];
-
+        flickering_manager.flickeringspeed = _flickeringtime[current_stage];
+        flickering_manager.isflickering = _isflickering[current_stage];
     }
 
     void GenerateGrid()
@@ -219,8 +216,8 @@ public class MemoryManager : MonoBehaviour
                 pattern_size = _patternsize[current_stage];
                 row = _rows[current_stage];
                 col = _columns[current_stage];
-                is_flickering = _isflickering[current_stage];
-                flickering_time = _flickeringtime[current_stage];
+                flickering_manager.isflickering = _isflickering[current_stage];
+                flickering_manager.flickeringspeed = _flickeringtime[current_stage];
                 StartCoroutine(DelayOnly());
                 streak = 0;
             }
@@ -261,8 +258,8 @@ public class MemoryManager : MonoBehaviour
             {
                 if (timer >= _flickerstarttime[i])
                 {
-                    is_flickering = _isflickering[i];
-                    flickering_time = _flickeringtime[i];
+                    flickering_manager.isflickering = _isflickering[i];
+                    flickering_manager.flickeringspeed = _flickeringtime[i];
                 }
             }
 
@@ -392,43 +389,6 @@ public class MemoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         GenerateGrid();
-    }
-
-    IEnumerator Flickering()
-    {
-        float flickerTimer = 0f;
-        float currentFlickerSpeed = 0f;
-        bool isFlickering = false;
-
-        while (true)
-        {
-            for (int i = _flickerstarttime.Count - 1; i >= 0; i--)
-            {
-                if (timer >= _flickerstarttime[i])
-                {
-                    isFlickering = is_flickering;
-                    currentFlickerSpeed = flickering_time;
-                    break;
-                }
-            }
-
-            if (isFlickering)
-            {
-                flickerTimer += Time.deltaTime;
-                if (flickerTimer >= currentFlickerSpeed)
-                {
-                    black_screen.enabled = !black_screen.enabled;
-                    flickerTimer = 0f;
-                }
-            }
-            else
-            {
-                if (black_screen.enabled)
-                    black_screen.enabled = false;
-            }
-
-            yield return null;
-        }
     }
 
 }

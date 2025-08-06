@@ -18,8 +18,8 @@ MonoBehaviour:
     speed: 6
     rows: 8
     columns: 8
-    isflickering: 0
-    flickeringspeed: 0
+    isflickering: 1
+    flickeringspeed: 0.1
   - starttime: 22.5
     speed: 5.5
     rows: 10
@@ -30,8 +30,8 @@ MonoBehaviour:
     speed: 5
     rows: 12
     columns: 12
-    isflickering: 0
-    flickeringspeed: 0
+    isflickering: 1
+    flickeringspeed: 1
   - starttime: 67.5
     speed: 4.5
     rows: 14

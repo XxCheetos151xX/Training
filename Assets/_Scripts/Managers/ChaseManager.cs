@@ -12,7 +12,7 @@ public class ChaseManager : MonoBehaviour
     [SerializeField] private LayerMask player_mask;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject target;
-    [SerializeField] private Image blackscreen;
+    //[SerializeField] private Image blackscreen;
     [SerializeField] private Camera mainCam;
     [SerializeField] private LineRenderer line;
     [SerializeField] private InputActionReference TouchActionRef;
@@ -25,17 +25,21 @@ public class ChaseManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private GameObject end_panel;
+    [SerializeField] private FlickeringManager flickering_manager;
 
     private float target_speed;
     private float target_angle;
     private float minY, minX, maxX, maxY;
     private float distance;
     private float timer;
+    //private float flickering_speed;
     private float initial_time;
     private float green_line_timer;
     private float score;
+    private int currentlevel;
     private bool has_started;
     private bool is_touching;
+    //private bool is_flickering;
     private ChaseSO activeChaseSO;
     private Vector3 target_direction;
     private RaycastHit2D hit;
@@ -119,7 +123,8 @@ public class ChaseManager : MonoBehaviour
         {
             StartCoroutine(TargetBehaviour());
             StartCoroutine(GameLoop());
-            StartCoroutine(Flickering());
+            //StartCoroutine(flickering_manager.Flickering(blackscreen, _flickerenabled[currentlevel], _flickerspeed[currentlevel]));
+            flickering_manager.StartFlickering();
             StartCoroutine(LineAdjustment());
 
             has_started = true;
@@ -229,6 +234,8 @@ public class ChaseManager : MonoBehaviour
                 if (timer >= levelstarttime[i])
                 {
                     target_speed = _target_speed[i];
+                    flickering_manager.flickeringspeed = _flickerspeed[i];
+                    flickering_manager.isflickering = _flickerenabled[i];
                     break;
                 }
             }
@@ -241,41 +248,5 @@ public class ChaseManager : MonoBehaviour
     }
 
 
-    IEnumerator Flickering()
-    {
-        float flickerTimer = 0f;
-        float currentFlickerSpeed = 0f;
-        bool isFlickering = false;
-
-        while (true)
-        {
-            for (int i = levelstarttime.Count - 1; i >= 0; i--)
-            {
-                if (timer >= levelstarttime[i])
-                {
-                    isFlickering = _flickerenabled[i];
-                    currentFlickerSpeed = _flickerspeed[i];
-                    break;
-                }
-            }
-
-            if (isFlickering)
-            {
-                flickerTimer += Time.deltaTime;
-                if (flickerTimer >= currentFlickerSpeed)
-                {
-                    blackscreen.enabled = !blackscreen.enabled;
-                    flickerTimer = 0f;
-                }
-            }
-            else
-            {
-                if (blackscreen.enabled)
-                    blackscreen.enabled = false;
-            }
-
-            yield return null;
-        }
-    }
 
 }

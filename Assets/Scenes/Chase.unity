@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 133482965}
   - component: {fileID: 133482967}
   - component: {fileID: 133482968}
+  - component: {fileID: 133482969}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -293,7 +294,6 @@ MonoBehaviour:
     m_Bits: 8
   player: {fileID: 1515573858}
   target: {fileID: 1029964214}
-  blackscreen: {fileID: 1347106084}
   mainCam: {fileID: 1248767126}
   line: {fileID: 1463770262}
   TouchActionRef: {fileID: 4551414775369575431, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
@@ -318,6 +318,7 @@ MonoBehaviour:
   timer_txt: {fileID: 1652015968}
   score_txt: {fileID: 1410655976}
   end_panel: {fileID: 621082901}
+  flickering_manager: {fileID: 133482969}
 --- !u!4 &133482966
 Transform:
   m_ObjectHideFlags: 0
@@ -369,6 +370,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &133482969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133482964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b308b9cd81d72a24fa8680034ea08f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  black_screen: {fileID: 1347106084}
 --- !u!1 &237218388
 GameObject:
   m_ObjectHideFlags: 0

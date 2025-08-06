@@ -15,6 +15,7 @@ public class SpacingManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private float grid_delay;
+    [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] UnityEvent GameEnded;
 
 
@@ -48,7 +49,7 @@ public class SpacingManager : MonoBehaviour
         GameSetup();
         StartCoroutine(GameLoop());
         StartCoroutine(GenerateGrid());
-        StartCoroutine(Flickering());
+        StartCoroutine(flickering_manager.Flickering());
         GenerateGridNow();
     }
 
@@ -252,9 +253,11 @@ public class SpacingManager : MonoBehaviour
                 if (timer >= starttime[i])
                 {
                     lifespan = life_span[i];
-                    activeLevelIndex=i;
-                        row = rows[i];
+                    activeLevelIndex = i;
+                    row = rows[i];
                     column = columns[i];
+                    flickering_manager.flickeringspeed = flickeringspeed[i];
+                    flickering_manager.isflickering = isflickering[i];
                 }
             }
 
@@ -267,41 +270,5 @@ public class SpacingManager : MonoBehaviour
         }
     }
 
-    IEnumerator Flickering()
-    {
-        float flickerTimer = 0f;
-        float currentFlickerSpeed = 0f;
-        bool isFlickering = false;
-
-        while (true)
-        {
-            for (int i = starttime.Count - 1; i >= 0; i--)
-            {
-                if (timer >= starttime[i])
-                {
-                    isFlickering = isflickering[i];
-                    currentFlickerSpeed = flickeringspeed[i];
-                    break;
-                }
-            }
-
-            if (isFlickering)
-            {
-                flickerTimer += Time.deltaTime;
-                if (flickerTimer >= currentFlickerSpeed)
-                {
-                    blackscreen.enabled = !blackscreen.enabled;
-                    flickerTimer = 0f;
-                }
-            }
-            else
-            {
-                if (blackscreen.enabled)
-                    blackscreen.enabled = false;
-            }
-
-            yield return null;
-        }
-    }
 
 }

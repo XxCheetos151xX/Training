@@ -13,8 +13,8 @@ public class FocusManager : MonoBehaviour
     [SerializeField] private GameObject end_panel;
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private TextMeshProUGUI score_txt;
-    [SerializeField] private Image black_screen;
     [SerializeField] private List<float> radius;
+    [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private UnityEvent GameEnded;
     [SerializeField] private float targetSize = 1;
 
@@ -51,7 +51,7 @@ public class FocusManager : MonoBehaviour
         StartCoroutine(GameLoop());
         StartCoroutine(Spawntarget());
         StartCoroutine(ChangeRadius());
-        StartCoroutine(Flickering());
+        StartCoroutine(flickering_manager.Flickering());
     }
 
     void GameSetup()
@@ -208,6 +208,8 @@ public class FocusManager : MonoBehaviour
                 if (timer >= levelstarttime[i])
                 {
                     life_span = lifespan[i];
+                    flickering_manager.flickeringspeed = flickeringspeed[i];
+                    flickering_manager.isflickering = flickeringenabled[i];
                     break;
                 }
             }
@@ -220,42 +222,4 @@ public class FocusManager : MonoBehaviour
             yield return null;
         }
     }
-
-    IEnumerator Flickering()
-    {
-        float flickerTimer = 0f;
-        float currentFlickerSpeed = 0f;
-        bool isFlickering = false;
-
-        while (true)
-        {
-            for (int i = levelstarttime.Count - 1; i >= 0; i--)
-            {
-                if (timer >= levelstarttime[i])
-                {
-                    isFlickering = flickeringenabled[i];
-                    currentFlickerSpeed = flickeringspeed[i];
-                    break;
-                }
-            }
-
-            if (isFlickering)
-            {
-                flickerTimer += Time.deltaTime;
-                if (flickerTimer >= currentFlickerSpeed)
-                {
-                    black_screen.enabled = !black_screen.enabled;
-                    flickerTimer = 0f;
-                }
-            }
-            else
-            {
-                if (black_screen.enabled)
-                    black_screen.enabled = false;
-            }
-
-            yield return null;
-        }
-    }
-
 }

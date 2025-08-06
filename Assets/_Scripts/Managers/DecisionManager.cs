@@ -13,13 +13,13 @@ public class DecisionManager : MonoBehaviour
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
     [SerializeField] private GameObject end_screen;
-    [SerializeField] private Image black_screen;
     [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private float delay;
     [SerializeField] private float button_size = 1;
     [SerializeField] private float target_size = 1;
     [SerializeField] private List<Color> colors = new List<Color>();
+    [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private UnityEvent GameEnd;
 
     private DecisionSO activeDecisionSO;
@@ -27,7 +27,6 @@ public class DecisionManager : MonoBehaviour
     private float timer;
     private float initial_timer;
     private float colorchangetime;
-    private float flickeringspeed;
     private float minY, minX, maxX, maxY;
     private float total_targets;
     private float captured_targtes;
@@ -37,7 +36,6 @@ public class DecisionManager : MonoBehaviour
     private float score;
     private int index1;
     private int index2;
-    private bool isflickering;
     private bool first_switch;
     private bool lefthandpressed = false;
     private bool righthandpressed = false;
@@ -158,7 +156,7 @@ public class DecisionManager : MonoBehaviour
         {
             StartCoroutine(GameLoop());
             StartCoroutine(SpawnTargets());
-            StartCoroutine(Flickering());
+            StartCoroutine(flickering_manager.Flickering());
             gamestarted = true;
         }
     }
@@ -283,33 +281,7 @@ public class DecisionManager : MonoBehaviour
 
 
 
-    IEnumerator Flickering()
-    {
-        float flickerTimer = 0f;
 
-        while (true)
-        {
-           
-            if (isflickering)
-            {
-                flickerTimer += Time.deltaTime;
-                if (flickerTimer >= flickeringspeed)
-                {
-                    black_screen.enabled = !black_screen.enabled;
-                    flickerTimer = 0f;
-                }
-            }
-            else
-            {
-                if (black_screen.enabled)
-                    black_screen.enabled = false;
-            }
-
-            yield return null;
-        }
-
-        
-    }
 
     IEnumerator GameLoop()
     {
@@ -327,9 +299,9 @@ public class DecisionManager : MonoBehaviour
                 if (timer >= start_time[i])
                 {
                     colorchangetime = color_change_time[i];
-                    isflickering = _isflickering[i];
+                    flickering_manager.isflickering = _isflickering[i];
                     switch_colors = _switch_colors[i];
-                    flickeringspeed = flickering_speed[i];
+                    flickering_manager.flickeringspeed = flickering_speed[i];
                     not_todo_prob = _not_todo_prob[i];
                 }
             }

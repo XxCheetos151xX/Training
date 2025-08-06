@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 917271294}
   - component: {fileID: 917271292}
   - component: {fileID: 917271291}
+  - component: {fileID: 917271295}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -330,9 +331,9 @@ MonoBehaviour:
   tile_prefab: {fileID: 3010214325582817647, guid: e193cfbd8a9ec76448466b83de960bbc, type: 3}
   line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
   end_panel: {fileID: 1656841995}
-  black_screen: {fileID: 1390689507}
   timer_txt: {fileID: 1423435402}
   score_txt: {fileID: 1577311719}
+  flickering_manager: {fileID: 917271295}
   line_thckness: 0.03
   delay: 1
   pattern_color: {r: 0.22352941, g: 0.29411766, b: 0.83137256, a: 0.49019608}
@@ -377,6 +378,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 018ef182c1e341d4c9bef01875fdc4e3, type: 2}
   - {fileID: 11400000, guid: 5dad3332d2960054dab71a8f9964901d, type: 2}
   manager: {fileID: 917271293}
+--- !u!114 &917271295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917271289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b308b9cd81d72a24fa8680034ea08f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  black_screen: {fileID: 1390689507}
 --- !u!1 &1390689505
 GameObject:
   m_ObjectHideFlags: 0
