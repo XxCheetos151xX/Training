@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class ChaseManager : MonoBehaviour
+public class ChaseManager : AbstractGameManager
 {
     [Header("Game Refrences")]
     [SerializeField] private LayerMask player_mask;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject target;
-    //[SerializeField] private Image blackscreen;
     [SerializeField] private Camera mainCam;
     [SerializeField] private LineRenderer line;
     [SerializeField] private InputActionReference TouchActionRef;
@@ -22,24 +19,16 @@ public class ChaseManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private float min_dist;
     [SerializeField] private float max_dist;
-    [SerializeField] private TextMeshProUGUI timer_txt;
-    [SerializeField] private TextMeshProUGUI score_txt;
-    [SerializeField] private GameObject end_panel;
     [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
 
     private float target_speed;
     private float target_angle;
     private float minY, minX, maxX, maxY;
     private float distance;
     private float timer;
-    //private float flickering_speed;
-    private float initial_time;
-    private float green_line_timer;
-    private float score;
-    private int currentlevel;
     private bool has_started;
     private bool is_touching;
-    //private bool is_flickering;
     private ChaseSO activeChaseSO;
     private Vector3 target_direction;
     private RaycastHit2D hit;
@@ -92,8 +81,8 @@ public class ChaseManager : MonoBehaviour
         maxX = Camera.main.transform.position.x + halfWidth;
         maxY = Camera.main.transform.position.y + halfHeight;
         timer = 0;
-        green_line_timer = 0;
-        initial_time = activeChaseSO.timer;
+        initial_timer = activeChaseSO.timer;
+        score_manager.total_score = activeChaseSO.timer;
         has_started = false;
         is_touching = false;
         line.positionCount = 2;
@@ -123,7 +112,6 @@ public class ChaseManager : MonoBehaviour
         {
             StartCoroutine(TargetBehaviour());
             StartCoroutine(GameLoop());
-            //StartCoroutine(flickering_manager.Flickering(blackscreen, _flickerenabled[currentlevel], _flickerspeed[currentlevel]));
             flickering_manager.StartFlickering();
             StartCoroutine(LineAdjustment());
 
@@ -156,11 +144,6 @@ public class ChaseManager : MonoBehaviour
         player.SetActive(false);
         target.SetActive(false);
         line.enabled = false;
-        timer_txt.alpha = 0f;
-        score = (green_line_timer / activeChaseSO.timer) * 100;
-        score_txt.text = score.ToString("F2") + "%";
-        end_panel.SetActive(true);
-        
     }
     
     
@@ -208,7 +191,7 @@ public class ChaseManager : MonoBehaviour
             {
                 line.startColor = Color.blue;
                 line.endColor = Color.blue;
-                green_line_timer += Time.deltaTime;
+                score_manager.user_score += Time.deltaTime;
             }
             else
             {
@@ -225,10 +208,6 @@ public class ChaseManager : MonoBehaviour
         while (timer != activeChaseSO.timer)
         {
             timer += Time.deltaTime;
-            initial_time -= Time.deltaTime;
-            int minutes = Mathf.FloorToInt(initial_time / 60f);
-            int seconds = Mathf.FloorToInt(initial_time % 60f);
-            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
             for (int i = levelstarttime.Count - 1; i >= 0; i--)
             {
                 if (timer >= levelstarttime[i])
@@ -239,7 +218,7 @@ public class ChaseManager : MonoBehaviour
                     break;
                 }
             }
-            if (initial_time <= 0)
+            if (initial_timer <= 0)
             {
                 GameEnd.Invoke();
             }

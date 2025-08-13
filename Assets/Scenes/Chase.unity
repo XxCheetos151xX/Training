@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 133482967}
   - component: {fileID: 133482968}
   - component: {fileID: 133482969}
+  - component: {fileID: 133482970}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -289,6 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88e4261c35d52b468467b16c6fc20b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial_timer: 0
   player_mask:
     serializedVersion: 2
     m_Bits: 8
@@ -313,12 +315,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 133482970}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 133482968}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: GameEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   min_dist: 3
   max_dist: 5
-  timer_txt: {fileID: 1652015968}
-  score_txt: {fileID: 1410655976}
-  end_panel: {fileID: 621082901}
   flickering_manager: {fileID: 133482969}
+  score_manager: {fileID: 133482970}
 --- !u!4 &133482966
 Transform:
   m_ObjectHideFlags: 0
@@ -370,6 +394,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer_txt: {fileID: 1652015968}
+  score_txt: {fileID: 1410655976}
+  ending_panel: {fileID: 621082901}
+  score_manager: {fileID: 133482970}
+  manager: {fileID: 133482965}
 --- !u!114 &133482969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +412,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   black_screen: {fileID: 1347106084}
+--- !u!114 &133482970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133482964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
 --- !u!1 &237218388
 GameObject:
   m_ObjectHideFlags: 0

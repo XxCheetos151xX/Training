@@ -35,7 +35,6 @@ public class FlickeringManager : MonoBehaviour
                 if (black_screen.enabled)
                     black_screen.enabled = false;
             }
-            print(isflickering);
 
             yield return null;
         }

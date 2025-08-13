@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 1257854675}
   - component: {fileID: 1257854676}
   - component: {fileID: 1257854677}
+  - component: {fileID: 1257854678}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -511,19 +512,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa51169dc2b09b043969405ca867dfbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial_timer: 0
   bad_tile_prefab: {fileID: 1009124486371709544, guid: 1512c2dd1a00fd144bc31cd3d82a48bf, type: 3}
   good_tile_prefab: {fileID: 401481114912225890, guid: 0ea3965dcb8082d419acaab6d3d9a6ee, type: 3}
-  end_panel: {fileID: 1032352575}
-  blackscreen: {fileID: 262141832}
-  score_txt: {fileID: 1567516141}
-  timer_txt: {fileID: 115777091}
   grid_delay: 0.5
   flickering_manager: {fileID: 1257854677}
+  score_manager: {fileID: 1257854678}
   GameEnded:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1257854673}
         m_TargetAssemblyTypeName: SpacingManager, Assembly-CSharp
+        m_MethodName: GameEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1257854678}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1257854676}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: GameEnd
         m_Mode: 1
         m_Arguments:
@@ -573,6 +596,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer_txt: {fileID: 115777091}
+  score_txt: {fileID: 1567516141}
+  ending_panel: {fileID: 1032352575}
+  score_manager: {fileID: 1257854678}
+  manager: {fileID: 1257854673}
 --- !u!114 &1257854677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +614,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   black_screen: {fileID: 262141832}
+--- !u!114 &1257854678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257854671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
 --- !u!114 &1567516141 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 830503405634558922, guid: 0d9205eb6592855429835a2164bb0948, type: 3}

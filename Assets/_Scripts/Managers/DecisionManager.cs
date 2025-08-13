@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using TMPro;
 using UnityEngine.UI;
 
-public class DecisionManager : MonoBehaviour
+public class DecisionManager : AbstractGameManager
 {
     [Header("Game References")]
     [SerializeField] private GameObject target_prefab;
@@ -13,27 +13,20 @@ public class DecisionManager : MonoBehaviour
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
     [SerializeField] private GameObject end_screen;
-    [SerializeField] private TextMeshProUGUI score_txt;
-    [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private float delay;
     [SerializeField] private float button_size = 1;
     [SerializeField] private float target_size = 1;
     [SerializeField] private List<Color> colors = new List<Color>();
     [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
     [SerializeField] private UnityEvent GameEnd;
 
     private DecisionSO activeDecisionSO;
     private Camera cam;
     private float timer;
-    private float initial_timer;
     private float colorchangetime;
     private float minY, minX, maxX, maxY;
-    private float total_targets;
-    private float captured_targtes;
-    private float missed_targets;
-    private float wrong_targets;
     private float not_todo_prob;
-    private float score;
     private int index1;
     private int index2;
     private bool first_switch;
@@ -60,6 +53,8 @@ public class DecisionManager : MonoBehaviour
     {
         GameSetup();
         SwitchColor();
+        StartCoroutine(GameLoop());
+        StartCoroutine(SpawnTargets());
     }
 
     void GameSetup()
@@ -154,8 +149,7 @@ public class DecisionManager : MonoBehaviour
     {
         if (!gamestarted && righthandpressed && lefthandpressed)
         {
-            StartCoroutine(GameLoop());
-            StartCoroutine(SpawnTargets());
+           
             StartCoroutine(flickering_manager.Flickering());
             gamestarted = true;
         }
@@ -164,22 +158,19 @@ public class DecisionManager : MonoBehaviour
 
     void TargetCaptured()
     {
-        captured_targtes++;
+        score_manager.user_score++;
         SwitchColor();
     }
 
     void FalseTargetCaptured()
     {
-        wrong_targets++;
-        print(wrong_targets);
+        score_manager.misses++;
     }
 
 
     public void GameEnded()
     {
         StopAllCoroutines();
-        end_screen.SetActive(true);
-        timer_txt.enabled = false;
 
         if (spawned_target != null)
         {
@@ -189,9 +180,6 @@ public class DecisionManager : MonoBehaviour
         {
             Destroy(spawned_false_target);
         }
-
-        score = (captured_targtes / total_targets) * 100;
-        score_txt.text = score.ToString("F2") + "%";
     }
 
     public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
@@ -225,7 +213,7 @@ public class DecisionManager : MonoBehaviour
                 if (spawned_false_target != null)
                 {
                     Destroy(spawned_false_target);
-                    missed_targets++;
+                    score_manager.misses++;
                     SwitchColor();
                 }
 
@@ -243,7 +231,7 @@ public class DecisionManager : MonoBehaviour
                 target_collider = spawned_target.GetComponent<CircleCollider2D>();
                 target_clickableobject._Onclick.AddListener(TargetCaptured);
                 spawnedTargetRenderer.color = targetFollowHand.color;
-                total_targets++;
+                score_manager.total_score++;
 
                 float elapsed = 0f;
                 while (elapsed < colorchangetime)
@@ -270,7 +258,7 @@ public class DecisionManager : MonoBehaviour
                 if (spawned_target != null)
                 {
                     Destroy(spawned_target);
-                    missed_targets++;
+                    score_manager.misses++;
                     SwitchColor();
                 }
 
@@ -285,14 +273,9 @@ public class DecisionManager : MonoBehaviour
 
     IEnumerator GameLoop()
     {
-        while (timer != initial_timer)
+        while (timer != activeDecisionSO.timer)
         {
-            initial_timer -= Time.deltaTime;
             timer += Time.deltaTime;
-
-            int minutes = Mathf.FloorToInt(initial_timer / 60f);
-            int seconds = Mathf.FloorToInt(initial_timer % 60f);
-            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             for (int i = 0; i < start_time.Count; i++)
             {

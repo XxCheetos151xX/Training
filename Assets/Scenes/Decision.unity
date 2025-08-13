@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 1236925882}
   - component: {fileID: 1236925883}
   - component: {fileID: 1236925884}
+  - component: {fileID: 1236925885}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -615,6 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8449f123b7f5c408212a364136f03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial_timer: 0
   target_prefab: {fileID: 4090664958652535201, guid: dc0561b7da91b0b4fa5961f3908d5788, type: 3}
   false_target_prefab: {fileID: 6862561377355392295, guid: 684770b4399239e4f9b48ab5121be8c4, type: 3}
   left_hand: {fileID: 293256063}
@@ -631,12 +633,37 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0.08595133, a: 1}
   - {r: 0, g: 0.013665199, b: 1, a: 1}
   flickering_manager: {fileID: 1236925884}
+  score_manager: {fileID: 1236925885}
   GameEnd:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1236925881}
         m_TargetAssemblyTypeName: DecisionManager, Assembly-CSharp
         m_MethodName: GameEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1236925885}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1236925883}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: GameEnd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -670,6 +697,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer_txt: {fileID: 968931859}
+  score_txt: {fileID: 1677970127}
+  ending_panel: {fileID: 1677970128}
+  score_manager: {fileID: 1236925885}
+  manager: {fileID: 1236925881}
 --- !u!114 &1236925884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +715,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   black_screen: {fileID: 659786499}
+--- !u!114 &1236925885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236925878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
 --- !u!1 &1398594660
 GameObject:
   m_ObjectHideFlags: 0

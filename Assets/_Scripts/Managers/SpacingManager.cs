@@ -5,32 +5,24 @@ using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SpacingManager : MonoBehaviour
+public class SpacingManager : AbstractGameManager
 {
     [Header("Game References")]
     [SerializeField] private GameObject bad_tile_prefab;
     [SerializeField] private GameObject good_tile_prefab;
-    [SerializeField] private GameObject end_panel;
-    [SerializeField] private Image blackscreen;
-    [SerializeField] private TextMeshProUGUI score_txt;
-    [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private float grid_delay;
     [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
     [SerializeField] UnityEvent GameEnded;
 
 
     private SpacingSO activeSpacingSO;
     private float minY, minX, maxX, maxY;
     private float timer;
-    private float initial_timer;
     private float lifespan;
-    private float score;
-    private float total_targets;
-    private float captured_targets;
     private float nextGridSpawnTime;
     private int row;
     private int column;
-    private int missed_targets;
     private int streak;
     private int activeLevelIndex = 0;
     private bool isWaitingAfterClick = false;
@@ -140,7 +132,7 @@ public class SpacingManager : MonoBehaviour
             {
                 tile = Instantiate(good_tile_prefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
                 tile.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-                total_targets++;
+                score_manager.total_score++;
             }
             else
             {
@@ -170,7 +162,7 @@ public class SpacingManager : MonoBehaviour
     public void TargetClicked(GameObject good_tile)
     {
         good_tile.GetComponent<SpriteRenderer>().color = Color.green;
-        captured_targets += 1;
+        score_manager.user_score++;
         streak++;
         if (streak >= 2)
         {
@@ -186,11 +178,6 @@ public class SpacingManager : MonoBehaviour
     {
         ClearGrid();
         StopAllCoroutines();
-        end_panel.SetActive(true);
-        timer_txt.enabled = false;
-        score = (captured_targets / total_targets) * 100;
-        missed_targets = Mathf.FloorToInt(total_targets - captured_targets);
-        score_txt.text = score.ToString("F2") + "%";
     }
 
 
@@ -237,16 +224,9 @@ public class SpacingManager : MonoBehaviour
 
     IEnumerator GameLoop()
     {
-        while (timer <= activeSpacingSO.timer)
+        while (true)
         {
             timer += Time.deltaTime;
-            initial_timer -= Time.deltaTime;
-
-            // Update timer display
-            int minutes = Mathf.FloorToInt(initial_timer / 60f);
-            int seconds = Mathf.FloorToInt(initial_timer % 60f);
-            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
             // Check for level changes
             for (int i = 0; i < starttime.Count; i++)
             {

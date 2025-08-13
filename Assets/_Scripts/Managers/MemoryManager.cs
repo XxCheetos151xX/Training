@@ -6,16 +6,13 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 
-public class MemoryManager : MonoBehaviour
+public class MemoryManager : AbstractGameManager
 {
     [Header("Game References")]
     [SerializeField] private GameObject tile_prefab;
     [SerializeField] private GameObject line_prefab;
-    [SerializeField] private GameObject end_panel;
-    [SerializeField] private TextMeshProUGUI timer_txt;
-    [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private FlickeringManager flickering_manager;
-
+    [SerializeField] private ScoreManager score_manager;
 
     [Header("Game Settings")]
     [SerializeField] private float line_thckness;
@@ -27,11 +24,6 @@ public class MemoryManager : MonoBehaviour
 
     private MemorySO activeMemorySO;
     private float timer;
-    private float initial_timer;
-    private float total_patterns;
-    private float correct_patterns;
-    private float missed_patterns;
-    private float score;
     private float minX, maxX, minY, maxY;
     private float user_time_window;
     private float pattern_speed;
@@ -192,7 +184,7 @@ public class MemoryManager : MonoBehaviour
 
         if (wrong_tile)
         {
-            missed_patterns++;
+            score_manager.misses++;
 
             foreach (var tile in pressed_tiles)
             {
@@ -205,7 +197,7 @@ public class MemoryManager : MonoBehaviour
 
         if (!wrong_tile && pressed_tiles.Count == pattern.Count)
         {
-            correct_patterns++;
+            score_manager.user_score++;
             streak++;
 
             if (streak >= 3 && current_stage + 1 < _usertimewindow.Count)
@@ -235,10 +227,6 @@ public class MemoryManager : MonoBehaviour
     public void GameEnded()
     {
         StopAllCoroutines();
-        score = (correct_patterns / total_patterns) * 100;
-        score_txt.text = score.ToString("F2") + "%";
-        end_panel.SetActive(true);
-        timer_txt.enabled = false;
     }
 
     public void SetActiveMemorySO(MemorySO val) => activeMemorySO = val;
@@ -248,11 +236,6 @@ public class MemoryManager : MonoBehaviour
         while (true)
         {
             timer += Time.deltaTime;
-            initial_timer -= Time.deltaTime;
-
-            int minutes = Mathf.FloorToInt(initial_timer / 60f);
-            int seconds = Mathf.FloorToInt(initial_timer % 60f);
-            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             for (int i = 0; i < _flickerstarttime.Count; i++)
             {
@@ -278,7 +261,7 @@ public class MemoryManager : MonoBehaviour
         while (true)
         {
             stopPattern = false;
-            total_patterns++;
+            score_manager.total_score++;
 
             // Disable interaction
             foreach (var t in active_tiles)
@@ -353,7 +336,7 @@ public class MemoryManager : MonoBehaviour
 
             if (pressed_tiles.Count < pattern.Count)
             {
-                missed_patterns++;
+                score_manager.misses++;
                 StartCoroutine(DelayedResetAndGenerate());
                 yield break;
             }

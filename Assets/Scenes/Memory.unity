@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 917271292}
   - component: {fileID: 917271291}
   - component: {fileID: 917271295}
+  - component: {fileID: 917271296}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -316,6 +317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer_txt: {fileID: 1423435402}
+  score_txt: {fileID: 1577311719}
+  ending_panel: {fileID: 1656841995}
+  score_manager: {fileID: 917271296}
+  manager: {fileID: 917271293}
 --- !u!114 &917271293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,12 +334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c28c437d99da549ae6992d2c552fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial_timer: 0
   tile_prefab: {fileID: 3010214325582817647, guid: e193cfbd8a9ec76448466b83de960bbc, type: 3}
   line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
-  end_panel: {fileID: 1656841995}
-  timer_txt: {fileID: 1423435402}
-  score_txt: {fileID: 1577311719}
   flickering_manager: {fileID: 917271295}
+  score_manager: {fileID: 917271296}
   line_thckness: 0.03
   delay: 1
   pattern_color: {r: 0.22352941, g: 0.29411766, b: 0.83137256, a: 0.49019608}
@@ -345,6 +350,30 @@ MonoBehaviour:
       - m_Target: {fileID: 917271293}
         m_TargetAssemblyTypeName: MemoryManager, Assembly-CSharp
         m_MethodName: GameEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 917271296}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 917271292}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: GameEnd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -391,6 +420,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   black_screen: {fileID: 1390689507}
+--- !u!114 &917271296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917271289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
 --- !u!1 &1390689505
 GameObject:
   m_ObjectHideFlags: 0

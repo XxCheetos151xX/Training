@@ -1,20 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-public class FocusManager : MonoBehaviour
+public class FocusManager : AbstractGameManager
 {
     [Header("Game References")]
     [SerializeField] private Transform focus_point;
     [SerializeField] private GameObject target_prefab;
-    [SerializeField] private GameObject end_panel;
-    [SerializeField] private TextMeshProUGUI timer_txt;
-    [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private List<float> radius;
     [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
     [SerializeField] private UnityEvent GameEnded;
     [SerializeField] private float targetSize = 1;
 
@@ -23,23 +19,18 @@ public class FocusManager : MonoBehaviour
     private GameObject spawned_target2;
     private Vector3 spawn_pos;
     private float angle;
-    private float initial_time;
     private float timer;
     private float life_span;
-    private float score;
-    private float spawned_targets;
-    private float captured_targets;
     private float ellipse_width;
     private float ellipse_height;
-    private int missed_targets;
     private int streak;
     private int used_radius;
     private List<float> levelstarttime = new List<float>();
     private List<float> lifespan = new List<float>();
     private List<float> flickeringspeed = new List<float>();
     private List<bool> flickeringenabled = new List<bool>();
-    private Dictionary<int, float> left_eye_data = new Dictionary<int, float>();
-    private Dictionary<int, float> right_eye_data = new Dictionary<int, float>();
+    private Dictionary<float, float> left_eye_data = new Dictionary<float, float>();
+    private Dictionary<float, float> right_eye_data = new Dictionary<float, float>();
 
     public Queue<GameObject> targetQueue = new Queue<GameObject>();
 
@@ -56,10 +47,7 @@ public class FocusManager : MonoBehaviour
 
     void GameSetup()
     {
-        // t1 is the left eye
-        // t2 is the right eye
-
-        initial_time = activeFocusSO.timer;
+        initial_timer = activeFocusSO.timer;
         timer = 0;
 
         var t1 = Instantiate(target_prefab);
@@ -91,7 +79,7 @@ public class FocusManager : MonoBehaviour
 
     public void TargetCaptured(GameObject clickedObj)
     {
-        captured_targets++;
+        score_manager.user_score++;
         streak++;
         targetQueue.Enqueue(clickedObj);
         clickedObj.SetActive(false);
@@ -100,15 +88,9 @@ public class FocusManager : MonoBehaviour
     public void GameEnd()
     {
         StopAllCoroutines();
-        timer_txt.enabled = false;
-        end_panel.SetActive(true);
-
+        
         Destroy(spawned_target1);
         Destroy(spawned_target2);
-
-        score = (captured_targets / spawned_targets) * 100f;
-        score_txt.text = score.ToString("F2") + "%";
-
     }
 
     public void SetActiveFocusSO(FocusSO val) => activeFocusSO = val;
@@ -136,7 +118,7 @@ public class FocusManager : MonoBehaviour
 
         while (true)
         {
-            // Ensure at least 2 targets are available
+            
             while (targetQueue.Count < 2)
                 yield return null;
 
@@ -163,7 +145,7 @@ public class FocusManager : MonoBehaviour
             spawned_target1.transform.localScale = new Vector3(targetSize, targetSize, targetSize);
             spawned_target2.transform.localScale = new Vector3(targetSize, targetSize, targetSize);
 
-            spawned_targets += 2;
+            score_manager.total_score += 2;
 
             float t = 0f;
             while (t < life_span && (spawned_target1.activeSelf || spawned_target2.activeSelf))
@@ -176,33 +158,28 @@ public class FocusManager : MonoBehaviour
 
             if (spawned_target1.activeSelf)
             {
-                missed_targets++;
+                score_manager.misses++;
                 spawned_target1.SetActive(false);
                 targetQueue.Enqueue(spawned_target1);
-                left_eye_data.Add(missed_targets, timer);
+                left_eye_data.Add(score_manager.misses, timer);
             }
 
             if (spawned_target2.activeSelf)
             {
-                missed_targets++;
+                score_manager.misses++;
                 spawned_target2.SetActive(false);
                 targetQueue.Enqueue(spawned_target2);
-                right_eye_data.Add(missed_targets, timer);
+                right_eye_data.Add(score_manager.misses, timer);
             }
         }
     }
 
     IEnumerator GameLoop()
     {
-        while (timer <= activeFocusSO.timer)
+        while (true)
         {
             timer += Time.deltaTime;
-            initial_time -= Time.deltaTime;
-
-            int minutes = Mathf.FloorToInt(initial_time / 60f);
-            int seconds = Mathf.FloorToInt(initial_time % 60f);
-            timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
+            print(initial_timer);
             for (int i = levelstarttime.Count - 1; i >= 0; i--)
             {
                 if (timer >= levelstarttime[i])
@@ -214,7 +191,7 @@ public class FocusManager : MonoBehaviour
                 }
             }
 
-            if (initial_time <= 0)
+            if (initial_timer <= 0)
             {
                 GameEnded.Invoke();
             }
