@@ -13,9 +13,9 @@ public class MemoryManager : AbstractGameManager
     [SerializeField] private GameObject line_prefab;
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
+    [SerializeField] private GridManager grid_manager;
 
     [Header("Game Settings")]
-    [SerializeField] private float line_thckness;
     [SerializeField] private float delay;
     [SerializeField] private Color pattern_color;
     [SerializeField] private Color right_color;
@@ -24,7 +24,6 @@ public class MemoryManager : AbstractGameManager
 
     private MemorySO activeMemorySO;
     private float timer;
-    private float minX, maxX, minY, maxY;
     private float user_time_window;
     private float pattern_speed;
     private int row, col, pattern_size;
@@ -41,16 +40,13 @@ public class MemoryManager : AbstractGameManager
     private List<int> _columns = new List<int>();
     private List<int> _patternsize = new List<int>();
     private List<bool> _isflickering = new List<bool>();
-    private List<Vector2Int> allpositions = new List<Vector2Int>();
-    private List<GameObject> grid_lines = new List<GameObject>();
-    private List<GameObject> active_tiles = new List<GameObject>();
     private List<GameObject> pattern = new List<GameObject>();
     private List<GameObject> pressed_tiles = new List<GameObject>();
 
     private void Start()
     {
         GameSetup();
-        GenerateGrid();
+        grid_manager.GenerateGrid(row, col);
         StartCoroutine(GameLoop());
         patternCoroutine = StartCoroutine(GeneratePattern());
         StartCoroutine(flickering_manager.Flickering());
@@ -63,16 +59,6 @@ public class MemoryManager : AbstractGameManager
         original_color = tile_prefab.GetComponent<SpriteRenderer>().color;
 
         current_stage = 0;
-
-        float aspectRatio = (float)Screen.width / Screen.height;
-        float verticalSize = Camera.main.orthographicSize * 2;
-        float horizontalSize = verticalSize * aspectRatio;
-        float halfWidth = horizontalSize / 2f;
-        float halfHeight = verticalSize / 2f;
-        minY = Camera.main.transform.position.y - halfHeight;
-        minX = Camera.main.transform.position.x - halfWidth;
-        maxX = Camera.main.transform.position.x + halfWidth;
-        maxY = Camera.main.transform.position.y + halfHeight;
 
         for (int i = 0; i < activeMemorySO.memorylevels.Count; i++)
         {
@@ -95,71 +81,9 @@ public class MemoryManager : AbstractGameManager
         flickering_manager.isflickering = _isflickering[current_stage];
     }
 
-    void GenerateGrid()
-    {
-        ClearGrid();
-        pattern.Clear();
-        allpositions.Clear();
 
-        float totalWidth = maxX - minX;
-        float totalHeight = maxY - minY - 1;
-        float cellWidth = totalWidth / col;
-        float cellHeight = totalHeight / row;
 
-        float verticalExtension = 1f;
-        float adjustedMinY = minY - verticalExtension;
-        float adjustedTotalHeight = totalHeight + verticalExtension;
-
-        for (int x = 1; x < col; x++)
-        {
-            float xPos = minX + (x * cellWidth);
-            float yCenter = adjustedMinY + adjustedTotalHeight / 2f;
-            GameObject vLine = Instantiate(line_prefab, new Vector3(xPos, yCenter, 0), Quaternion.identity);
-            vLine.transform.localScale = new Vector3(line_thckness, adjustedTotalHeight, 1f);
-            grid_lines.Add(vLine);
-        }
-
-        for (int y = 1; y < row; y++)
-        {
-            float yPos = minY + (y * cellHeight);
-            GameObject hLine = Instantiate(line_prefab, new Vector3(0, yPos, 0), Quaternion.identity);
-            hLine.transform.localScale = new Vector3(totalWidth, line_thckness, 1f);
-            grid_lines.Add(hLine);
-        }
-
-        for (int y = 0; y < row; y++)
-        {
-            for (int x = 0; x < col; x++)
-            {
-                allpositions.Add(new Vector2Int(x, y));
-            }
-        }
-
-        foreach (Vector2Int pos in allpositions)
-        {
-            float xPos = minX + (pos.x * cellWidth) + (cellWidth / 2f);
-            float yPos = minY + (pos.y * cellHeight) + (cellHeight / 2f);
-            Vector3 scale = new Vector3(cellWidth * 0.9f, cellHeight * 0.9f, 1f);
-
-            GameObject tile = Instantiate(tile_prefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
-            tile.transform.localScale = scale;
-            active_tiles.Add(tile);
-            tile.GetComponent<ClickableObject>().OnClick.AddListener(TileClicked);
-        }
-    }
-
-    void ClearGrid()
-    {
-        foreach (var tile in active_tiles)
-            if (tile) Destroy(tile);
-        active_tiles.Clear();
-
-        foreach (var line in grid_lines)
-            if (line) Destroy(line);
-        grid_lines.Clear();
-    }
-
-    void TileClicked(GameObject t)
+    public override void TargetClicked(GameObject t)
     {
 
         if (t == null) return;
@@ -264,7 +188,7 @@ public class MemoryManager : AbstractGameManager
             score_manager.total_score++;
 
             // Disable interaction
-            foreach (var t in active_tiles)
+            foreach (var t in grid_manager.active_tiles)
                 if (t != null && t.TryGetComponent(out BoxCollider2D col))
                     col.enabled = false;
 
@@ -278,7 +202,7 @@ public class MemoryManager : AbstractGameManager
             {
                 if (stopPattern) yield break;
 
-                GameObject tile = active_tiles[Random.Range(0, active_tiles.Count)];
+                GameObject tile = grid_manager.active_tiles[Random.Range(0, grid_manager.active_tiles.Count)];
 
                 if (tile != null && tile.TryGetComponent(out SpriteRenderer rend))
                 {
@@ -314,7 +238,7 @@ public class MemoryManager : AbstractGameManager
             }
 
             // Enable interaction
-            foreach (var t in active_tiles)
+            foreach (var t in grid_manager.active_tiles)
                 if (t != null && t.TryGetComponent(out BoxCollider2D col))
                     col.enabled = true;
 
@@ -371,7 +295,8 @@ public class MemoryManager : AbstractGameManager
     IEnumerator DelayOnly()
     {
         yield return new WaitForSeconds(delay);
-        GenerateGrid();
+        pattern.Clear();
+        grid_manager.GenerateGrid(row, col);
     }
 
 }

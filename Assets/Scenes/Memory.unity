@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 917271291}
   - component: {fileID: 917271295}
   - component: {fileID: 917271296}
+  - component: {fileID: 917271297}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -339,7 +340,7 @@ MonoBehaviour:
   line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
   flickering_manager: {fileID: 917271295}
   score_manager: {fileID: 917271296}
-  line_thckness: 0.03
+  grid_manager: {fileID: 917271297}
   delay: 1
   pattern_color: {r: 0.22352941, g: 0.29411766, b: 0.83137256, a: 0.49019608}
   right_color: {r: 0.22352941, g: 0.83137256, b: 0.3372549, a: 0.49019608}
@@ -436,6 +437,31 @@ MonoBehaviour:
   total_score: 0
   final_score: 0
   misses: 0
+--- !u!114 &917271297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917271289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1c3482bc843da49b5ac06c8fc54713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal_tile_prefab: {fileID: 3010214325582817647, guid: e193cfbd8a9ec76448466b83de960bbc, type: 3}
+  diff_tile_prefab: {fileID: 0}
+  has_diff_tile: 0
+  number_of_diff_tiles: 0
+  line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
+  line_thickness: 0.03
+  has_lines: 1
+  shuffle_grid: 0
+  score_manager: {fileID: 917271296}
+  game_manager: {fileID: 917271293}
+  all_positions: []
+  active_tiles: []
+  grid_lines: []
 --- !u!1 &1390689505
 GameObject:
   m_ObjectHideFlags: 0
