@@ -6150,6 +6150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer_txt: {fileID: 0}
+  score_txt: {fileID: 0}
+  ending_panel: {fileID: 0}
+  score_manager: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!1 &1779743231
 GameObject:
   m_ObjectHideFlags: 0

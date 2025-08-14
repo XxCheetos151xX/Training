@@ -1,7 +1,8 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections;
+
 
 [RequireComponent(typeof(ScoreManager)), RequireComponent(typeof(AbstractGameManager))]
 public class UIManager : MonoBehaviour
@@ -14,7 +15,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Timer());
+        if (manager != null && timer_txt != null)
+            StartCoroutine(Timer());
     }
 
     public void LoadMenu()
@@ -35,9 +37,12 @@ public class UIManager : MonoBehaviour
     public void GameEnd()
     {
         StopAllCoroutines();
-        score_txt.text = score_manager.final_score.ToString("F2") + "%";
-        timer_txt.enabled = false;
-        ending_panel.SetActive(true);
+        if (score_manager != null)
+            score_txt.text = score_manager.final_score.ToString("F2") + "%";
+        if (timer_txt != null)
+            timer_txt.enabled = false;
+        if (ending_panel != null)
+            ending_panel.SetActive(true);
     }
 
 
@@ -52,4 +57,4 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
     }
-} 
+}

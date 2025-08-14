@@ -11,7 +11,6 @@ public class ClickManager : MonoBehaviour
     {
         mainCam = Camera.main;
 
-        // Touch support
         EnhancedTouchSupport.Enable();
         Touch.onFingerDown += OnFingerDown;
         Touch.onFingerUp += OnFingerUp;
@@ -19,7 +18,6 @@ public class ClickManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Unsubscribe
         Touch.onFingerDown -= OnFingerDown;
         Touch.onFingerUp -= OnFingerUp;
         EnhancedTouchSupport.Disable();
@@ -27,7 +25,6 @@ public class ClickManager : MonoBehaviour
 
     private void Update()
     {
-        // Handle mouse click
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             HandleClick(Mouse.current.position.ReadValue());

@@ -336,12 +336,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial_timer: 0
-  tile_prefab: {fileID: 3010214325582817647, guid: e193cfbd8a9ec76448466b83de960bbc, type: 3}
-  line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
   flickering_manager: {fileID: 917271295}
   score_manager: {fileID: 917271296}
   grid_manager: {fileID: 917271297}
   delay: 1
+  original_color: {r: 0.5529412, g: 0.59607846, b: 0.67058825, a: 0.49019608}
   pattern_color: {r: 0.22352941, g: 0.29411766, b: 0.83137256, a: 0.49019608}
   right_color: {r: 0.22352941, g: 0.83137256, b: 0.3372549, a: 0.49019608}
   wrong_color: {r: 0.85882354, g: 0.22352941, b: 0.22352941, a: 0.49019608}

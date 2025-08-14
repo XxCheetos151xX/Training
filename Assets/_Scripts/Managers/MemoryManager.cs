@@ -1,22 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using TMPro;
 using UnityEngine.Events;
-using UnityEngine.UI;
-using Unity.VisualScripting;
+
+
 
 public class MemoryManager : AbstractGameManager
 {
     [Header("Game References")]
-    [SerializeField] private GameObject tile_prefab;
-    [SerializeField] private GameObject line_prefab;
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private GridManager grid_manager;
 
     [Header("Game Settings")]
     [SerializeField] private float delay;
+    [SerializeField] private Color original_color;
     [SerializeField] private Color pattern_color;
     [SerializeField] private Color right_color;
     [SerializeField] private Color wrong_color;
@@ -30,7 +28,6 @@ public class MemoryManager : AbstractGameManager
     private int current_stage;
     private int streak;
     private bool stopPattern = false;
-    private Color original_color;
     private Coroutine patternCoroutine;
     private List<float> _flickerstarttime = new List<float>();
     private List<float> _paternspeed = new List<float>();
@@ -43,20 +40,19 @@ public class MemoryManager : AbstractGameManager
     private List<GameObject> pattern = new List<GameObject>();
     private List<GameObject> pressed_tiles = new List<GameObject>();
 
+
     private void Start()
     {
         GameSetup();
-        grid_manager.GenerateGrid(row, col);
-        StartCoroutine(GameLoop());
-        patternCoroutine = StartCoroutine(GeneratePattern());
-        StartCoroutine(flickering_manager.Flickering());
+        StartCoroutine(GameInit());
     }
+
+
 
     private void GameSetup()
     {
         timer = 0;
         initial_timer = activeMemorySO.timer;
-        original_color = tile_prefab.GetComponent<SpriteRenderer>().color;
 
         current_stage = 0;
 
@@ -155,6 +151,17 @@ public class MemoryManager : AbstractGameManager
 
     public void SetActiveMemorySO(MemorySO val) => activeMemorySO = val;
 
+
+    private IEnumerator GameInit()
+    {
+        yield return null;
+        grid_manager.GenerateGrid(row, col);
+        StartCoroutine(GameLoop());
+        patternCoroutine = StartCoroutine(GeneratePattern());
+        StartCoroutine(flickering_manager.Flickering());
+    }
+
+
     IEnumerator GameLoop()
     {
         while (true)
@@ -187,7 +194,7 @@ public class MemoryManager : AbstractGameManager
             stopPattern = false;
             score_manager.total_score++;
 
-            // Disable interaction
+            
             foreach (var t in grid_manager.active_tiles)
                 if (t != null && t.TryGetComponent(out BoxCollider2D col))
                     col.enabled = false;
@@ -237,7 +244,7 @@ public class MemoryManager : AbstractGameManager
                 }
             }
 
-            // Enable interaction
+            
             foreach (var t in grid_manager.active_tiles)
                 if (t != null && t.TryGetComponent(out BoxCollider2D col))
                     col.enabled = true;
