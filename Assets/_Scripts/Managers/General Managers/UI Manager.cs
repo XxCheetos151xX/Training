@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-[RequireComponent(typeof(ScoreManager)), RequireComponent(typeof(AbstractGameManager))]
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timer_txt;

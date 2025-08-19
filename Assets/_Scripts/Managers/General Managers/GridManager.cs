@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(AbstractGameManager), typeof(ScoreManager))]
 public class GridManager : MonoBehaviour
 {
     [Header("Tile Settings")]

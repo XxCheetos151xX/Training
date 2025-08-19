@@ -152,7 +152,7 @@ public class MemoryManager : AbstractGameManager
     public void SetActiveMemorySO(MemorySO val) => activeMemorySO = val;
 
 
-    private IEnumerator GameInit()
+    IEnumerator GameInit()
     {
         yield return null;
         grid_manager.GenerateGrid(row, col);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "MemorySO", menuName = "Game Type/Memory")]
+[CreateAssetMenu(fileName = "MemorySO", menuName = "Game Type/Memory", order = 5)]
 public class MemorySO : AbsGameSO
 {
     public List<MemoryVariables> memorylevels = new List<MemoryVariables>();

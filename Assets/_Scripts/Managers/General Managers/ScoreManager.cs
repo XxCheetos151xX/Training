@@ -10,6 +10,9 @@ public class ScoreManager : MonoBehaviour
     public void CalculateScore()
     {
         final_score = (user_score / total_score) * 100;
-        print(user_score + "/" + total_score);
+        if (final_score <= 0)
+        {
+            final_score = 0;
+        }
     }
 }

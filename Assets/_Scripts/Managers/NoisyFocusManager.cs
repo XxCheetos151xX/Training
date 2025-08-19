@@ -1,0 +1,181 @@
+using UnityEngine;
+using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
+
+public class NoisyFocusManager : AbstractGameManager
+{
+    [Header("Game Refrences")]
+    [SerializeField] private GameObject target_prefab;
+    [SerializeField] private ScoreManager scoremanager;
+    [SerializeField] private FlickeringManager flickeringmanager;
+
+    [SerializeField] private UnityEvent GameEnded;
+
+    private NoisyFocusSO activeNoisyFocusSO;
+    private Camera cam;
+    private GameObject spawned_target;
+    private float minX, maxX, minY, maxY;
+    private float delay;
+    private float min_speed;
+    private float max_speed;
+    private float timer;
+    private List<float> _starttime = new List<float>();
+    private List<float> _delay = new List<float>();
+    private List<float> _minspeed = new List<float>();
+    private List<float> _maxspeed = new List<float>(); 
+    private List<float> _flickeringspeed = new List<float>();
+    private List<bool> _isflickering = new List<bool>();
+    private List<GameObject> active_targets = new List<GameObject>();
+
+    void Start()
+    {
+        ScreenSetup();
+        GameSetup();
+        StartCoroutine(GameLoop());
+        StartCoroutine(flickeringmanager.Flickering());
+        StartCoroutine(SpawnTargets());
+    }
+
+    void ScreenSetup()
+    {
+        cam = Camera.main;
+
+        float aspectRatio = (float)Screen.width / Screen.height;
+        float verticalSize = Camera.main.orthographicSize * 2;
+        float horizontalSize = verticalSize * aspectRatio;
+        float halfWidth = horizontalSize / 2f;
+        float halfHeight = verticalSize / 2f;
+        minY = cam.transform.position.y - halfHeight;
+        minX = cam.transform.position.x - halfWidth;
+        maxX = cam.transform.position.x + halfWidth;
+        maxY = cam.transform.position.y + halfHeight;
+    }
+
+
+    void SpawnSingleTraget()
+    {
+        float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
+        float posx;
+        float speed = Random.Range(min_speed, max_speed);
+
+        bool isleft = Random.value > 0.5f;
+        
+        if (isleft)
+        {
+            posx = minX + 0.5f;
+        }
+
+        else
+        {
+            posx = maxX - 0.5f;
+        }
+
+        spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);
+        spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
+        active_targets.Add(spawned_target);
+        scoremanager.total_score++;
+        StartCoroutine(TargetBehaviour(spawned_target, speed, isleft));
+    }
+
+    public void TargetClicked()
+    {
+        scoremanager.user_score++;
+    }
+
+    void GameSetup()
+    {
+        timer = 0;
+
+        initial_timer = activeNoisyFocusSO.timer;
+
+        for (int i = 0; i < activeNoisyFocusSO.noisyfocuslevels.Count; i++)
+        {
+            _starttime.Add(activeNoisyFocusSO.noisyfocuslevels[i].starttime);
+            _delay.Add(activeNoisyFocusSO.noisyfocuslevels[i].delay);
+            _minspeed.Add(activeNoisyFocusSO.noisyfocuslevels[i].minSpeed);
+            _maxspeed.Add(activeNoisyFocusSO.noisyfocuslevels[i].maxSpeed);
+            _flickeringspeed.Add(activeNoisyFocusSO.noisyfocuslevels[i].flickeringspeed);
+            _isflickering.Add(activeNoisyFocusSO.noisyfocuslevels[i].isflickering);
+        }
+    }
+
+
+    public void GameEnd()
+    {
+        StopAllCoroutines();
+        foreach (var t in active_targets)
+        {
+            Destroy(t);
+        }
+    }
+
+    public void SetActiveNoisyFocusSO(NoisyFocusSO val) => activeNoisyFocusSO = val;
+
+    IEnumerator SpawnTargets()
+    {
+        while (true)
+        {
+            SpawnSingleTraget();
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    IEnumerator TargetBehaviour(GameObject target, float speed, bool isLeft)
+    {
+        Vector3 destination;
+
+        if (isLeft)
+            destination = new Vector3(maxX, target.transform.position.y, 0); 
+        else
+            destination = new Vector3(minX, target.transform.position.y, 0);  
+
+        while (target != null)
+        {
+            target.transform.position = Vector3.MoveTowards(
+                target.transform.position,
+                destination,
+                speed * Time.deltaTime
+            );
+
+            if (Mathf.Abs(target.transform.position.x) < 0.01f)
+            {
+                Destroy(target);
+                scoremanager.misses++;
+                active_targets.Remove(target);
+                yield break; 
+            }
+
+            yield return null;
+        }
+
+       
+    }
+
+
+
+    IEnumerator GameLoop()
+    {
+        while (true)
+        {
+            timer += Time.deltaTime;
+
+            for (int i = 0; i < _starttime.Count; i++)
+            {
+                if (timer >= _starttime[i])
+                {
+                    delay = _delay[i];
+                    min_speed = _minspeed[i];
+                    max_speed = _maxspeed[i];
+                    flickeringmanager.flickeringspeed = _flickeringspeed[i];
+                    flickeringmanager.isflickering = _isflickering[i];
+                }
+            }
+            if (initial_timer <= 0)
+            {
+                GameEnded.Invoke();
+            }
+            yield return null;
+        }
+    }
+}

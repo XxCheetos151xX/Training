@@ -38,6 +38,8 @@ public enum GameType
     Spacing,
     Decision,
     Memory,
+    Piriority,
+    NoisyFocus,
     Depth,
 }
 [Serializable]
