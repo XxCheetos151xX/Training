@@ -6,6 +6,7 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class ClickManager : MonoBehaviour
 {
     private Camera mainCam;
+    public static Vector2 LastClickWorldPos;
 
     private void OnEnable()
     {
@@ -50,6 +51,8 @@ public class ClickManager : MonoBehaviour
     {
         Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, mainCam.nearClipPlane));
         worldPos.z = 0;
+
+        LastClickWorldPos = worldPos;
 
         Collider2D[] hits = Physics2D.OverlapPointAll(worldPos);
         foreach (var col in hits)

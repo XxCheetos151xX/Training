@@ -10,6 +10,8 @@ public class NoisyFocusManager : AbstractGameManager
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private FlickeringManager flickeringmanager;
 
+    [Header("Game Settings")]
+    [SerializeField] private float score_tobe_added;
     [SerializeField] private UnityEvent GameEnded;
 
     private NoisyFocusSO activeNoisyFocusSO;
@@ -74,13 +76,13 @@ public class NoisyFocusManager : AbstractGameManager
         spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
         active_targets.Add(spawned_target);
-        scoremanager.total_score++;
+        scoremanager.total_score += score_tobe_added;
         StartCoroutine(TargetBehaviour(spawned_target, speed, isleft));
     }
 
     public void TargetClicked()
     {
-        scoremanager.user_score++;
+        scoremanager.user_score += score_tobe_added;
     }
 
     void GameSetup()

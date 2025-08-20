@@ -40,7 +40,7 @@ public enum GameType
     Memory,
     Piriority,
     NoisyFocus,
-    Depth,
+    RecognitionSpeed,
 }
 [Serializable]
 public enum GameMode
