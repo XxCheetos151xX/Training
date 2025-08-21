@@ -41,6 +41,7 @@ public enum GameType
     Piriority,
     NoisyFocus,
     RecognitionSpeed,
+    Flickering,
 }
 [Serializable]
 public enum GameMode
