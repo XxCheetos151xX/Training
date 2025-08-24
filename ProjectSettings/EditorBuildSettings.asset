@@ -23,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Memory.unity
     guid: 348546280710abb4c8b6f898d31eb738
-  - enabled: 0
-    path: Assets/Scenes/Depth.unity
-    guid: 607d5af2ed3b3074db2038c5ecc399b7
   - enabled: 1
     path: Assets/Scenes/Piriority.unity
     guid: fd459944ca65b8c4b96fedbb48a65518

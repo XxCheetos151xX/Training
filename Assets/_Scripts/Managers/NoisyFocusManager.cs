@@ -140,13 +140,16 @@ public class NoisyFocusManager : AbstractGameManager
                 speed * Time.deltaTime
             );
 
-            if (Mathf.Abs(target.transform.position.x) < 0.01f)
+            float screenCenterX = cam.transform.position.x;
+
+            if (Mathf.Abs(target.transform.position.x - screenCenterX) < 0.01f)
             {
                 Destroy(target);
                 scoremanager.misses++;
                 active_targets.Remove(target);
-                yield break; 
+                yield break;
             }
+
 
             yield return null;
         }
