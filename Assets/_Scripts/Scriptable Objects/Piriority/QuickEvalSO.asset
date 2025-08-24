@@ -15,12 +15,42 @@ MonoBehaviour:
   timer: 180
   pirioritylevels:
   - starttime: 0
+    targetlifetime: 5
+    delaybetweentargets: 1
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 22.5
+    targetlifetime: 5
+    delaybetweentargets: 0.8
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 45
+    targetlifetime: 5
+    delaybetweentargets: 0.7
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 67.5
+    targetlifetime: 5
+    delaybetweentargets: 0.6
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    targetlifetime: 5
+    delaybetweentargets: 0.5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 112.5
     targetlifetime: 4
     delaybetweentargets: 0.5
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 10
-    targetlifetime: 2
-    delaybetweentargets: 5
-    isflickering: 0
-    flickeringspeed: 0
+  - starttime: 135
+    targetlifetime: 3.5
+    delaybetweentargets: 0.5
+    isflickering: 1
+    flickeringspeed: 0.1
+  - starttime: 157.5
+    targetlifetime: 3.5
+    delaybetweentargets: 0.5
+    isflickering: 1
+    flickeringspeed: 0.5

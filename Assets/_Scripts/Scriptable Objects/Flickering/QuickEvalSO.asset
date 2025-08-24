@@ -12,5 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa0fcd7db488fe44bf3b179611aef98, type: 3}
   m_Name: QuickEvalSO
   m_EditorClassIdentifier: 
-  timer: 0
-  flickeringlevels: []
+  timer: 180
+  flickeringlevels:
+  - starttime: 0
+    minspeed: 2
+    maxspeed: 4
+    delay: 1
+    isflickeing: 1
+    flickeringspeed: 0.1
+  - starttime: 22.5
+    minspeed: 3
+    maxspeed: 5
+    delay: 1
+    isflickeing: 1
+    flickeringspeed: 0.1
+  - starttime: 45
+    minspeed: 3
+    maxspeed: 5
+    delay: 0.8
+    isflickeing: 1
+    flickeringspeed: 0.1
+  - starttime: 67.5
+    minspeed: 4
+    maxspeed: 6
+    delay: 0.7
+    isflickeing: 1
+    flickeringspeed: 0.1
+  - starttime: 90
+    minspeed: 4
+    maxspeed: 6
+    delay: 0.6
+    isflickeing: 1
+    flickeringspeed: 0.3
+  - starttime: 112.5
+    minspeed: 5
+    maxspeed: 7
+    delay: 0.5
+    isflickeing: 1
+    flickeringspeed: 0.3
+  - starttime: 135
+    minspeed: 5
+    maxspeed: 7
+    delay: 0.5
+    isflickeing: 1
+    flickeringspeed: 0.5
+  - starttime: 157.5
+    minspeed: 5
+    maxspeed: 7
+    delay: 0.5
+    isflickeing: 1
+    flickeringspeed: 0.5

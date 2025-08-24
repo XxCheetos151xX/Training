@@ -12,4 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e86504ee14557429ca3a8f5790877d, type: 3}
   m_Name: AdvancedEvalSO
   m_EditorClassIdentifier: 
-  pirioritylevels: []
+  timer: 360
+  pirioritylevels:
+  - starttime: 0
+    targetlifetime: 5
+    delaybetweentargets: 1
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 45
+    targetlifetime: 5
+    delaybetweentargets: 0.8
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    targetlifetime: 5
+    delaybetweentargets: 0.7
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 135
+    targetlifetime: 5
+    delaybetweentargets: 0.6
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 180
+    targetlifetime: 5
+    delaybetweentargets: 0.5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 225
+    targetlifetime: 4
+    delaybetweentargets: 0.5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 270
+    targetlifetime: 3.5
+    delaybetweentargets: 0.5
+    isflickering: 1
+    flickeringspeed: 0.1
+  - starttime: 315
+    targetlifetime: 3.5
+    delaybetweentargets: 0.5
+    isflickering: 1
+    flickeringspeed: 0.5

@@ -16,7 +16,7 @@ MonoBehaviour:
   spacinglevels:
   - starttime: 0
     speed: 6
-    rows: 20
-    columns: 20
+    rows: 8
+    columns: 16
     isflickering: 0
     flickeringspeed: 0

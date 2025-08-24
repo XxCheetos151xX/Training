@@ -650,6 +650,7 @@ MonoBehaviour:
   line_thickness: 0
   has_lines: 0
   shuffle_grid: 1
+  circular_tile: 1
   score_manager: {fileID: 1257854678}
   game_manager: {fileID: 1257854673}
   all_positions: []

@@ -12,5 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983848aebc151b2478fbae209231b17d, type: 3}
   m_Name: AdvancedEvalSO
   m_EditorClassIdentifier: 
-  timer: 0
-  noisyfocuslevels: []
+  timer: 360
+  noisyfocuslevels:
+  - starttime: 0
+    delay: 1
+    minSpeed: 2
+    maxSpeed: 4
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 45
+    delay: 1
+    minSpeed: 3
+    maxSpeed: 5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    delay: 0.8
+    minSpeed: 3
+    maxSpeed: 5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 135
+    delay: 0.8
+    minSpeed: 3
+    maxSpeed: 5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 180
+    delay: 0.7
+    minSpeed: 4
+    maxSpeed: 6
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 225
+    delay: 0.7
+    minSpeed: 4
+    maxSpeed: 6
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 270
+    delay: 0.5
+    minSpeed: 4
+    maxSpeed: 6
+    isflickering: 1
+    flickeringspeed: 0.1
+  - starttime: 315
+    delay: 0.5
+    minSpeed: 4
+    maxSpeed: 6
+    isflickering: 1
+    flickeringspeed: 0.5

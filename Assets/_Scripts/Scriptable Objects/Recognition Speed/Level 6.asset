@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470978b2e3a3ae649af71c536a35da2d, type: 3}
   m_Name: Level 6
   m_EditorClassIdentifier: 
-  timer: 0
-  recognitionspeedlevels: []
+  timer: 90
+  recognitionspeedlevels:
+  - starttime: 0
+    lifespan: 3
+    speed: 0.8
+    size: 3
+    isflickering: 0
+    flickeringspeed: 0

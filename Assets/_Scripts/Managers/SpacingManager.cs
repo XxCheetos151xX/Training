@@ -71,6 +71,7 @@ public class SpacingManager : AbstractGameManager
     public override void TargetClicked(GameObject good_tile)
     {
         good_tile.GetComponent<SpriteRenderer>().color = Color.green;
+        
         score_manager.user_score++;
         streak++;
         if (streak >= 2)

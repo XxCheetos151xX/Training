@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e86504ee14557429ca3a8f5790877d, type: 3}
   m_Name: Level 4
   m_EditorClassIdentifier: 
-  pirioritylevels: []
+  timer: 90
+  pirioritylevels:
+  - starttime: 0
+    targetlifetime: 5
+    delaybetweentargets: 0.6
+    isflickering: 0
+    flickeringspeed: 0

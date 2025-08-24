@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa0fcd7db488fe44bf3b179611aef98, type: 3}
   m_Name: Level 2
   m_EditorClassIdentifier: 
-  timer: 0
-  flickeringlevels: []
+  timer: 90
+  flickeringlevels:
+  - starttime: 0
+    minspeed: 3
+    maxspeed: 5
+    delay: 1
+    isflickeing: 1
+    flickeringspeed: 0.1

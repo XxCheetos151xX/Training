@@ -17,48 +17,48 @@ MonoBehaviour:
   - starttime: 0
     speed: 6
     rows: 8
-    columns: 8
+    columns: 16
     isflickering: 0
     flickeringspeed: 0.1
   - starttime: 22.5
     speed: 5.5
     rows: 10
-    columns: 10
+    columns: 20
     isflickering: 0
     flickeringspeed: 0
   - starttime: 45
     speed: 5
     rows: 12
-    columns: 12
+    columns: 24
     isflickering: 0
     flickeringspeed: 1
   - starttime: 67.5
     speed: 4.5
     rows: 14
-    columns: 14
+    columns: 28
     isflickering: 0
     flickeringspeed: 0
   - starttime: 90
     speed: 4
     rows: 16
-    columns: 16
+    columns: 32
     isflickering: 0
     flickeringspeed: 0
   - starttime: 112.5
     speed: 3.5
     rows: 18
-    columns: 18
+    columns: 36
     isflickering: 0
     flickeringspeed: 0
   - starttime: 135
     speed: 3
     rows: 20
-    columns: 20
+    columns: 40
     isflickering: 1
     flickeringspeed: 0.2
   - starttime: 157.5
     speed: 2.5
     rows: 22
-    columns: 22
+    columns: 44
     isflickering: 1
     flickeringspeed: 0.4

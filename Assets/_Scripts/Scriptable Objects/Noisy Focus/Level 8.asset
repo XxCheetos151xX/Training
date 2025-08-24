@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983848aebc151b2478fbae209231b17d, type: 3}
   m_Name: Level 8
   m_EditorClassIdentifier: 
-  timer: 0
-  noisyfocuslevels: []
+  timer: 90
+  noisyfocuslevels:
+  - starttime: 0
+    delay: 0.5
+    minSpeed: 4
+    maxSpeed: 6
+    isflickering: 1
+    flickeringspeed: 0.5
