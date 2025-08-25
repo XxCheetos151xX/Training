@@ -14,6 +14,8 @@ public class NoisyFocusManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private UnityEvent GameEnded;
 
+    [HideInInspector] public float spawned_target_speed;
+
     private NoisyFocusSO activeNoisyFocusSO;
     private Camera cam;
     private GameObject spawned_target;
@@ -39,6 +41,10 @@ public class NoisyFocusManager : AbstractGameManager
         StartCoroutine(SpawnTargets());
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
     void ScreenSetup()
     {
         cam = Camera.main;
@@ -59,7 +65,7 @@ public class NoisyFocusManager : AbstractGameManager
     {
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
         float posx;
-        float speed = Random.Range(min_speed, max_speed);
+        spawned_target_speed = Random.Range(min_speed, max_speed);
 
         bool isleft = Random.value > 0.5f;
         
@@ -77,8 +83,9 @@ public class NoisyFocusManager : AbstractGameManager
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
         active_targets.Add(spawned_target);
         scoremanager.total_score += score_tobe_added;
-        StartCoroutine(TargetBehaviour(spawned_target, speed, isleft));
     }
+
+
 
     public void TargetClicked()
     {
@@ -123,39 +130,47 @@ public class NoisyFocusManager : AbstractGameManager
         }
     }
 
-    IEnumerator TargetBehaviour(GameObject target, float speed, bool isLeft)
-    {
-        Vector3 destination;
+    //IEnumerator TargetBehaviour(GameObject target, float speed, bool isLeft)
+    //{
+    //    Vector3 destination;
 
-        if (isLeft)
-            destination = new Vector3(maxX, target.transform.position.y, 0); 
-        else
-            destination = new Vector3(minX, target.transform.position.y, 0);  
+    //    if (isLeft)
+    //        destination = new Vector3(maxX, target.transform.position.y, 0); 
+    //    else
+    //        destination = new Vector3(minX, target.transform.position.y, 0);  
 
-        while (target != null)
-        {
-            target.transform.position = Vector3.MoveTowards(
-                target.transform.position,
-                destination,
-                speed * Time.deltaTime
-            );
+    //    while (target != null)
+    //    {
+    //        target.transform.position = Vector3.MoveTowards(
+    //            target.transform.position,
+    //            destination,
+    //            speed * Time.deltaTime
+    //        );
 
-            float screenCenterX = cam.transform.position.x;
+    //        float screenCenterX = cam.transform.position.x;
 
-            if (Mathf.Abs(target.transform.position.x - screenCenterX) < 0.01f)
-            {
-                Destroy(target);
-                scoremanager.misses++;
-                active_targets.Remove(target);
-                yield break;
-            }
+            
 
+            
+    //        if (isLeft && target.transform.position.x >= screenCenterX)
+    //        {
+    //            Destroy(target);
+    //            scoremanager.misses++;
+    //            active_targets.Remove(target);
+    //            yield break;
+    //        }
 
-            yield return null;
-        }
-
-       
-    }
+            
+    //        if (!isLeft && target.transform.position.x <= screenCenterX)
+    //        {
+    //            Destroy(target);
+    //            scoremanager.misses++;
+    //            active_targets.Remove(target);
+    //            yield break;
+    //        }
+    //        yield return null;
+    //    }
+    //}
 
 
 

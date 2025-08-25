@@ -90,10 +90,12 @@ public class PiriorityManager : AbstractGameManager
         int attempts = 30;
         Vector3 pos = Vector3.zero;
 
+        bool tricky_target = Random.value < 0.3f;
+
         for (int i = 0; i < attempts; i++)
         {
-            float posx = Random.Range(minX + 0.5f, maxX - 0.5f);
-            float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
+            float posx = Random.Range(minX + 1, maxX - 1);
+            float posy = Random.Range(minY + 1, maxY - 1);
             pos = new Vector3(posx, posy, 0);
 
             valid_pos = true;
@@ -120,7 +122,7 @@ public class PiriorityManager : AbstractGameManager
             active_pos.Add(pos);
             active_targets.Add(spawned_target);
 
-            StartCoroutine(HandleTargetLifeCycle(spawned_target, spawned_target_renderer, life_span));
+            StartCoroutine(HandleTargetLifeCycle(spawned_target, spawned_target_renderer, life_span, tricky_target));
         }
     }
 
@@ -173,14 +175,14 @@ public class PiriorityManager : AbstractGameManager
         }
     }
 
-    IEnumerator HandleTargetLifeCycle(GameObject target, SpriteRenderer target_renderer, float lifespan)
+    IEnumerator HandleTargetLifeCycle(GameObject target, SpriteRenderer target_renderer, float lifespan, bool tricky_target)
     {
         float elapsed = 0;
         float quarter = lifespan / 4;
 
         while (elapsed < lifespan)
         { 
-            if (target_renderer != null)
+            if (target_renderer != null && !tricky_target)
             {
                 if (elapsed < quarter)
                     target_renderer.color = first_color;
@@ -192,6 +194,19 @@ public class PiriorityManager : AbstractGameManager
                     target_renderer.color = fourth_color;
 
             }
+
+            else if  (target_renderer != null && tricky_target)
+            {
+                if (elapsed < quarter)
+                {
+                    target_renderer.color = first_color;
+                }
+                else if (elapsed < quarter * 2)
+                {
+                    target_renderer.color = fourth_color;
+                }
+            }
+
             elapsed += Time.deltaTime;
             yield return null;
         }
