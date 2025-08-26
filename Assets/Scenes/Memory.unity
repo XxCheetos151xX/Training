@@ -452,10 +452,14 @@ MonoBehaviour:
   diff_tile_prefab: {fileID: 0}
   has_diff_tile: 0
   number_of_diff_tiles: 0
+  notch_width: 0.08
+  notch_height: 0.08
   line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
   line_thickness: 0.03
   has_lines: 1
   shuffle_grid: 0
+  circular_tile: 0
+  offset: 0
   score_manager: {fileID: 917271296}
   game_manager: {fileID: 917271293}
   all_positions: []
@@ -495,7 +499,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24.326416, y: -6.081482}
+  m_AnchoredPosition: {x: -24.326416, y: -6.081421}
   m_SizeDelta: {x: 231.1001, y: 170.2842}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390689507

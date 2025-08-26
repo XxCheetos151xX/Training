@@ -11,6 +11,7 @@ public class SpacingManager : AbstractGameManager
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private GridManager grid_manager;
+    [SerializeField] private Color clicked_color;
     [SerializeField] UnityEvent GameEnded;
 
 
@@ -70,7 +71,7 @@ public class SpacingManager : AbstractGameManager
 
     public override void TargetClicked(GameObject good_tile)
     {
-        good_tile.GetComponent<SpriteRenderer>().color = Color.green;
+        good_tile.GetComponent<SpriteRenderer>().color = clicked_color;
         
         score_manager.user_score++;
         streak++;

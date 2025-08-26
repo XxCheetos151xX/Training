@@ -90,7 +90,6 @@ public class PiriorityManager : AbstractGameManager
         int attempts = 30;
         Vector3 pos = Vector3.zero;
 
-        bool tricky_target = Random.value < 0.3f;
 
         for (int i = 0; i < attempts; i++)
         {
@@ -122,7 +121,7 @@ public class PiriorityManager : AbstractGameManager
             active_pos.Add(pos);
             active_targets.Add(spawned_target);
 
-            StartCoroutine(HandleTargetLifeCycle(spawned_target, spawned_target_renderer, life_span, tricky_target));
+            StartCoroutine(HandleTargetLifeCycle(spawned_target, spawned_target_renderer, life_span));
         }
     }
 
@@ -175,14 +174,14 @@ public class PiriorityManager : AbstractGameManager
         }
     }
 
-    IEnumerator HandleTargetLifeCycle(GameObject target, SpriteRenderer target_renderer, float lifespan, bool tricky_target)
+    IEnumerator HandleTargetLifeCycle(GameObject target, SpriteRenderer target_renderer, float lifespan)
     {
         float elapsed = 0;
         float quarter = lifespan / 4;
 
         while (elapsed < lifespan)
         { 
-            if (target_renderer != null && !tricky_target)
+            if (target_renderer != null)
             {
                 if (elapsed < quarter)
                     target_renderer.color = first_color;
@@ -195,17 +194,6 @@ public class PiriorityManager : AbstractGameManager
 
             }
 
-            else if  (target_renderer != null && tricky_target)
-            {
-                if (elapsed < quarter)
-                {
-                    target_renderer.color = first_color;
-                }
-                else if (elapsed < quarter * 2)
-                {
-                    target_renderer.color = fourth_color;
-                }
-            }
 
             elapsed += Time.deltaTime;
             yield return null;
