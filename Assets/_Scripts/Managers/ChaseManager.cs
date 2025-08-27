@@ -23,6 +23,8 @@ public class ChaseManager : AbstractGameManager
     [Header("Game Settings")]
     [SerializeField] private float min_dist;
     [SerializeField] private float max_dist;
+    [SerializeField] private Color normal_color;
+    [SerializeField] private Color right_color;
 
     private float target_speed;
     private float target_angle;
@@ -193,14 +195,14 @@ public class ChaseManager : AbstractGameManager
 
             if (distance >= min_dist && distance <= max_dist && is_touching)
             {
-                line.startColor = Color.blue;
-                line.endColor = Color.blue;
+                line.startColor = right_color;
+                line.endColor = right_color;
                 score_manager.user_score += Time.deltaTime;
             }
             else
             {
-                line.startColor = Color.yellow;
-                line.endColor = Color.yellow;
+                line.startColor = normal_color;
+                line.endColor = normal_color;
             }
             yield return null;
         }

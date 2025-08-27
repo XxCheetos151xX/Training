@@ -2,7 +2,7 @@
 - Project name: Training
 - Unity version: Unity 6000.0.25f1
 - Active game object:
-  - Name: Black Screen
+  - Name: Background Generator
   - Tag: Untagged
-  - Layer: UI
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

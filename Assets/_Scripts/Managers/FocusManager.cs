@@ -15,6 +15,8 @@ public class FocusManager : AbstractGameManager
 
     [Header("Game Settings")]
     [SerializeField] private float targetSize = 1;
+    [SerializeField] private Color first_color;
+    [SerializeField] private Color second_color;
     [SerializeField] private List<float> radius;
     [SerializeField] private UnityEvent GameEnded;
 
@@ -59,8 +61,8 @@ public class FocusManager : AbstractGameManager
         var t1 = Instantiate(target_prefab);
         var t2 = Instantiate(target_prefab);
 
-        t1.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        t2.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+        t1.gameObject.GetComponent<SpriteRenderer>().color = first_color;
+        t2.gameObject.GetComponent<SpriteRenderer>().color = second_color;
 
         t1.GetComponent<ClickableObject>().OnClick.AddListener(TargetCaptured);
         t2.GetComponent<ClickableObject>().OnClick.AddListener(TargetCaptured);

@@ -57,10 +57,7 @@ public class DecisionManager : AbstractGameManager
     {
         background_generator.GenerateConstantBackGround(0.5f);
         GameSetup();
-        SwitchColor();
-        StartCoroutine(ui_manager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(SpawnTargets());
+
     }
 
     void GameSetup()
@@ -157,6 +154,10 @@ public class DecisionManager : AbstractGameManager
         {
            
             StartCoroutine(flickering_manager.Flickering());
+            SwitchColor();
+            StartCoroutine(ui_manager.Timer());
+            StartCoroutine(GameLoop());
+            StartCoroutine(SpawnTargets());
             gamestarted = true;
         }
     }
