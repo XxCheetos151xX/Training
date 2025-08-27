@@ -11,6 +11,7 @@ public class MemoryManager : AbstractGameManager
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private GridManager grid_manager;
+    [SerializeField] private UIManager ui_manager;
 
     [Header("Game Settings")]
     [SerializeField] private float delay;
@@ -156,6 +157,7 @@ public class MemoryManager : AbstractGameManager
     {
         yield return null;
         grid_manager.GenerateGrid(row, col);
+        StartCoroutine(ui_manager.Timer());
         StartCoroutine(GameLoop());
         patternCoroutine = StartCoroutine(GeneratePattern());
         StartCoroutine(flickering_manager.Flickering());

@@ -13,12 +13,16 @@ public class DecisionManager : AbstractGameManager
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
     [SerializeField] private GameObject end_screen;
+    [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
+    [SerializeField] private UIManager ui_manager;
+    [SerializeField] private BackgroundGenerator background_generator;
+
+    [Header("Game Settings")]
     [SerializeField] private float delay;
     [SerializeField] private float button_size = 1;
     [SerializeField] private float target_size = 1;
     [SerializeField] private List<Color> colors = new List<Color>();
-    [SerializeField] private FlickeringManager flickering_manager;
-    [SerializeField] private ScoreManager score_manager;
     [SerializeField] private UnityEvent GameEnd;
 
     private DecisionSO activeDecisionSO;
@@ -51,8 +55,10 @@ public class DecisionManager : AbstractGameManager
 
     private void Start()
     {
+        background_generator.GenerateConstantBackGround(0.5f);
         GameSetup();
         SwitchColor();
+        StartCoroutine(ui_manager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(SpawnTargets());
     }

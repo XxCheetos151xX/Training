@@ -12,6 +12,8 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private Transform right_goal;
     [SerializeField] private FlickeringManager flickeringmanager;
     [SerializeField] private ScoreManager scoremanager;
+    [SerializeField] private UIManager uimanager;
+    [SerializeField] private BackgroundGenerator backgroundgenerator; 
 
     [Header("Game Settings")]
     [SerializeField] private float score_tobe_added;
@@ -40,7 +42,9 @@ public class FlickeringGameManager : AbstractGameManager
     void Start()
     {
         SetupScreen();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        StartCoroutine(uimanager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(flickeringmanager.Flickering());
         StartCoroutine(SpawnTargets());

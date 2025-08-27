@@ -10,6 +10,8 @@ public class PiriorityManager : AbstractGameManager
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private FlickeringManager flickeringmanager;
+    [SerializeField] private UIManager uimanager;
+    [SerializeField] private BackgroundGenerator backgroundgenerator;
 
     [Header("Game Settings")]
     [SerializeField] private Color first_color; 
@@ -44,7 +46,9 @@ public class PiriorityManager : AbstractGameManager
     void Start()
     {
         SetupScreen();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        StartCoroutine(uimanager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(SpawnTargets());
         StartCoroutine(flickeringmanager.Flickering());

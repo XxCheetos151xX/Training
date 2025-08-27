@@ -9,6 +9,8 @@ public class RecognitionSpeedManager : AbstractGameManager
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private FlickeringManager flickermanager;
+    [SerializeField] private UIManager uimanager;
+    [SerializeField] private BackgroundGenerator backgroundgenerator;
 
     [Header("Game Settings")]
     [SerializeField] private float delay;
@@ -40,7 +42,9 @@ public class RecognitionSpeedManager : AbstractGameManager
     void Start()
     {
         SetupScreen();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        StartCoroutine(uimanager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(flickermanager.Flickering());
         StartCoroutine(SpawnTargets());

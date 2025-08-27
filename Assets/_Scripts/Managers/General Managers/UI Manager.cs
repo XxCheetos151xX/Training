@@ -13,11 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private AbstractGameManager manager;
 
-    private void Start()
-    {
-        if (manager != null && timer_txt != null)
-            StartCoroutine(Timer());
-    }
+
 
     public void LoadMenu()
     {
@@ -46,7 +42,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    IEnumerator Timer()
+    public IEnumerator Timer()
     {
         while (true)
         {

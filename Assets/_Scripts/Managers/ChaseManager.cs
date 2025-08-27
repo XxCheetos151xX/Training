@@ -14,13 +14,15 @@ public class ChaseManager : AbstractGameManager
     [SerializeField] private LineRenderer line;
     [SerializeField] private InputActionReference TouchActionRef;
     [SerializeField] private InputActionReference ClickActionRef; 
+    [SerializeField] private FlickeringManager flickering_manager;
+    [SerializeField] private ScoreManager score_manager;
+    [SerializeField] private UIManager ui_manager;
+    [SerializeField] private BackgroundGenerator background_generator;
     [SerializeField] private UnityEvent GameEnd;
 
     [Header("Game Settings")]
     [SerializeField] private float min_dist;
     [SerializeField] private float max_dist;
-    [SerializeField] private FlickeringManager flickering_manager;
-    [SerializeField] private ScoreManager score_manager;
 
     private float target_speed;
     private float target_angle;
@@ -64,6 +66,7 @@ public class ChaseManager : AbstractGameManager
         Setup();
         GameSetup();
         PickDirection();
+        background_generator.GenerateConstantBackGround(0.5f);       
     }
 
     public void SetActiveChaseSO(ChaseSO val) => activeChaseSO = val;
@@ -110,6 +113,7 @@ public class ChaseManager : AbstractGameManager
 
         if (!has_started)
         {
+            StartCoroutine(ui_manager.Timer());
             StartCoroutine(TargetBehaviour());
             StartCoroutine(GameLoop());
             flickering_manager.StartFlickering();

@@ -16,7 +16,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private bool has_lines;
 
     [Header("Notch Settings")]
-    [SerializeField] private float offset; // notch height
+    [SerializeField] private float offset; 
     [SerializeField] private float notch_min_x;
     [SerializeField] private float notch_max_x;
 
@@ -25,6 +25,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private AbstractGameManager game_manager;
+    [SerializeField] private BackgroundGenerator background_generator;
 
     [HideInInspector] public List<Vector2Int> all_positions = new List<Vector2Int>();
     [HideInInspector] public List<GameObject> active_tiles = new List<GameObject>();
@@ -79,6 +80,8 @@ public class GridManager : MonoBehaviour
         float circleDiameter = 0f;
         float offsetX = 0f;
         float offsetY = 0f;
+
+        background_generator.GenerateBackground(row, col);
 
         // Generate all positions
         for (int y = 0; y < row; y++)

@@ -8,11 +8,15 @@ public class FocusManager : AbstractGameManager
     [Header("Game References")]
     [SerializeField] private Transform focus_point;
     [SerializeField] private GameObject target_prefab;
-    [SerializeField] private List<float> radius;
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
-    [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UIManager ui_manager;
+    [SerializeField] private BackgroundGenerator background_generator;
+
+    [Header("Game Settings")]
     [SerializeField] private float targetSize = 1;
+    [SerializeField] private List<float> radius;
+    [SerializeField] private UnityEvent GameEnded;
 
     private FocusSO activeFocusSO;
     private GameObject spawned_target1;
@@ -39,7 +43,9 @@ public class FocusManager : AbstractGameManager
     private void Start()
     {
         GameSetup();
+        background_generator.GenerateConstantBackGround(0.5f);
         StartCoroutine(GameLoop());
+        StartCoroutine(ui_manager.Timer());
         StartCoroutine(Spawntarget());
         StartCoroutine(ChangeRadius());
         StartCoroutine(flickering_manager.Flickering());

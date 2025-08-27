@@ -9,6 +9,8 @@ public class NoisyFocusManager : AbstractGameManager
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private FlickeringManager flickeringmanager;
+    [SerializeField] private UIManager uimanager;
+    [SerializeField] private BackgroundGenerator backgroundgenerator;
 
     [Header("Game Settings")]
     [SerializeField] private float score_tobe_added;
@@ -35,7 +37,9 @@ public class NoisyFocusManager : AbstractGameManager
     void Start()
     {
         ScreenSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        StartCoroutine(uimanager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(flickeringmanager.Flickering());
         StartCoroutine(SpawnTargets());

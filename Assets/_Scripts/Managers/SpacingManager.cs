@@ -7,10 +7,13 @@ using UnityEngine.Events;
 public class SpacingManager : AbstractGameManager
 {
     [Header("Game References")]
-    [SerializeField] private float grid_delay;
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private GridManager grid_manager;
+    [SerializeField] private UIManager ui_manager;
+
+    [Header("Game Settings")]
+    [SerializeField] private float grid_delay;
     [SerializeField] private Color clicked_color;
     [SerializeField] UnityEvent GameEnded;
 
@@ -34,6 +37,7 @@ public class SpacingManager : AbstractGameManager
     private void Start()
     {
         GameSetup();
+        StartCoroutine(ui_manager.Timer());
         StartCoroutine(GameLoop());
         grid_manager.GenerateGrid(row, column);
         StartCoroutine(GenerateGrid());

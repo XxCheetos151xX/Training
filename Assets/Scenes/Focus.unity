@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4291472444
+  m_fontColor: {r: 0.23529412, g: 0.6745098, b: 0.7921569, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1262,11 +1262,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Background Generator
       objectReference: {fileID: 0}
+    - target: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+      propertyPath: dotDensity
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+--- !u!114 &1504950535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+  m_PrefabInstance: {fileID: 1504950534}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13a25dbffc4e0242bda45ff82b49aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660789561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,12 +1358,16 @@ MonoBehaviour:
   initial_timer: 0
   focus_point: {fileID: 746990677}
   target_prefab: {fileID: 6582009028877167524, guid: 760b0a7868bf90940927ebcb0acf1793, type: 3}
+  flickering_manager: {fileID: 1660789567}
+  score_manager: {fileID: 1660789568}
+  ui_manager: {fileID: 1660789566}
+  background_generator: {fileID: 1504950535}
+  targetSize: 1
   radius:
   - 2
   - 3
   - 4
-  flickering_manager: {fileID: 1660789567}
-  score_manager: {fileID: 1660789568}
+  - 5
   GameEnded:
     m_PersistentCalls:
       m_Calls:
@@ -1388,7 +1407,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  targetSize: 1
 --- !u!114 &1660789565
 MonoBehaviour:
   m_ObjectHideFlags: 0

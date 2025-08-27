@@ -260,8 +260,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4291472444
+  m_fontColor: {r: 0.23529412, g: 0.6745098, b: 0.7921569, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -691,6 +691,8 @@ MonoBehaviour:
   right_goal: {fileID: 769620010}
   flickeringmanager: {fileID: 978317487}
   scoremanager: {fileID: 978317486}
+  uimanager: {fileID: 978317488}
+  backgroundgenerator: {fileID: 1496188382}
   score_tobe_added: 1
   target_scale: 0.7
   spawning_area_width: 6
@@ -1056,11 +1058,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Background Generator
       objectReference: {fileID: 0}
+    - target: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+      propertyPath: dotDensity
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+--- !u!114 &1496188382 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+  m_PrefabInstance: {fileID: 1496188381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13a25dbffc4e0242bda45ff82b49aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1665070675
 GameObject:
   m_ObjectHideFlags: 0

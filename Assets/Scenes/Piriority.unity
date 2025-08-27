@@ -241,6 +241,8 @@ MonoBehaviour:
   target_prefab: {fileID: 5792354108777461335, guid: d507408b9de0f874d94fb03fa9cd1fe8, type: 3}
   scoremanager: {fileID: 1028474}
   flickeringmanager: {fileID: 1028478}
+  uimanager: {fileID: 1028475}
+  backgroundgenerator: {fileID: 711717588}
   first_color: {r: 0, g: 1, b: 0, a: 1}
   second_color: {r: 0, g: 0, b: 1, a: 1}
   third_color: {r: 0.7176471, g: 0, b: 1, a: 1}
@@ -492,11 +494,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Background Generator
       objectReference: {fileID: 0}
+    - target: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+      propertyPath: dotDensity
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+--- !u!114 &711717588 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6554153584708350653, guid: 1ae62239ab43ff74db4b286d5fbcc9f6, type: 3}
+  m_PrefabInstance: {fileID: 711717587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13a25dbffc4e0242bda45ff82b49aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &923289291
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,8 +872,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4291472444
+  m_fontColor: {r: 0.23529412, g: 0.6745098, b: 0.7921569, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
