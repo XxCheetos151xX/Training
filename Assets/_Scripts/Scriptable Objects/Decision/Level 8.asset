@@ -18,5 +18,5 @@ MonoBehaviour:
     color_changetimer: 2
     nottodo_prob: 7
     switchcolors: 1
-    isflickering: 1
+    isflickering: 0
     flickerspeed: 0.5

@@ -130,7 +130,7 @@ public class FocusManager : AbstractGameManager
             while (targetQueue.Count < 2)
                 yield return null;
 
-            angle = Random.Range(90, 270) * Mathf.Deg2Rad;
+            angle = Random.Range(-30, 30) * Mathf.Deg2Rad;
 
             ellipse_width = radius[used_radius];
             ellipse_height = radius[used_radius] * 0.6f;
@@ -187,7 +187,6 @@ public class FocusManager : AbstractGameManager
         while (true)
         {
             timer += Time.deltaTime;
-            print(initial_timer);
             for (int i = levelstarttime.Count - 1; i >= 0; i--)
             {
                 if (timer >= levelstarttime[i])

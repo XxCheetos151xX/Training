@@ -55,8 +55,8 @@ public class DecisionManager : AbstractGameManager
 
     private void Start()
     {
-        background_generator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        background_generator.GenerateConstantBackGround(0.5f);
 
     }
 

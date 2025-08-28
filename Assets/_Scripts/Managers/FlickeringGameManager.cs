@@ -42,8 +42,8 @@ public class FlickeringGameManager : AbstractGameManager
     void Start()
     {
         SetupScreen();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
         StartCoroutine(uimanager.Timer());
         StartCoroutine(GameLoop());
         StartCoroutine(flickeringmanager.Flickering());

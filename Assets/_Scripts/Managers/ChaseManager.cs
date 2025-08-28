@@ -21,7 +21,6 @@ public class ChaseManager : AbstractGameManager
     [SerializeField] private UnityEvent GameEnd;
 
     [Header("Game Settings")]
-    [SerializeField] private float min_dist;
     [SerializeField] private float max_dist;
     [SerializeField] private Color normal_color;
     [SerializeField] private Color right_color;
@@ -81,10 +80,10 @@ public class ChaseManager : AbstractGameManager
         float horizontalSize = verticalSize * aspectRatio;
         float halfWidth = horizontalSize / 2f;
         float halfHeight = verticalSize / 2f;
-        minY = Camera.main.transform.position.y - halfHeight;
-        minX = Camera.main.transform.position.x - halfWidth;
-        maxX = Camera.main.transform.position.x + halfWidth;
-        maxY = Camera.main.transform.position.y + halfHeight;
+        minY = Camera.main.transform.position.y - halfHeight + 0.5f;
+        minX = Camera.main.transform.position.x - halfWidth + 0.5f;
+        maxX = Camera.main.transform.position.x + halfWidth - 0.5f;
+        maxY = Camera.main.transform.position.y + halfHeight - 0.5f;
         timer = 0;
         initial_timer = activeChaseSO.timer;
         score_manager.total_score = activeChaseSO.timer;
@@ -118,7 +117,7 @@ public class ChaseManager : AbstractGameManager
             StartCoroutine(ui_manager.Timer());
             StartCoroutine(TargetBehaviour());
             StartCoroutine(GameLoop());
-            flickering_manager.StartFlickering();
+            StartCoroutine(flickering_manager.Flickering());
             StartCoroutine(LineAdjustment());
 
             has_started = true;
@@ -193,7 +192,7 @@ public class ChaseManager : AbstractGameManager
             line.SetPosition (0, player.transform.position);
             line.SetPosition(1, target.transform.position);
 
-            if (distance >= min_dist && distance <= max_dist && is_touching)
+            if (distance <= max_dist && is_touching)
             {
                 line.startColor = right_color;
                 line.endColor = right_color;

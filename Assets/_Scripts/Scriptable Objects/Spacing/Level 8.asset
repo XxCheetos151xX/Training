@@ -18,5 +18,5 @@ MonoBehaviour:
     speed: 2.5
     rows: 22
     columns: 44
-    isflickering: 1
+    isflickering: 0
     flickeringspeed: 0.4

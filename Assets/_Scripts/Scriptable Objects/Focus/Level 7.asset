@@ -15,6 +15,6 @@ MonoBehaviour:
   timer: 90
   focuslevels:
   - starttime: 0
-    lifespan: 0.5
+    lifespan: 1.5
     isflickering: 1
-    flickeringspeed: 0.2
+    flickeringspeed: 0.01

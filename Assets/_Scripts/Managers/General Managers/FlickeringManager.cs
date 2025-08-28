@@ -8,10 +8,7 @@ public class FlickeringManager : MonoBehaviour
     public bool isflickering { get; set; }
     public float flickeringspeed { get; set; }
 
-    public void StartFlickering()
-    {
-        StartCoroutine(Flickering());
-    }
+    
 
 
     public IEnumerator Flickering()

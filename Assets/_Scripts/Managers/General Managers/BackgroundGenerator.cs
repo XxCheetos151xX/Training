@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public class BackgroundGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject background_tile;
@@ -8,10 +9,12 @@ public class BackgroundGenerator : MonoBehaviour
     [SerializeField, Range(1, 5)] private int dotDensity = 1;
     [SerializeField] private bool circularTile = false;
 
+    
+
     private float minX, minY, maxX, maxY;
     private List<GameObject> active_tiles = new List<GameObject>();
 
-    private void Start()
+    private void Awake()
     {
         SetupScreen();
     }
@@ -78,7 +81,6 @@ public class BackgroundGenerator : MonoBehaviour
 
         if (circularTile)
         {
-            // === Circular alignment (like GridManager) ===
             float circleDiameter = Mathf.Min(cellWidth, cellHeight) * 0.98f;
             float horizontalSpacing = (totalWidth - (cols * circleDiameter)) / (cols + 1);
             float verticalSpacing = (totalHeight - (rows * circleDiameter)) / (rows + 1);

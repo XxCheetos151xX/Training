@@ -39,10 +39,10 @@ MonoBehaviour:
     isflickering: 0
     flickeringspeed: 0
   - starttime: 270
-    lifespan: 0.5
+    lifespan: 1.5
     isflickering: 1
-    flickeringspeed: 0.2
+    flickeringspeed: 0.01
   - starttime: 315
-    lifespan: 0.25
+    lifespan: 1.5
     isflickering: 1
-    flickeringspeed: 0.4
+    flickeringspeed: 0.1
