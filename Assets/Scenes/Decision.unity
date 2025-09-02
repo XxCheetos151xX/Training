@@ -442,6 +442,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4379286513686171964, guid: fa2d23e27ac462242a91dc386fb0386e, type: 3}
   m_PrefabInstance: {fileID: 654651228}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &654651230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1578485113794744946, guid: fa2d23e27ac462242a91dc386fb0386e, type: 3}
+  m_PrefabInstance: {fileID: 654651228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &659786497
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,6 +780,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: GameEnd
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 654651230}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

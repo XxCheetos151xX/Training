@@ -30,11 +30,14 @@ EditorBuildSettings:
     path: Assets/Scenes/NoisyFocus.unity
     guid: 1994021520b82ab4f94123ced520b0ad
   - enabled: 1
-    path: Assets/TextMesh Pro/RecognitionSpeed.unity
+    path: Assets/Scenes/RecognitionSpeed.unity
     guid: cc5b6b867749b2e4ca126e4d6b060f7d
   - enabled: 1
-    path: Assets/TextMesh Pro/Flickering.unity
+    path: Assets/Scenes/Flickering.unity
     guid: 5426a4e606efbcf41a745c90893ce37a
+  - enabled: 1
+    path: Assets/Scenes/ComplexFunctions.unity
+    guid: d61f1cb4945425a4f9f9237a54e24f8b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

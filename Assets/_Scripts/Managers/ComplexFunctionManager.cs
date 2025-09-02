@@ -1,0 +1,312 @@
+using UnityEngine;
+using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
+
+public class ComplexFunctionManager : AbstractGameManager
+{
+    [Header("Game Refrences")]
+    [SerializeField] private GameObject left_central_point;
+    [SerializeField] private GameObject right_central_point;
+    [SerializeField] private GameObject target_prefab;
+    [SerializeField] private ScoreManager scoremanager;
+    [SerializeField] private UIManager uimanager;
+    [SerializeField] private BackgroundGenerator backgroundgenerator;
+
+    [Header("Game Settings")]
+    [SerializeField] private float score_tobe_added;
+    [SerializeField] private float flicker_speed;
+    [SerializeField] private UnityEvent GameEnded;
+
+    private ComplexFunctionsSO activeComplexFunctionsSO;
+    private Camera cam;
+    private GameObject left_spawned_target;
+    private GameObject right_spawned_target;
+    private SpriteRenderer left_central_point_renderer;
+    private SpriteRenderer right_central_point_renderer;
+    private float minX, minY, maxX, maxY, midX;
+    private float timer;
+    private float flickering_time;
+    private float min_flickering_cooldown;
+    private float max_flickering_cooldown;
+    private float target_life_span;
+    private float delay_between_targets;
+    private bool is_flickering;
+    private bool is_flickering_together;
+    private bool isright;
+    private Vector2 rightpos, leftpos;
+    private List<float> _starttime = new List<float>();
+    private List<float> _flickeringtime = new List<float>();
+    private List<float> _minflickeringcooldown = new List<float>();
+    private List<float> _maxflickeringcooldown = new List<float>();
+    private List<float> _targetlifespan = new List<float>();
+    private List<float> _delaybetweentargets = new List<float>();
+    private List<bool> _isflickeringtogether = new List<bool>();
+    private List<GameObject> active_targets = new List<GameObject>();
+
+    void Start()
+    {
+        SetupScreen();
+        GameSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        StartCoroutine(uimanager.Timer());
+        StartCoroutine(GameLoop());
+        StartCoroutine(StartFlickering());
+        StartCoroutine(SpawnTargets());
+    }
+
+    void SetupScreen()
+    {
+        cam = Camera.main;
+
+        float aspectRatio = (float)Screen.width / Screen.height;
+        float verticalSize = Camera.main.orthographicSize * 2;
+        float horizontalSize = verticalSize * aspectRatio;
+        float halfWidth = horizontalSize / 2f;
+        float halfHeight = verticalSize / 2f;
+        minY = cam.transform.position.y - halfHeight + 0.5f;
+        minX = cam.transform.position.x - halfWidth + 0.5f;
+        maxX = cam.transform.position.x + halfWidth - 0.5f;
+        maxY = cam.transform.position.y + halfHeight - 0.5f;
+
+        midX = (minX + maxX) / 2;
+    }
+
+
+    void GameSetup()
+    {
+        initial_timer = activeComplexFunctionsSO.timer;
+
+        timer = 0;
+
+        left_central_point_renderer = left_central_point.GetComponent<SpriteRenderer>();
+        right_central_point_renderer = right_central_point.GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < activeComplexFunctionsSO.complexfunctionslevels.Count; i++)
+        {
+            _starttime.Add(activeComplexFunctionsSO.complexfunctionslevels[i].starttime);
+            _flickeringtime.Add(activeComplexFunctionsSO.complexfunctionslevels[i].flickeringtime);
+            _minflickeringcooldown.Add(activeComplexFunctionsSO.complexfunctionslevels[i].minflickeringcooldown);
+            _maxflickeringcooldown.Add(activeComplexFunctionsSO.complexfunctionslevels[i].maxflickeringcooldown);
+            _targetlifespan.Add(activeComplexFunctionsSO.complexfunctionslevels[i].targetlifespan);
+            _delaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].delaybetweentargets);
+            _isflickeringtogether.Add(activeComplexFunctionsSO.complexfunctionslevels[i].isflickeringtogether);
+        }
+    }
+
+    void ClearTargets()
+    {
+        foreach (var t in active_targets)
+        {
+            Destroy(t);
+        }
+    }
+
+    public void GameEnd()
+    {
+        StopAllCoroutines();
+        ClearTargets();
+    }
+
+    void GeneratePositions()
+    {
+
+        float leftRadius = left_central_point_renderer.bounds.extents.magnitude;
+        float rightRadius = right_central_point_renderer.bounds.extents.magnitude;
+
+        leftpos = new Vector2(Random.Range(minX, midX - 0.5f), Random.Range(minY, maxY));
+        Vector2 leftDir = (leftpos - (Vector2)left_central_point.transform.position).normalized;
+        float leftDist = Vector2.Distance(leftpos, left_central_point.transform.position);
+        if (leftDist < leftRadius)
+            leftpos = (Vector2)left_central_point.transform.position + leftDir * leftRadius;
+
+        
+        rightpos = new Vector2(Random.Range(midX + 0.5f, maxX), Random.Range(minY, maxY));
+        Vector2 rightDir = (rightpos - (Vector2)right_central_point.transform.position).normalized;
+        float rightDist = Vector2.Distance(rightpos, right_central_point.transform.position);
+        if (rightDist < rightRadius)
+            rightpos = (Vector2)right_central_point.transform.position + rightDir * rightRadius;
+    }
+
+
+    void SpawnTarget()
+    {
+        GeneratePositions();
+        left_spawned_target = Instantiate(target_prefab, leftpos, Quaternion.identity);
+        left_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+        active_targets.Add(left_spawned_target);
+        StartCoroutine(HandleTarget(left_spawned_target));
+        right_spawned_target = Instantiate(target_prefab, rightpos, Quaternion.identity);
+        right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+        active_targets.Add(right_spawned_target);
+        StartCoroutine(HandleTarget(right_spawned_target));
+    }
+
+
+    public override void TargetClicked(GameObject clickedtarget)
+    {
+        if (clickedtarget == left_spawned_target)
+        {
+            if (!is_flickering_together)
+            {
+                if (is_flickering && !isright)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+            }
+            else
+            {
+                if (is_flickering)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+            }
+        }
+        else if (clickedtarget == right_spawned_target)
+        {
+            if (!is_flickering_together)
+            {
+                if (is_flickering && isright)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+            }
+            else
+            {
+                if (is_flickering)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+            }
+        }
+        print(scoremanager.user_score);
+    }
+
+    SpriteRenderer TargetRenderer()
+    {
+        int streak = 0;
+        isright = Random.value < 0.5f;
+
+        if (streak >= 3)
+        {
+            isright = false;
+            streak = 0;
+        }
+
+        if (isright)
+        {
+            streak++;
+            return right_central_point_renderer;
+        }
+        else
+            return left_central_point_renderer;
+    }
+
+    public void SetActiveComplexFunctionsSO(ComplexFunctionsSO val) => activeComplexFunctionsSO = val;
+
+
+    IEnumerator SpawnTargets()
+    {
+        while (true)
+        {
+            SpawnTarget();
+            yield return new WaitForSeconds(delay_between_targets);
+        }
+    }
+
+    IEnumerator HandleTarget(GameObject target)
+    {
+        if (target != null)
+        {
+            yield return new WaitForSeconds(target_life_span);
+            Destroy(target);
+            scoremanager.misses++;
+        }
+    }
+
+    IEnumerator GameLoop()
+    {
+        while (true)
+        {
+            timer += Time.deltaTime;
+
+            for (int i = 0; i < _starttime.Count; i++)
+            {
+                if (timer >= _starttime[i])
+                {
+                    flickering_time = _flickeringtime[i];
+                    min_flickering_cooldown = _minflickeringcooldown[i];
+                    max_flickering_cooldown = _maxflickeringcooldown[i];
+                    target_life_span = _targetlifespan[i];
+                    delay_between_targets = _delaybetweentargets[i];
+                    is_flickering_together = _isflickeringtogether[i];
+                }
+            }
+
+            if (initial_timer <= 0)
+            {
+                GameEnded.Invoke();
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator StartFlickering()
+    {
+        while (true)
+        {
+            
+            Coroutine flickerRoutine = StartCoroutine(Flicker());
+            
+            is_flickering = true;
+
+            yield return new WaitForSeconds(flickering_time);
+
+            
+            StopCoroutine(flickerRoutine);
+
+            is_flickering = false;
+
+            left_central_point_renderer.enabled = true;
+            right_central_point_renderer.enabled = true;
+
+            
+            yield return new WaitForSeconds(Random.Range(min_flickering_cooldown, max_flickering_cooldown));
+        }
+    }
+
+
+    IEnumerator Flicker()
+    {
+        var targetrenderer = TargetRenderer();
+        
+        while (true)
+        {
+            if (!is_flickering_together)
+            {
+
+                targetrenderer.enabled = false;
+
+                yield return new WaitForSeconds(flicker_speed);
+
+                targetrenderer.enabled = true;
+
+                yield return new WaitForSeconds(flicker_speed);
+            }
+            else if (is_flickering_together)
+            {
+                left_central_point_renderer.enabled = false;
+                right_central_point_renderer.enabled = false;
+
+                yield return new WaitForSeconds(flicker_speed);
+
+                left_central_point_renderer.enabled = true;
+                right_central_point_renderer.enabled = true;
+
+                yield return new WaitForSeconds(flicker_speed);
+            }
+        }
+    }
+
+}

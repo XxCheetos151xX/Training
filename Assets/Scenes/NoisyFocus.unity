@@ -296,6 +296,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1319980619}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   spawned_target_speed: 0
 --- !u!1 &813316468
 GameObject:
@@ -1251,6 +1263,11 @@ PrefabInstance:
 --- !u!224 &1319980618 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4379286513686171964, guid: fa2d23e27ac462242a91dc386fb0386e, type: 3}
+  m_PrefabInstance: {fileID: 1319980617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1319980619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1578485113794744946, guid: fa2d23e27ac462242a91dc386fb0386e, type: 3}
   m_PrefabInstance: {fileID: 1319980617}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1848580531076945611
