@@ -18,12 +18,12 @@ public class ChaseManager : AbstractGameManager
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private UIManager ui_manager;
     [SerializeField] private BackgroundGenerator background_generator;
-    [SerializeField] private UnityEvent GameEnd;
 
     [Header("Game Settings")]
     [SerializeField] private float max_dist;
     [SerializeField] private Color normal_color;
     [SerializeField] private Color right_color;
+    [SerializeField] private UnityEvent GameEnd;
 
     private float target_speed;
     private float target_angle;
@@ -170,15 +170,28 @@ public class ChaseManager : AbstractGameManager
                 PickDirection();
             }
 
-            if (target.transform.position.x < minX || target.transform.position.x > maxX)
+            if (target.transform.position.x < minX)
             {
                 target_direction.x *= -1;
+                target.transform.position = new Vector3(minX, target.transform.position.y, target.transform.position.z);
+            }
+            else if (target.transform.position.x > maxX)
+            {
+                target_direction.x *= -1;
+                target.transform.position = new Vector3(maxX, target.transform.position.y, target.transform.position.z);
             }
 
-            if (target.transform.position.y < minY || target.transform.position.y > maxY)
+            if (target.transform.position.y < minY)
             {
                 target_direction.y *= -1;
+                target.transform.position = new Vector3(target.transform.position.x, minY, target.transform.position.z);
             }
+            else if (target.transform.position.y > maxY)
+            {
+                target_direction.y *= -1;
+                target.transform.position = new Vector3(target.transform.position.x, maxY, target.transform.position.z);
+            }
+
 
             yield return null;
         }

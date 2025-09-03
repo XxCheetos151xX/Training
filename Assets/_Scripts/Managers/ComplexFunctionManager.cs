@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 public class ComplexFunctionManager : AbstractGameManager
 {
@@ -30,7 +31,8 @@ public class ComplexFunctionManager : AbstractGameManager
     private float min_flickering_cooldown;
     private float max_flickering_cooldown;
     private float target_life_span;
-    private float delay_between_targets;
+    private float min_delay_between_targets;
+    private float max_delay_between_targets;
     private bool is_flickering;
     private bool is_flickering_together;
     private bool isright;
@@ -40,7 +42,8 @@ public class ComplexFunctionManager : AbstractGameManager
     private List<float> _minflickeringcooldown = new List<float>();
     private List<float> _maxflickeringcooldown = new List<float>();
     private List<float> _targetlifespan = new List<float>();
-    private List<float> _delaybetweentargets = new List<float>();
+    private List<float> _mindelaybetweentargets = new List<float>();
+    private List<float> _maxdelaybetweentargets = new List<float>();
     private List<bool> _isflickeringtogether = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
 
@@ -70,6 +73,7 @@ public class ComplexFunctionManager : AbstractGameManager
         maxY = cam.transform.position.y + halfHeight - 0.5f;
 
         midX = (minX + maxX) / 2;
+
     }
 
 
@@ -82,6 +86,10 @@ public class ComplexFunctionManager : AbstractGameManager
         left_central_point_renderer = left_central_point.GetComponent<SpriteRenderer>();
         right_central_point_renderer = right_central_point.GetComponent<SpriteRenderer>();
 
+        left_central_point.transform.position = new Vector3(((minX - midX) / 2), 0, 0);
+        right_central_point.transform.position = new Vector3(((maxX - midX) / 2), 0, 0);
+
+
         for (int i = 0; i < activeComplexFunctionsSO.complexfunctionslevels.Count; i++)
         {
             _starttime.Add(activeComplexFunctionsSO.complexfunctionslevels[i].starttime);
@@ -89,7 +97,8 @@ public class ComplexFunctionManager : AbstractGameManager
             _minflickeringcooldown.Add(activeComplexFunctionsSO.complexfunctionslevels[i].minflickeringcooldown);
             _maxflickeringcooldown.Add(activeComplexFunctionsSO.complexfunctionslevels[i].maxflickeringcooldown);
             _targetlifespan.Add(activeComplexFunctionsSO.complexfunctionslevels[i].targetlifespan);
-            _delaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].delaybetweentargets);
+            _mindelaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].mindelaybetweentargets);
+            _maxdelaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].maxdelaybetweentargets);
             _isflickeringtogether.Add(activeComplexFunctionsSO.complexfunctionslevels[i].isflickeringtogether);
         }
     }
@@ -140,67 +149,34 @@ public class ComplexFunctionManager : AbstractGameManager
         right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         active_targets.Add(right_spawned_target);
         StartCoroutine(HandleTarget(right_spawned_target));
+        scoremanager.total_score += score_tobe_added * 2;
     }
 
 
     public override void TargetClicked(GameObject clickedtarget)
     {
-        if (clickedtarget == left_spawned_target)
+        if (!is_flickering)
+            return; // clicks only count during flickering
+
+        if (!is_flickering_together)
         {
-            if (!is_flickering_together)
+            if (clickedtarget == left_spawned_target && !isright)
             {
-                if (is_flickering && !isright)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
+                scoremanager.user_score += score_tobe_added;
             }
-            else
+            else if (clickedtarget == right_spawned_target && isright)
             {
-                if (is_flickering)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
+                scoremanager.user_score += score_tobe_added;
             }
         }
-        else if (clickedtarget == right_spawned_target)
+        else 
         {
-            if (!is_flickering_together)
-            {
-                if (is_flickering && isright)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
-            }
-            else
-            {
-                if (is_flickering)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
-            }
+            scoremanager.user_score += score_tobe_added;
         }
         print(scoremanager.user_score);
     }
 
-    SpriteRenderer TargetRenderer()
-    {
-        int streak = 0;
-        isright = Random.value < 0.5f;
 
-        if (streak >= 3)
-        {
-            isright = false;
-            streak = 0;
-        }
-
-        if (isright)
-        {
-            streak++;
-            return right_central_point_renderer;
-        }
-        else
-            return left_central_point_renderer;
-    }
 
     public void SetActiveComplexFunctionsSO(ComplexFunctionsSO val) => activeComplexFunctionsSO = val;
 
@@ -210,7 +186,7 @@ public class ComplexFunctionManager : AbstractGameManager
         while (true)
         {
             SpawnTarget();
-            yield return new WaitForSeconds(delay_between_targets);
+            yield return new WaitForSeconds(Random.Range(min_delay_between_targets, max_delay_between_targets));
         }
     }
 
@@ -238,7 +214,8 @@ public class ComplexFunctionManager : AbstractGameManager
                     min_flickering_cooldown = _minflickeringcooldown[i];
                     max_flickering_cooldown = _maxflickeringcooldown[i];
                     target_life_span = _targetlifespan[i];
-                    delay_between_targets = _delaybetweentargets[i];
+                    min_delay_between_targets = _mindelaybetweentargets[i];
+                    max_delay_between_targets = _maxdelaybetweentargets[i];
                     is_flickering_together = _isflickeringtogether[i];
                 }
             }
@@ -252,61 +229,63 @@ public class ComplexFunctionManager : AbstractGameManager
         }
     }
 
+    
+
     IEnumerator StartFlickering()
     {
         while (true)
         {
             
-            Coroutine flickerRoutine = StartCoroutine(Flicker());
-            
+            if (!is_flickering_together)
+            {
+                isright = Random.value < 0.5f;
+            }
+
             is_flickering = true;
+
+            Coroutine flickerRoutine = StartCoroutine(Flicker());
 
             yield return new WaitForSeconds(flickering_time);
 
-            
             StopCoroutine(flickerRoutine);
 
             is_flickering = false;
 
+           
             left_central_point_renderer.enabled = true;
             right_central_point_renderer.enabled = true;
 
-            
             yield return new WaitForSeconds(Random.Range(min_flickering_cooldown, max_flickering_cooldown));
         }
     }
 
-
     IEnumerator Flicker()
     {
-        var targetrenderer = TargetRenderer();
-        
         while (true)
         {
             if (!is_flickering_together)
             {
-
-                targetrenderer.enabled = false;
-
-                yield return new WaitForSeconds(flicker_speed);
-
-                targetrenderer.enabled = true;
-
-                yield return new WaitForSeconds(flicker_speed);
+             
+                if (isright)
+                {
+                    right_central_point_renderer.enabled = !right_central_point_renderer.enabled;
+                }
+                else
+                {
+                    left_central_point_renderer.enabled = !left_central_point_renderer.enabled;
+                }
             }
-            else if (is_flickering_together)
+            else
             {
-                left_central_point_renderer.enabled = false;
-                right_central_point_renderer.enabled = false;
-
-                yield return new WaitForSeconds(flicker_speed);
-
-                left_central_point_renderer.enabled = true;
-                right_central_point_renderer.enabled = true;
-
-                yield return new WaitForSeconds(flicker_speed);
+              
+                bool state = !left_central_point_renderer.enabled;
+                left_central_point_renderer.enabled = state;
+                right_central_point_renderer.enabled = state;
             }
+
+            yield return new WaitForSeconds(flicker_speed);
         }
     }
+
 
 }

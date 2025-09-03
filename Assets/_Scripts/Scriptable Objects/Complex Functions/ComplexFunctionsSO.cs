@@ -16,6 +16,7 @@ public class ComplexFunctionVariables
     public float minflickeringcooldown;
     public float maxflickeringcooldown;
     public float targetlifespan;
-    public float delaybetweentargets;
+    public float mindelaybetweentargets;
+    public float maxdelaybetweentargets;
     public bool isflickeringtogether;
 }

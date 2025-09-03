@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d620a6669b37fe4b80ca2126e0334f3, type: 3}
   m_Name: Level 5
   m_EditorClassIdentifier: 
-  timer: 0
-  complexfunctionslevels: []
+  timer: 90
+  complexfunctionslevels:
+  - starttime: 0
+    flickeringtime: 2.5
+    minflickeringcooldown: 1.8
+    maxflickeringcooldown: 2.8
+    targetlifespan: 3.2
+    mindelaybetweentargets: 1.2
+    maxdelaybetweentargets: 2.2
+    isflickeringtogether: 0

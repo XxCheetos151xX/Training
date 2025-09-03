@@ -12,5 +12,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d620a6669b37fe4b80ca2126e0334f3, type: 3}
   m_Name: AdvancedEvalSO
   m_EditorClassIdentifier: 
-  timer: 0
-  complexfunctionslevels: []
+  timer: 360
+  complexfunctionslevels:
+  - starttime: 0
+    flickeringtime: 5
+    minflickeringcooldown: 3
+    maxflickeringcooldown: 4
+    targetlifespan: 5
+    mindelaybetweentargets: 2.5
+    maxdelaybetweentargets: 3.5
+    isflickeringtogether: 1
+  - starttime: 45
+    flickeringtime: 4
+    minflickeringcooldown: 2.5
+    maxflickeringcooldown: 3.5
+    targetlifespan: 4.5
+    mindelaybetweentargets: 2
+    maxdelaybetweentargets: 3
+    isflickeringtogether: 1
+  - starttime: 90
+    flickeringtime: 3.5
+    minflickeringcooldown: 2.2
+    maxflickeringcooldown: 3.2
+    targetlifespan: 4
+    mindelaybetweentargets: 1.8
+    maxdelaybetweentargets: 2.8
+    isflickeringtogether: 0
+  - starttime: 135
+    flickeringtime: 3
+    minflickeringcooldown: 2
+    maxflickeringcooldown: 3
+    targetlifespan: 3.5
+    mindelaybetweentargets: 1.5
+    maxdelaybetweentargets: 2.5
+    isflickeringtogether: 0
+  - starttime: 180
+    flickeringtime: 2.5
+    minflickeringcooldown: 1.8
+    maxflickeringcooldown: 2.8
+    targetlifespan: 3.2
+    mindelaybetweentargets: 1.2
+    maxdelaybetweentargets: 2.2
+    isflickeringtogether: 0
+  - starttime: 225
+    flickeringtime: 2.2
+    minflickeringcooldown: 1.5
+    maxflickeringcooldown: 2.5
+    targetlifespan: 3
+    mindelaybetweentargets: 1
+    maxdelaybetweentargets: 2
+    isflickeringtogether: 0
+  - starttime: 270
+    flickeringtime: 2
+    minflickeringcooldown: 1.3
+    maxflickeringcooldown: 2.2
+    targetlifespan: 2.7
+    mindelaybetweentargets: 0.9
+    maxdelaybetweentargets: 1.8
+    isflickeringtogether: 0
+  - starttime: 315
+    flickeringtime: 1.8
+    minflickeringcooldown: 1.2
+    maxflickeringcooldown: 2
+    targetlifespan: 2.5
+    mindelaybetweentargets: 0.8
+    maxdelaybetweentargets: 1.6
+    isflickeringtogether: 0

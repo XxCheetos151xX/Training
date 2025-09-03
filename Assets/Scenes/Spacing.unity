@@ -632,7 +632,7 @@ MonoBehaviour:
   grid_manager: {fileID: 1257854679}
   ui_manager: {fileID: 1257854676}
   grid_delay: 0.5
-  clicked_color: {r: 0, g: 1, b: 0, a: 0.78431374}
+  clicked_color: {r: 0, g: 1, b: 0, a: 1}
   GameEnded:
     m_PersistentCalls:
       m_Calls:
