@@ -142,6 +142,8 @@ public class SpacingManager : AbstractGameManager
         while (true)
         {
             timer += Time.deltaTime;
+
+            initial_timer -= Time.deltaTime;
            
             for (int i = 0; i < starttime.Count; i++)
             {

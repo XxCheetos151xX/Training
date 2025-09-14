@@ -206,6 +206,8 @@ public class ComplexFunctionManager : AbstractGameManager
         {
             timer += Time.deltaTime;
 
+            initial_timer -= Time.deltaTime;    
+
             for (int i = 0; i < _starttime.Count; i++)
             {
                 if (timer >= _starttime[i])

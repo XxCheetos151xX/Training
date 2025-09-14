@@ -284,6 +284,8 @@ public class DecisionManager : AbstractGameManager
         {
             timer += Time.deltaTime;
 
+            initial_timer -= Time.deltaTime;
+
             for (int i = 0; i < start_time.Count; i++)
             {
                 if (timer >= start_time[i])

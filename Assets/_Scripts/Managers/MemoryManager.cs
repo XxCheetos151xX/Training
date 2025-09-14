@@ -170,6 +170,8 @@ public class MemoryManager : AbstractGameManager
         {
             timer += Time.deltaTime;
 
+            initial_timer -= Time.deltaTime;
+
             for (int i = 0; i < _flickerstarttime.Count; i++)
             {
                 if (timer >= _flickerstarttime[i])

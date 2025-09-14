@@ -49,7 +49,6 @@ public class UIManager : MonoBehaviour
         {
             if (!isvideo)
             {
-                manager.initial_timer -= Time.deltaTime;
                 int minutes = Mathf.FloorToInt(manager.initial_timer / 60f);
                 int seconds = Mathf.FloorToInt(manager.initial_timer % 60f);
                 timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);

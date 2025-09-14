@@ -20,10 +20,10 @@ public class EyeTrainingManager : MonoBehaviour
         {
             if (uimanager.video_player != null && uimanager.video_player.isPrepared)
             {
-                if (uimanager.remaining <= 0.1) // small buffer
+                if (uimanager.remaining <= 0.1) 
                 {
                     VideoEnded.Invoke();
-                    yield break; // stop checking after firing
+                    yield break; 
                 }
             }
             yield return null;

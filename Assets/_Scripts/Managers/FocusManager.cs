@@ -187,6 +187,9 @@ public class FocusManager : AbstractGameManager
         while (true)
         {
             timer += Time.deltaTime;
+
+            initial_timer -= Time.deltaTime;
+
             for (int i = levelstarttime.Count - 1; i >= 0; i--)
             {
                 if (timer >= levelstarttime[i])
