@@ -16,6 +16,7 @@ public class BackgroundGenerator : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = -1;
         SetupScreen();
     }
 

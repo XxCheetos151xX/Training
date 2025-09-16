@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6985738227528862833
+--- !u!1 &2755109118276351247
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2554889472165330914}
-  - component: {fileID: 3950696972870773080}
+  - component: {fileID: 25509210035127152}
+  - component: {fileID: 880165881628476400}
   m_Layer: 0
-  m_Name: Shape 2
+  m_Name: Shape 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2554889472165330914
+--- !u!4 &25509210035127152
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6985738227528862833}
+  m_GameObject: {fileID: 2755109118276351247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.45852858, y: -1.7487725, z: -0.0047326777}
+  m_LocalPosition: {x: 6.9156528, y: -0.13282686, z: 0.023456484}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &3950696972870773080
+--- !u!120 &880165881628476400
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6985738227528862833}
+  m_GameObject: {fileID: 2755109118276351247}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -78,16 +78,11 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 4, y: -4, z: 0}
-  - {x: -4, y: -4, z: 0}
-  - {x: 4, y: -2, z: 0}
-  - {x: -4, y: -2, z: 0}
+  - {x: 0, y: 4, z: 0}
+  - {x: -4, y: 0, z: 10}
+  - {x: 0, y: -4, z: 0}
   - {x: 4, y: 0, z: 0}
-  - {x: -4, y: 0, z: 0}
-  - {x: 4, y: 2, z: 0}
-  - {x: -4, y: 2, z: 0}
-  - {x: 4, y: 4, z: 0}
-  - {x: -4, y: 4, z: 0}
+  - {x: 0, y: 4, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -96,7 +91,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.17609987
+        value: 0.15722919
         inSlope: 0
         outSlope: 0
         tangentMode: 0

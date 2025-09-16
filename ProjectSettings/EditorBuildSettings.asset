@@ -41,6 +41,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EyeTraining.unity
     guid: 408be052c874fb94fb83bf31c2775fdc
+  - enabled: 1
+    path: Assets/Scenes/FollowShape.unity
+    guid: 223fd8b9606fdcf47bc710ffa0e38b38
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

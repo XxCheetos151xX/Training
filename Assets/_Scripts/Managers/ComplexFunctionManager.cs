@@ -156,7 +156,9 @@ public class ComplexFunctionManager : AbstractGameManager
     public override void TargetClicked(GameObject clickedtarget)
     {
         if (!is_flickering)
-            return; // clicks only count during flickering
+        {
+            scoremanager.user_score -= score_tobe_added * 2;
+        }
 
         if (!is_flickering_together)
         {

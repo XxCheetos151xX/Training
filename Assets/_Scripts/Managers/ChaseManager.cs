@@ -44,8 +44,6 @@ public class ChaseManager : AbstractGameManager
     
     private void Awake()
     {
-        Application.targetFrameRate = -1;
-
         TouchActionRef.action.performed += OnTouchPerformed;
         ClickActionRef.action.performed += OnClickPerformed;
         ClickActionRef.action.canceled += OnClickCanceled;

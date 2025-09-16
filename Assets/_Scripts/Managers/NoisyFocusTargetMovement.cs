@@ -28,15 +28,18 @@ public class NoisyFocusTargetMovement : MonoBehaviour
         }
     }
 
+  
+
+
     void MoveRight()
     {
-        target_rb.linearVelocity = new Vector2(-speed, 0); 
+        target_rb.linearVelocity = new Vector2(-speed, 0) ; 
     }
 
     void MoveLeft()
     {
-        target_rb.linearVelocity = new Vector2(speed, 0); 
-    }
+        target_rb.linearVelocity = new Vector2(speed, 0) ; 
+    } 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

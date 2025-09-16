@@ -75,6 +75,7 @@ public enum GameType
     Flickering,
     ComplexFunctions,
     EyeTraining,
+    FollowShape,
 }
 [Serializable]
 public enum GameMode

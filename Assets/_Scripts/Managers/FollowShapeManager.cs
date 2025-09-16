@@ -3,12 +3,12 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using Unity.Collections.LowLevel.Unsafe;
 
 public class FollowShapeManager : AbstractGameManager
 {
-    [Header("Game Refrences")]
+    [Header("Game References")]
     [SerializeField] private GameObject player;
+    [SerializeField] private Material line_mat;
     [SerializeField] private BackgroundGenerator backgroundGenerator;
     [SerializeField] private UIManager uimanager;
     [SerializeField] private List<LineRenderer> shapes;
@@ -25,9 +25,12 @@ public class FollowShapeManager : AbstractGameManager
     private Camera mainCam;
     private LineRenderer active_shape;
     private int streak = 0;
+    private int currentSegment = 0;
     private int current_shape_index = 0;
     private bool is_touching = false;
     private bool is_invisible = false;
+    private bool goingforward = true; 
+  
 
     private void Awake()
     {
@@ -45,8 +48,13 @@ public class FollowShapeManager : AbstractGameManager
     {
         mainCam = Camera.main;
 
+        line_mat.color = visible_color;
+
         ScreenSetup();
         backgroundGenerator.GenerateConstantBackGround(0.5f);
+        StartCoroutine(uimanager.Timer());
+        StartCoroutine(HandleTouch());
+        GenerateShape();
     }
 
     void ScreenSetup()
@@ -60,85 +68,192 @@ public class FollowShapeManager : AbstractGameManager
 
     void OnTouchperformed(InputAction.CallbackContext ctx)
     {
-        if (is_touching && active_shape != null)
+        if (is_touching && active_shape != null && player != null)
         {
-            Vector2 screenPos = ctx.ReadValue<Vector2>();
-            Vector3 touchPos = new Vector3(screenPos.x, screenPos.y, 10);
-            Vector3 worldPos = mainCam.ScreenToWorldPoint(touchPos);
-
-            Vector3 nearest = GetNearestPointOnLine(worldPos);
-            player.transform.position = nearest;
-
-            // check if reached end
-            if (Vector3.Distance(nearest, active_shape.GetPosition(active_shape.positionCount - 1)) < 0.2f)
+            if (goingforward)
             {
-                streak++;
-                HandleStreak(streak);
+                // forward direction
+                if (currentSegment < active_shape.positionCount - 1)
+                {
+                    Vector3 a = active_shape.GetPosition(currentSegment);
+                    Vector3 b = active_shape.GetPosition(currentSegment + 1);
+
+                    Vector2 touchPos = mainCam.ScreenToWorldPoint(Touchscreen.current.primaryTouch.position.ReadValue());
+                    Vector3 projected = ProjectPointOnSegment(a, b, touchPos);
+
+                    player.transform.position = projected;
+
+                    if (Vector3.Distance(player.transform.position, b) < 0.05f)
+                    {
+                        currentSegment++;
+                    }
+                }
+
+                
+                if (currentSegment >= active_shape.positionCount - 1 &&
+                    Vector3.Distance(player.transform.position, active_shape.GetPosition(active_shape.positionCount - 1)) < 0.05f)
+                {
+                    goingforward = false;
+                    currentSegment = active_shape.positionCount - 1;
+                }
+            }
+            else
+            {
+                // backward direction
+                if (currentSegment > 0)
+                {
+                    Vector3 a = active_shape.GetPosition(currentSegment);
+                    Vector3 b = active_shape.GetPosition(currentSegment - 1);
+
+                    Vector2 touchPos = mainCam.ScreenToWorldPoint(Touchscreen.current.primaryTouch.position.ReadValue());
+                    Vector3 projected = ProjectPointOnSegment(a, b, touchPos);
+
+                    player.transform.position = projected;
+
+                    if (Vector3.Distance(player.transform.position, b) < 0.05f)
+                    {
+                        currentSegment--;
+                    }
+                }
+
+                
+                if (currentSegment <= 0 &&
+                    Vector3.Distance(player.transform.position, active_shape.GetPosition(0)) < 0.05f)
+                {
+                    streak++;
+                    StopCoroutine(GameLoop());
+                    Debug.Log("Streak: " + streak);
+                    HandleStreak(streak);
+                    StartCoroutine(GameLoop());
+                    goingforward = true;
+                    currentSegment = 0;
+                }
             }
         }
     }
 
-    private Vector3 GetNearestPointOnLine(Vector3 target)
+    private Vector3 ProjectPointOnSegment(Vector3 a, Vector3 b, Vector2 p)
     {
-        Vector3 nearestPoint = Vector3.zero;
-        float minDistance = Mathf.Infinity;
-
-        for (int i = 0; i < active_shape.positionCount - 1; i++)
-        {
-            Vector3 a = active_shape.GetPosition(i);
-            Vector3 b = active_shape.GetPosition(i + 1);
-
-            Vector3 projected = ProjectPointOnSegment(a, b, target);
-            float dist = (target - projected).sqrMagnitude;
-
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                nearestPoint = projected;
-            }
-        }
-        return nearestPoint;
+        Vector2 ap = p - (Vector2)a;
+        Vector2 ab = (b - a);
+        float ab2 = Vector2.Dot(ab, ab);
+        float t = Mathf.Clamp01(Vector2.Dot(ap, ab) / ab2);
+        return a + t * (Vector3)ab;
     }
 
-    private Vector3 ProjectPointOnSegment(Vector3 a, Vector3 b, Vector3 point)
+    public void TouchedTheBall()
     {
-        Vector3 ab = b - a;
-        float t = Vector3.Dot(point - a, ab) / ab.sqrMagnitude;
-        t = Mathf.Clamp01(t);
-        return a + t * ab;
+        is_touching = true;
     }
 
-    public void TouchPerformed() => is_touching = true;
-    public void TouchCanceled() => is_touching = false;
+   
 
     public void GameEnd()
     {
+        Destroy(player);
+        DestroyShape();
         StopAllCoroutines();
     }
 
-    void HandleStreak(int streak)
+    void HandleStreak(int streakCount)
     {
-        if (streak >= 3)
+        if (streakCount >= 5)
         {
-            is_invisible = true;
-            active_shape.startColor = invisible_color;
-            active_shape.endColor = invisible_color;
-        }
-        else if (streak >= 5)
-        {
+            is_invisible = false;
             current_shape_index++;
+            if (current_shape_index >= shapes.Count)
+            {
+                GameEnded.Invoke();
+            }
+            line_mat.color = visible_color;
+            this.streak = 0;
+            StartCoroutine(ShapeHandler());
+        }
+        else if (streakCount >= 3)
+        {
+            line_mat.color = invisible_color;
+            is_invisible = true;
         }
     }
 
     void GenerateShape()
     {
-        active_shape = Instantiate(shapes[current_shape_index], new Vector2(0, 0), Quaternion.identity);
+        active_shape = Instantiate(shapes[current_shape_index], Vector2.zero, Quaternion.identity);
+        if (player != null)
+        {
+            player.transform.position = active_shape.GetPosition(0);
+        }
+        currentSegment = 0;
+        goingforward = true;
+        StartCoroutine(GameLoop());
     }
 
     void DestroyShape()
     {
-        Destroy(active_shape);
+        Destroy(active_shape.gameObject);
+        StopCoroutine(GameLoop());
+    }
+
+    IEnumerator HandleTouch()
+    {
+        CircleCollider2D col = player.GetComponent<CircleCollider2D>();
+
+        while (true)
+        {
+            if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+            {
+                Vector2 screenPos = Touchscreen.current.primaryTouch.position.ReadValue();
+                Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -mainCam.transform.position.z));
+
+                if (col != null && col.OverlapPoint(worldPos))
+                {
+                    is_touching = true;
+                }
+                else
+                {
+                    is_touching = false;
+                }
+            }
+            else
+            {
+                is_touching = false;
+            }
+
+            yield return null;
+        }
     }
 
 
+
+    IEnumerator ShapeHandler()
+    {
+        if (active_shape != null)
+        {
+            DestroyShape();
+            yield return new WaitForSeconds(delay_between_shapes);
+            GenerateShape();
+        }
+    }
+
+    IEnumerator GameLoop()
+    {
+        if (!is_invisible)
+            initial_timer = visible_shape_timer;
+        else
+            initial_timer = invisible_shape_timer;
+
+        while (initial_timer > 0)
+        {
+            initial_timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (initial_timer <= 0)
+        {
+            if (active_shape != null)
+            {
+                GameEnded.Invoke();
+            }
+        }
+    }
 }

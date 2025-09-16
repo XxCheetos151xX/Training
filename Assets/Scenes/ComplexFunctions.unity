@@ -1009,6 +1009,9 @@ MonoBehaviour:
   ending_panel: {fileID: 88162508}
   score_manager: {fileID: 1975874667}
   manager: {fileID: 1975874670}
+  isvideo: 0
+  video_player: {fileID: 0}
+  remaining: 0
 --- !u!114 &1975874669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,7 +1055,7 @@ MonoBehaviour:
   scoremanager: {fileID: 1975874667}
   uimanager: {fileID: 1975874668}
   backgroundgenerator: {fileID: 6554153584332615192}
-  score_tobe_added: 1
+  score_tobe_added: 2
   flicker_speed: 0.1
   GameEnded:
     m_PersistentCalls:
