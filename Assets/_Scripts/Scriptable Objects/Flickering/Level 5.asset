@@ -18,5 +18,5 @@ MonoBehaviour:
     minspeed: 4
     maxspeed: 6
     delay: 0.6
-    isflickeing: 1
+    isflickeing: 0
     flickeringspeed: 0.3

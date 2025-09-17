@@ -7,6 +7,7 @@ public class NoisyFocusManager : AbstractGameManager
 {
     [Header("Game Refrences")]
     [SerializeField] private GameObject target_prefab;
+    [SerializeField] private CircleCollider2D inverted_collider;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private FlickeringManager flickeringmanager;
     [SerializeField] private UIManager uimanager;
@@ -14,6 +15,7 @@ public class NoisyFocusManager : AbstractGameManager
 
     [Header("Game Settings")]
     [SerializeField] private float score_tobe_added;
+    [SerializeField] private float inverted_collider_pos;
     [SerializeField] private UnityEvent GameEnded;
 
     [HideInInspector] public float spawned_target_speed;
@@ -45,10 +47,7 @@ public class NoisyFocusManager : AbstractGameManager
         StartCoroutine(SpawnTargets());
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
+    
     void ScreenSetup()
     {
         cam = Camera.main;
@@ -76,11 +75,13 @@ public class NoisyFocusManager : AbstractGameManager
         if (isleft)
         {
             posx = minX + 0.5f;
+            inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
         }
 
         else
         {
             posx = maxX - 0.5f;
+            inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
         }
 
         spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);

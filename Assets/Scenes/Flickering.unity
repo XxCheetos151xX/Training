@@ -807,6 +807,7 @@ MonoBehaviour:
   target_prefab: {fileID: 6538502235230328182, guid: b4dcb79aba489e94f90860b38a8e6e2b, type: 3}
   left_goal: {fileID: 1665070676}
   right_goal: {fileID: 769620010}
+  inverted_collider: {fileID: 3641151899957678479, guid: b4dcb79aba489e94f90860b38a8e6e2b, type: 3}
   flickeringmanager: {fileID: 978317487}
   scoremanager: {fileID: 978317486}
   uimanager: {fileID: 978317488}
@@ -814,6 +815,7 @@ MonoBehaviour:
   score_tobe_added: 1
   target_scale: 0.7
   spawning_area_width: 6
+  inverted_collider_pos: 1.02
   GameEnded:
     m_PersistentCalls:
       m_Calls:

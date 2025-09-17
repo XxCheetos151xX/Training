@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4189976433256603676
+--- !u!1 &3122727089727652925
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1267111564890528737}
-  - component: {fileID: 2949173994258252638}
+  - component: {fileID: 3062979753106429447}
+  - component: {fileID: 8137695757560725537}
   m_Layer: 0
   m_Name: Shape 3
   m_TagString: Untagged
@@ -17,29 +17,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1267111564890528737
+--- !u!4 &3062979753106429447
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4189976433256603676}
+  m_GameObject: {fileID: 3122727089727652925}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6238515, y: -0.21725929, z: 0.05987377}
+  m_LocalPosition: {x: 1.2819216, y: 0.52454615, z: -0.039732642}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &2949173994258252638
+--- !u!120 &8137695757560725537
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4189976433256603676}
+  m_GameObject: {fileID: 3122727089727652925}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -78,10 +78,24 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
+  - {x: -9, y: -4, z: 0}
+  - {x: -9, y: 4, z: 0}
+  - {x: -7, y: 4, z: 0}
+  - {x: -7, y: -4, z: 0}
   - {x: -5, y: -4, z: 0}
-  - {x: 0, y: 4, z: 0}
+  - {x: -5, y: 4, z: 0}
+  - {x: -3, y: 4, z: 0}
+  - {x: -3, y: -4, z: 0}
+  - {x: -1, y: -4, z: 0}
+  - {x: -1, y: 4, z: 0}
+  - {x: 1, y: 4, z: 0}
+  - {x: 1, y: -4, z: 0}
+  - {x: 3, y: -4, z: 0}
+  - {x: 3, y: 4, z: 0}
+  - {x: 5, y: 4, z: 0}
   - {x: 5, y: -4, z: 0}
-  - {x: -5, y: -4, z: 0}
+  - {x: 7, y: -4, z: 0}
+  - {x: 7, y: 4, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -90,7 +104,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.15094376
+        value: 0.15094566
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -138,6 +152,6 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0
   m_ApplyActiveColorSpace: 1

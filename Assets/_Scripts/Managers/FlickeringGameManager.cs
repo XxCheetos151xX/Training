@@ -10,6 +10,7 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private Transform left_goal;
     [SerializeField] private Transform right_goal;
+    [SerializeField] private CircleCollider2D inverted_collider;
     [SerializeField] private FlickeringManager flickeringmanager;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private UIManager uimanager;
@@ -19,6 +20,7 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private float target_scale;
     [SerializeField] private float spawning_area_width;
+    [SerializeField] private float inverted_collider_pos;
     [SerializeField] private UnityEvent GameEnded;
 
     private FlickeringSO activeFlickeringSO;
@@ -95,6 +97,16 @@ public class FlickeringGameManager : AbstractGameManager
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
 
         bool isleft = Random.value > 0.5f;
+
+        if (isleft)
+        {
+            inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
+        }
+
+        if (!isleft)
+        {
+            inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
+        }
 
         float speed = Random.Range(min_speed, max_speed);
 

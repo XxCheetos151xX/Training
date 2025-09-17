@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using NUnit.Framework;
 
 public class FollowShapeManager : AbstractGameManager
 {
@@ -10,7 +11,6 @@ public class FollowShapeManager : AbstractGameManager
     [SerializeField] private GameObject player;
     [SerializeField] private Material line_mat;
     [SerializeField] private BackgroundGenerator backgroundGenerator;
-    [SerializeField] private UIManager uimanager;
     [SerializeField] private List<LineRenderer> shapes;
 
     [Header("Game Settings")]
@@ -19,6 +19,7 @@ public class FollowShapeManager : AbstractGameManager
     [SerializeField] private float invisible_shape_timer = 15f;
     [SerializeField] private Color visible_color;
     [SerializeField] private Color invisible_color;
+    [SerializeField] private Color drawing_color;
     [SerializeField] private InputActionReference TouchAction;
     [SerializeField] private UnityEvent GameEnded;
 
@@ -36,6 +37,7 @@ public class FollowShapeManager : AbstractGameManager
     {
         TouchAction.action.performed += OnTouchperformed;
         TouchAction.action.Enable();
+        ShuffleShapes();
     }
 
     private void OnDestroy()
@@ -50,21 +52,21 @@ public class FollowShapeManager : AbstractGameManager
 
         line_mat.color = visible_color;
 
-        ScreenSetup();
         backgroundGenerator.GenerateConstantBackGround(0.5f);
-        StartCoroutine(uimanager.Timer());
         StartCoroutine(HandleTouch());
         GenerateShape();
     }
 
-    void ScreenSetup()
+
+    void ShuffleShapes()
     {
-        float aspectRatio = (float)Screen.width / Screen.height;
-        float verticalSize = Camera.main.orthographicSize * 2;
-        float horizontalSize = verticalSize * aspectRatio;
-        float halfWidth = horizontalSize / 2f;
-        float halfHeight = verticalSize / 2f;
+        for (int i = 0; i < shapes.Count; i++)
+        {
+            int randomIndex = Random.Range(i, shapes.Count);
+            (shapes[i], shapes[randomIndex]) = (shapes[randomIndex], shapes[i]);
+        }
     }
+
 
     void OnTouchperformed(InputAction.CallbackContext ctx)
     {
@@ -121,10 +123,8 @@ public class FollowShapeManager : AbstractGameManager
                     Vector3.Distance(player.transform.position, active_shape.GetPosition(0)) < 0.05f)
                 {
                     streak++;
-                    StopCoroutine(GameLoop());
                     Debug.Log("Streak: " + streak);
                     HandleStreak(streak);
-                    StartCoroutine(GameLoop());
                     goingforward = true;
                     currentSegment = 0;
                 }
@@ -157,7 +157,7 @@ public class FollowShapeManager : AbstractGameManager
 
     void HandleStreak(int streakCount)
     {
-        if (streakCount >= 5)
+        if (streakCount >= 2)
         {
             is_invisible = false;
             current_shape_index++;
@@ -169,7 +169,7 @@ public class FollowShapeManager : AbstractGameManager
             this.streak = 0;
             StartCoroutine(ShapeHandler());
         }
-        else if (streakCount >= 3)
+        else if (streakCount >= 1)
         {
             line_mat.color = invisible_color;
             is_invisible = true;
@@ -178,20 +178,18 @@ public class FollowShapeManager : AbstractGameManager
 
     void GenerateShape()
     {
-        active_shape = Instantiate(shapes[current_shape_index], Vector2.zero, Quaternion.identity);
+        active_shape = Instantiate(shapes[current_shape_index], Vector2.zero, shapes[current_shape_index].transform.rotation);
         if (player != null)
         {
             player.transform.position = active_shape.GetPosition(0);
         }
         currentSegment = 0;
         goingforward = true;
-        StartCoroutine(GameLoop());
     }
 
     void DestroyShape()
     {
         Destroy(active_shape.gameObject);
-        StopCoroutine(GameLoop());
     }
 
     IEnumerator HandleTouch()
@@ -235,25 +233,4 @@ public class FollowShapeManager : AbstractGameManager
         }
     }
 
-    IEnumerator GameLoop()
-    {
-        if (!is_invisible)
-            initial_timer = visible_shape_timer;
-        else
-            initial_timer = invisible_shape_timer;
-
-        while (initial_timer > 0)
-        {
-            initial_timer -= Time.deltaTime;
-            yield return null;
-        }
-
-        if (initial_timer <= 0)
-        {
-            if (active_shape != null)
-            {
-                GameEnded.Invoke();
-            }
-        }
-    }
 }
