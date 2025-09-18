@@ -273,19 +273,7 @@ MonoBehaviour:
         m_CallState: 2
   OnRelease:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1871591468}
-        m_TargetAssemblyTypeName: FollowShapeManager, Assembly-CSharp
-        m_MethodName: ReleasedTheBall
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!58 &440011021
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -841,21 +829,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initial_timer: 0
   player: {fileID: 440011017}
-  line_mat: {fileID: 2100000, guid: 20218e0926e7d84488aac211650e0364, type: 2}
+  system_line_mat: {fileID: 2100000, guid: 20218e0926e7d84488aac211650e0364, type: 2}
+  user_line_mat: {fileID: 2100000, guid: ee664e9549277af49ba160528be81d98, type: 2}
   backgroundGenerator: {fileID: 6554153583917719183}
+  userLine: {fileID: 1536874527761486550, guid: f5fadaf4f4d9fd04db0ccce977d41338, type: 3}
   shapes:
   - {fileID: 3429549585226975497, guid: 90fd8e2f910b02e4d89c495ea0aaf19a, type: 3}
   - {fileID: 3950696972870773080, guid: a0f478f5156dbe546b341411983035fe, type: 3}
   - {fileID: 8137695757560725537, guid: 4737609eb29e72845a9009307c82e04e, type: 3}
   - {fileID: 5764951827168378838, guid: 8ed315d3cab19984ea84d5f84983c461, type: 3}
-  - {fileID: 3950696972870773080, guid: 9ccc08dcb4d58ee4fb9621aed4d33c7f, type: 3}
+  - {fileID: 6707147549321532639, guid: 9ccc08dcb4d58ee4fb9621aed4d33c7f, type: 3}
   delay_between_shapes: 1
   visible_shape_timer: 60
   invisible_shape_timer: 60
   visible_color: {r: 1, g: 1, b: 1, a: 0.49019608}
   invisible_color: {r: 0, g: 0, b: 0, a: 0}
-  drawing_color: {r: 0, g: 0, b: 0, a: 0}
-  TouchAction: {fileID: 4551414775369575431, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  drawing_color: {r: 0.8867924, g: 0.3019374, b: 0.020914912, a: 0.49019608}
+  touchPositionAction: {fileID: 4551414775369575431, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  touchPressAction: {fileID: -2807014156217747425, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   GameEnded:
     m_PersistentCalls:
       m_Calls:
