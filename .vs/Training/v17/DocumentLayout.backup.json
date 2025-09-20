@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Training\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\decisionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\decisionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\general managers\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\gridmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\memorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\memorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\noisyfocusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\noisyfocusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,68 +18,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DecisionManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAASwJ8AAAArAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "BackgroundGenerator.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAkwAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T14:59:30.644Z",
+              "WhenOpened": "2025-08-27T15:03:07.562Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GridManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\GridManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\GridManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\GridManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\GridManager.cs",
-              "ViewState": "AgIAAK4AAAAAAAAAAIBJwMMAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T15:32:59.94Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NoisyFocusManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\NoisyFocusManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\NoisyFocusManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\NoisyFocusManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\NoisyFocusManager.cs",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAqwJcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T18:17:28.234Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "FocusManager.cs",
               "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FocusManager.cs",
               "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
               "RelativeToolTip": "Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "ViewState": "AgIAAOoAAAAAAAAAAAAIwPsAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAADQAAAAAAAAAAAAuwEAAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T21:26:31.307Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MemoryManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "ViewState": "AgIAAOUAAAAAAAAAAAAqwDUBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-01T00:09:16.175Z"
+              "WhenOpened": "2025-08-02T21:26:31.307Z",
+              "EditorCaption": ""
             }
           ]
         }

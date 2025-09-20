@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Training\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\followshapemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\followshapemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,11 +22,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "FollowShapeManager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FollowShapeManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FollowShapeManager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\FollowShapeManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\FollowShapeManager.cs",
+              "ViewState": "AgIAADIBAAAAAAAAAAAmwEABAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T11:46:02.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "BackgroundGenerator.cs",
               "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
@@ -30,12 +47,11 @@
               "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
               "ViewState": "AgIAAHwAAAAAAAAAAAAkwAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T15:03:07.562Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-27T15:03:07.562Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FocusManager.cs",
               "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
               "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FocusManager.cs",
