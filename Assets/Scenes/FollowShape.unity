@@ -900,7 +900,6 @@ MonoBehaviour:
   backgroundGenerator: {fileID: 6554153583917719183}
   userLine: {fileID: 445323831}
   shapes:
-  - {fileID: 5211934216911806718, guid: 3059b98ea68ee4943a246c1e80d48004, type: 3}
   - {fileID: 3429549585226975497, guid: 90fd8e2f910b02e4d89c495ea0aaf19a, type: 3}
   - {fileID: 3950696972870773080, guid: a0f478f5156dbe546b341411983035fe, type: 3}
   - {fileID: 8137695757560725537, guid: 4737609eb29e72845a9009307c82e04e, type: 3}
@@ -908,7 +907,8 @@ MonoBehaviour:
   - {fileID: 6707147549321532639, guid: 9ccc08dcb4d58ee4fb9621aed4d33c7f, type: 3}
   delay_between_shapes: 5
   visible_color: {r: 1, g: 1, b: 1, a: 0.49019608}
-  drawing_color: {r: 0.8867924, g: 0.3019374, b: 0.020914912, a: 0.49019608}
+  invisible_color: {r: 0, g: 0, b: 0, a: 0}
+  drawing_color: {r: 1, g: 0.37329325, b: 0, a: 0.49019608}
   touchPositionAction: {fileID: 4551414775369575431, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   touchPressAction: {fileID: -2807014156217747425, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   GameEnded:
@@ -916,18 +916,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1871591466}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: GameEnd
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1871591468}
-        m_TargetAssemblyTypeName: FollowShapeManager, Assembly-CSharp
         m_MethodName: GameEnd
         m_Mode: 1
         m_Arguments:

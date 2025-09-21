@@ -1,8 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+
 
 public class FollowShapeManager : AbstractGameManager
 {
@@ -17,6 +18,7 @@ public class FollowShapeManager : AbstractGameManager
     [Header("Game Settings")]
     [SerializeField] private float delay_between_shapes = 1f;
     [SerializeField] private Color visible_color;
+    [SerializeField] private Color invisible_color;
     [SerializeField] private Color drawing_color;
 
     [Header("Input Actions")]
@@ -28,23 +30,23 @@ public class FollowShapeManager : AbstractGameManager
     private Camera mainCam;
     private LineRenderer active_shape;
     private int streak = 0;
-    private int current_shape_index = 0;
-
-    // sequential-following state
     private int currentSegment = 0;
-    private bool goingForward = true;
-
+    private int current_shape_index = 0;
     private bool is_touching = false;
-    private bool is_drawing = false;
+    private bool is_invisible = false;
+    private bool goingforward = true;
     private List<Vector3> userPoints = new List<Vector3>();
-    private List<Vector3> lastSystemShapePoints = new List<Vector3>();
 
-    private const float SEGMENT_REACH_TOLERANCE = 0.05f;
+    // internal state flags
+    private bool pendingCycle = false;         // set when forward+back completes while finger still down
+    private bool drawingAllowed = false;       // true when system is in drawing-ready (shape invisible) state
+    private bool userDrawingRunning = false;   // prevent multiple drawing coroutines
 
     private void Awake()
     {
         touchPositionAction.action.Enable();
         touchPressAction.action.Enable();
+        ShuffleShapes();
     }
 
     private void OnDestroy()
@@ -60,7 +62,7 @@ public class FollowShapeManager : AbstractGameManager
         system_line_mat.color = visible_color;
         user_line_mat.color = drawing_color;
 
-        // configure user line renderer
+        // configure userLine if present
         if (userLine != null)
         {
             userLine.material = user_line_mat;
@@ -74,83 +76,70 @@ public class FollowShapeManager : AbstractGameManager
         GenerateShape();
     }
 
-    // This handles touch input events and movement logic.
+    void ShuffleShapes()
+    {
+        for (int i = 0; i < shapes.Count; i++)
+        {
+            int randomIndex = Random.Range(i, shapes.Count);
+            (shapes[i], shapes[randomIndex]) = (shapes[randomIndex], shapes[i]);
+        }
+    }
+
     void OnTouchperformed()
     {
-        if (!is_touching || player == null)
-            return;
+        if (!is_touching || active_shape == null || player == null) return;
+        if (is_invisible) return;
 
         Vector2 touchScreenPos = touchPositionAction.action.ReadValue<Vector2>();
-        Vector3 touchWorldPos = mainCam.ScreenToWorldPoint(
-            new Vector3(touchScreenPos.x, touchScreenPos.y, -mainCam.transform.position.z));
+        Vector3 touchWorldPos = mainCam.ScreenToWorldPoint(new Vector3(touchScreenPos.x, touchScreenPos.y, -mainCam.transform.position.z));
 
-        // If a system shape exists, constrain the player to move along it, segment-by-segment.
-        if (active_shape != null)
+        if (goingforward)
         {
-            // Ensure segment indices valid
-            if (currentSegment < 0) currentSegment = 0;
-            if (active_shape.positionCount < 2) return;
-
-            if (goingForward)
+            if (currentSegment < active_shape.positionCount - 1)
             {
-                // Stay on current segment [currentSegment, currentSegment+1]
-                if (currentSegment < active_shape.positionCount - 1)
+                Vector3 a = active_shape.GetPosition(currentSegment);
+                Vector3 b = active_shape.GetPosition(currentSegment + 1);
+
+                Vector3 projected = ProjectPointOnSegment(a, b, touchWorldPos);
+                player.transform.position = projected;
+
+                if (Vector3.Distance(player.transform.position, b) < 0.05f)
                 {
-                    Vector3 a = active_shape.GetPosition(currentSegment);
-                    Vector3 b = active_shape.GetPosition(currentSegment + 1);
-
-                    Vector3 projected = ProjectPointOnSegment(a, b, (Vector2)touchWorldPos);
-                    player.transform.position = projected;
-
-                    // If reached end of segment, advance
-                    if (Vector3.Distance(player.transform.position, b) < SEGMENT_REACH_TOLERANCE)
-                    {
-                        currentSegment++;
-                    }
-                }
-
-                // If reached final point, switch direction to backward
-                if (currentSegment >= active_shape.positionCount - 1 &&
-                    Vector3.Distance(player.transform.position, active_shape.GetPosition(active_shape.positionCount - 1)) < SEGMENT_REACH_TOLERANCE)
-                {
-                    goingForward = false;
-                    currentSegment = active_shape.positionCount - 1;
+                    currentSegment++;
                 }
             }
-            else // going backward
+
+            if (currentSegment >= active_shape.positionCount - 1 &&
+                Vector3.Distance(player.transform.position, active_shape.GetPosition(active_shape.positionCount - 1)) < 0.05f)
             {
-                // Move along [currentSegment, currentSegment-1]
-                if (currentSegment > 0)
-                {
-                    Vector3 a = active_shape.GetPosition(currentSegment);
-                    Vector3 b = active_shape.GetPosition(currentSegment - 1);
-
-                    Vector3 projected = ProjectPointOnSegment(a, b, (Vector2)touchWorldPos);
-                    player.transform.position = projected;
-
-                    if (Vector3.Distance(player.transform.position, b) < SEGMENT_REACH_TOLERANCE)
-                    {
-                        currentSegment--;
-                    }
-                }
-
-                // If returned to start => full forward+back cycle complete
-                if (currentSegment <= 0 &&
-                    Vector3.Distance(player.transform.position, active_shape.GetPosition(0)) < SEGMENT_REACH_TOLERANCE)
-                {
-                    streak++;
-                    Debug.Log("Streak: " + streak);
-                    HandleStreak(streak);
-                    // After HandleStreak, active_shape may have been destroyed and is_drawing set.
-                    goingForward = true;
-                    currentSegment = 0;
-                }
+                goingforward = false;
+                currentSegment = active_shape.positionCount - 1;
             }
         }
         else
         {
-            // No system shape exists -> drawing phase: free movement
-            player.transform.position = touchWorldPos;
+            if (currentSegment > 0)
+            {
+                Vector3 a = active_shape.GetPosition(currentSegment);
+                Vector3 b = active_shape.GetPosition(currentSegment - 1);
+
+                Vector3 projected = ProjectPointOnSegment(a, b, touchWorldPos);
+                player.transform.position = projected;
+
+                if (Vector3.Distance(player.transform.position, b) < 0.05f)
+                {
+                    currentSegment--;
+                }
+            }
+
+            if (currentSegment <= 0 &&
+                Vector3.Distance(player.transform.position, active_shape.GetPosition(0)) < 0.05f)
+            {
+                pendingCycle = true;
+                Debug.Log("Full cycle completed (pending streak, will commit on release).");
+                goingforward = true;
+                currentSegment = 0;
+            }
         }
     }
 
@@ -159,17 +148,15 @@ public class FollowShapeManager : AbstractGameManager
         Vector2 ap = p - (Vector2)a;
         Vector2 ab = (b - a);
         float ab2 = Vector2.Dot(ab, ab);
-        float t = (ab2 > 0f) ? Mathf.Clamp01(Vector2.Dot(ap, ab) / ab2) : 0f;
+        float t = Mathf.Clamp01(Vector2.Dot(ap, ab) / ab2);
         return a + t * (Vector3)ab;
     }
 
-    // Called by ClickableObject when touch begins on the ball
     public void TouchedTheBall()
     {
         is_touching = true;
     }
 
-    // You kept GameEnd / shape lifecycle - unchanged (besides using DestroyShape below)
     public void GameEnd()
     {
         Destroy(player);
@@ -177,42 +164,40 @@ public class FollowShapeManager : AbstractGameManager
         StopAllCoroutines();
     }
 
+    // ✅ EDITED
     void HandleStreak(int streakCount)
     {
         if (streakCount >= 2)
         {
-            // move to next shape (no drawing phase)
-            current_shape_index++;
-            if (current_shape_index >= shapes.Count)
-            {
-                GameEnded.Invoke();
-                return;
-            }
-            this.streak = 0;
-            StartCoroutine(ShapeHandler());
+            is_invisible = false;
+            drawingAllowed = false;
+            userDrawingRunning = false;
+
+            system_line_mat.color = visible_color;
+            streak = 0;
+
+            StartCoroutine(AdvanceToNextShapeAfterDelay());
         }
         else if (streakCount >= 1)
         {
-            // destroy system shape and switch to drawing phase
-            if (active_shape != null)
-            {
-                lastSystemShapePoints.Clear();
-                for (int i = 0; i < active_shape.positionCount; i++)
-                    lastSystemShapePoints.Add(active_shape.GetPosition(i));
+            is_invisible = true;
+            drawingAllowed = true;
+            system_line_mat.color = invisible_color;
 
-                DestroyShape();
-            }
-
-            is_drawing = true;
-            // UserDrawingRoutine is started by HandleTouch when it detects touch on the ball while is_drawing==true
+            Debug.Log("Entered drawing-ready mode. User can start drawing now.");
         }
     }
 
     void GenerateShape()
     {
+        if (current_shape_index < 0 || current_shape_index >= shapes.Count)
+        {
+            GameEnded.Invoke();
+            return;
+        }
+
         active_shape = Instantiate(shapes[current_shape_index], Vector2.zero, shapes[current_shape_index].transform.rotation);
 
-        // Ensure it renders
         active_shape.material = system_line_mat;
         active_shape.startWidth = 0.05f;
         active_shape.endWidth = 0.05f;
@@ -221,11 +206,15 @@ public class FollowShapeManager : AbstractGameManager
         if (player != null)
         {
             player.transform.position = active_shape.GetPosition(0);
+            player.SetActive(true);
         }
 
-        // reset sequential-follow state
         currentSegment = 0;
-        goingForward = true;
+        goingforward = true;
+
+        is_invisible = false;
+        drawingAllowed = false;
+        userDrawingRunning = false;
     }
 
     void DestroyShape()
@@ -237,65 +226,88 @@ public class FollowShapeManager : AbstractGameManager
 
     IEnumerator HandleTouch()
     {
-        CircleCollider2D col = player.GetComponent<CircleCollider2D>();
+        bool prevPressed = false;
+        CircleCollider2D col = player != null ? player.GetComponent<CircleCollider2D>() : null;
 
         while (true)
         {
             bool pressed = touchPressAction.action.IsPressed();
-            if (pressed)
+
+            Vector2 screenPos = touchPositionAction.action.ReadValue<Vector2>();
+            Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -mainCam.transform.position.z));
+
+            bool justPressed = pressed && !prevPressed;
+            bool justReleased = !pressed && prevPressed;
+
+            if (drawingAllowed && justPressed && !userDrawingRunning)
             {
-                Vector2 screenPos = touchPositionAction.action.ReadValue<Vector2>();
-                Vector3 worldPos = mainCam.ScreenToWorldPoint(
-                    new Vector3(screenPos.x, screenPos.y, -mainCam.transform.position.z));
+                userDrawingRunning = true;
+                StartCoroutine(UserDrawingRoutine());
+            }
 
-                if (col != null && col.OverlapPoint(worldPos))
-                {
-                    is_touching = true;
-                    OnTouchperformed();
-
-                    // If we entered drawing phase and haven't started collecting points yet -> start routine
-                    if (is_drawing && userPoints.Count == 0)
-                        StartCoroutine(UserDrawingRoutine());
-                }
-                else
-                {
-                    is_touching = false;
-                }
+            if (!is_invisible && col != null && col.OverlapPoint(worldPos) && pressed)
+            {
+                is_touching = true;
+                OnTouchperformed();
             }
             else
             {
                 is_touching = false;
             }
 
+            if (justReleased)
+            {
+                if (pendingCycle)
+                {
+                    pendingCycle = false;
+                    streak++;
+                    Debug.Log("Committed streak on release. streak=" + streak);
+                    HandleStreak(streak);
+                }
+            }
+
+            prevPressed = pressed;
             yield return null;
         }
     }
 
-    IEnumerator ShapeHandler()
+    IEnumerator AdvanceToNextShapeAfterDelay()
     {
-        // destroy before waiting so there's no duplicate shapes staying around
-        DestroyShape();
         yield return new WaitForSeconds(delay_between_shapes);
-        GenerateShape();
+
+        DestroyShape();
+
+        current_shape_index++;
+        if (current_shape_index < shapes.Count)
+        {
+            GenerateShape();
+        }
+        else
+        {
+            GameEnded.Invoke();
+        }
     }
 
+    // ✅ EDITED
     IEnumerator UserDrawingRoutine()
     {
         userPoints.Clear();
         if (userLine != null)
         {
             userLine.positionCount = 0;
-            userLine.enabled = false; // hidden while drawing
+            userLine.enabled = false;
         }
 
-        // collect until release
+
         while (touchPressAction.action.IsPressed())
         {
             Vector2 screenPos = touchPositionAction.action.ReadValue<Vector2>();
             Vector3 worldPos = mainCam.ScreenToWorldPoint(
                 new Vector3(screenPos.x, screenPos.y, -mainCam.transform.position.z));
 
-            if (userPoints.Count == 0 || Vector3.Distance(userPoints[userPoints.Count - 1], worldPos) > 0.05f)
+            player.transform.position = worldPos;
+
+            if (userPoints.Count == 0 || Vector3.Distance(userPoints[userPoints.Count - 1], worldPos) > 0.03f)
             {
                 userPoints.Add(worldPos);
             }
@@ -303,22 +315,29 @@ public class FollowShapeManager : AbstractGameManager
             yield return null;
         }
 
-        // show user drawing
-        if (userLine != null)
+        if (userPoints.Count > 1 && userLine != null)
         {
-            userLine.enabled = true;
             userLine.positionCount = userPoints.Count;
             userLine.SetPositions(userPoints.ToArray());
+            userLine.enabled = true;
         }
 
-        // compare with system shape (normalize so absolute screen position doesn't matter)
-        if (lastSystemShapePoints.Count > 1)
+        system_line_mat.color = visible_color;
+        is_invisible = false;
+        drawingAllowed = false;
+
+        if (player != null)
+            player.SetActive(false);
+
+        Debug.Log("User finished drawing with " + userPoints.Count + " points.");
+
+        bool matched = false;
+        if (active_shape != null && userPoints.Count > 1)
         {
-            bool similar = CompareShapes(lastSystemShapePoints, userPoints);
-            Debug.Log(similar ? "Similar" : "Not Similar");
+            matched = CompareShapes(active_shape, userPoints);
+            Debug.Log(matched ? "✅ Shape matched!" : "❌ Shape did not match.");
         }
 
-        
         yield return new WaitForSeconds(delay_between_shapes);
 
         if (userLine != null)
@@ -327,85 +346,139 @@ public class FollowShapeManager : AbstractGameManager
             userLine.positionCount = 0;
         }
 
-        is_drawing = false;
+        DestroyShape();
+
         streak = 0;
         current_shape_index++;
+        userDrawingRunning = false;
+
         if (current_shape_index < shapes.Count)
             GenerateShape();
         else
             GameEnded.Invoke();
     }
 
-    bool CompareShapes(List<Vector3> systemShapePoints, List<Vector3> userShapePoints)
+    private bool CompareShapes(LineRenderer systemShape, List<Vector3> userPts, int sampleCount = 64, float threshold = 0.12f)
     {
-        int sampleCount = 32;
-        List<Vector3> sysResampled = ResampleShape(systemShapePoints, sampleCount);
-        List<Vector3> userResampled = ResampleShape(userShapePoints, sampleCount);
+        if (systemShape == null || userPts == null || userPts.Count < 2) return false;
 
-        NormalizePoints(sysResampled);
-        NormalizePoints(userResampled);
+        List<Vector3> systemPoints = new List<Vector3>();
+        for (int i = 0; i < systemShape.positionCount; i++)
+            systemPoints.Add(systemShape.GetPosition(i));
 
-        float totalDist = 0f;
+        List<Vector2> sys = Resample(systemPoints, sampleCount);
+        List<Vector2> usr = Resample(userPts, sampleCount);
+
+        if (sys.Count == 0 || usr.Count == 0) return false;
+
+        sys = Normalize(sys);
+        usr = Normalize(usr);
+
+        float sum = 0f;
         for (int i = 0; i < sampleCount; i++)
-        {
-            totalDist += Vector3.Distance(sysResampled[i], userResampled[i]);
-        }
+            sum += Vector2.Distance(sys[i], usr[i]);
 
-        float avgDist = totalDist / sampleCount;
-        return avgDist < 0.5f; 
+        float avg = sum / sampleCount;
+        Debug.Log($"CompareShapes avgDist={avg}");
+        return avg < threshold;
     }
 
-    List<Vector3> ResampleShape(List<Vector3> input, int count)
+    private List<Vector2> Resample(List<Vector3> pts3, int sampleCount)
     {
-        List<Vector3> result = new List<Vector3>();
-        if (input.Count < 2) return result;
+        List<Vector2> path = new List<Vector2>(pts3.Count);
+        foreach (var p in pts3) path.Add(new Vector2(p.x, p.y));
+        return Resample(path, sampleCount);
+    }
 
-        float totalLength = 0f;
-        for (int i = 0; i < input.Count - 1; i++)
-            totalLength += Vector3.Distance(input[i], input[i + 1]);
-
-        float step = totalLength / (count - 1);
-        float distSoFar = 0f;
-
-        result.Add(input[0]);
-        int currentIndex = 0;
-
-        for (int i = 1; i < count; i++)
+    private List<Vector2> Resample(List<Vector2> path, int sampleCount)
+    {
+        List<Vector2> outPts = new List<Vector2>();
+        if (path.Count == 0) return outPts;
+        if (path.Count == 1)
         {
-            float targetDist = i * step;
+            for (int i = 0; i < sampleCount; i++) outPts.Add(path[0]);
+            return outPts;
+        }
 
-            while (currentIndex < input.Count - 2 &&
-                   distSoFar + Vector3.Distance(input[currentIndex], input[currentIndex + 1]) < targetDist)
+        float total = PathLength(path);
+        if (total <= Mathf.Epsilon)
+        {
+            for (int i = 0; i < sampleCount; i++) outPts.Add(path[0]);
+            return outPts;
+        }
+
+        float interval = total / (sampleCount - 1);
+        outPts.Add(path[0]);
+        int idx = 1;
+        float acc = 0f;
+
+        while (outPts.Count < sampleCount && idx < path.Count)
+        {
+            Vector2 a = path[idx - 1];
+            Vector2 b = path[idx];
+            float seg = Vector2.Distance(a, b);
+
+            if (seg <= Mathf.Epsilon)
             {
-                distSoFar += Vector3.Distance(input[currentIndex], input[currentIndex + 1]);
-                currentIndex++;
+                idx++;
+                continue;
             }
 
-            float segmentLen = Vector3.Distance(input[currentIndex], input[currentIndex + 1]);
-            float t = (segmentLen > 0f) ? (targetDist - distSoFar) / segmentLen : 0f;
-            Vector3 newPoint = Vector3.Lerp(input[currentIndex], input[currentIndex + 1], t);
-            result.Add(newPoint);
+            if (acc + seg >= interval)
+            {
+                float t = (interval - acc) / seg;
+                Vector2 np = Vector2.Lerp(a, b, t);
+                outPts.Add(np);
+                path[idx - 1] = np;
+                acc = 0f;
+            }
+            else
+            {
+                acc += seg;
+                idx++;
+            }
         }
 
-        return result;
+        if (outPts.Count < sampleCount)
+            outPts.Add(path[path.Count - 1]);
+
+        return outPts;
     }
 
-    void NormalizePoints(List<Vector3> pts)
+    private float PathLength(List<Vector2> pts)
     {
-        if (pts.Count == 0) return;
+        float len = 0f;
+        for (int i = 1; i < pts.Count; i++) len += Vector2.Distance(pts[i - 1], pts[i]);
+        return len;
+    }
 
-        Vector3 centroid = Vector3.zero;
-        foreach (var p in pts) centroid += p;
-        centroid /= pts.Count;
+    private List<Vector2> Normalize(List<Vector2> pts)
+    {
+        List<Vector2> outp = new List<Vector2>(pts.Count);
+        if (pts.Count == 0) return outp;
 
-        for (int i = 0; i < pts.Count; i++) pts[i] -= centroid;
+        Vector2 c = Vector2.zero;
+        foreach (var p in pts) c += p;
+        c /= pts.Count;
 
-        float maxDist = 0f;
-        foreach (var p in pts) maxDist = Mathf.Max(maxDist, p.magnitude);
+        List<Vector2> trans = new List<Vector2>();
+        foreach (var p in pts) trans.Add(p - c);
 
-        if (maxDist > 0f)
+        float minX = trans[0].x, maxX = trans[0].x, minY = trans[0].y, maxY = trans[0].y;
+        foreach (var p in trans)
         {
-            for (int i = 0; i < pts.Count; i++) pts[i] /= maxDist;
+            if (p.x < minX) minX = p.x;
+            if (p.x > maxX) maxX = p.x;
+            if (p.y < minY) minY = p.y;
+            if (p.y > maxY) maxY = p.y;
         }
+
+        float w = maxX - minX;
+        float h = maxY - minY;
+        float scale = Mathf.Max(w, h);
+        if (scale <= Mathf.Epsilon) scale = 1f;
+
+        foreach (var p in trans) outp.Add(p / scale);
+        return outp;
     }
 }
