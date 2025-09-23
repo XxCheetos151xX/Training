@@ -632,6 +632,7 @@ MonoBehaviour:
   grid_manager: {fileID: 1257854679}
   ui_manager: {fileID: 1257854676}
   grid_delay: 0.5
+  score_tobe_added: 2
   clicked_color: {r: 0, g: 1, b: 0, a: 1}
   GameEnded:
     m_PersistentCalls:
@@ -728,6 +729,9 @@ MonoBehaviour:
   ending_panel: {fileID: 1032352575}
   score_manager: {fileID: 1257854678}
   manager: {fileID: 1257854673}
+  isvideo: 0
+  video_player: {fileID: 0}
+  remaining: 0
 --- !u!114 &1257854677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,7 +785,6 @@ MonoBehaviour:
   notch_max_x: 1
   shuffle_grid: 1
   circular_tile: 1
-  score_manager: {fileID: 1257854678}
   game_manager: {fileID: 1257854673}
   background_generator: {fileID: 6554153585228582461}
   all_positions: []

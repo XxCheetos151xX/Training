@@ -16,6 +16,7 @@ public class ChaseVariables
 {
     public float startTime;
     public float ballSpeed;
+    public float scoreratio;
     public bool isFlickering;
     public float flickerSpeed;
 }

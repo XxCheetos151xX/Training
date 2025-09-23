@@ -22,6 +22,7 @@ public class DecisionManager : AbstractGameManager
     [SerializeField] private float delay;
     [SerializeField] private float button_size = 1;
     [SerializeField] private float target_size = 1;
+    [SerializeField] private float score_tobe_added;
     [SerializeField] private List<Color> colors = new List<Color>();
     [SerializeField] private UnityEvent GameEnd;
 
@@ -31,6 +32,7 @@ public class DecisionManager : AbstractGameManager
     private float colorchangetime;
     private float minY, minX, maxX, maxY;
     private float not_todo_prob;
+    private float score_ratio;
     private int index1;
     private int index2;
     private bool first_switch;
@@ -50,6 +52,7 @@ public class DecisionManager : AbstractGameManager
     private List<float> color_change_time = new List<float>();
     private List<float> flickering_speed = new List<float>();
     private List<float> _not_todo_prob = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<bool> _switch_colors = new List<bool>();
 
@@ -103,6 +106,7 @@ public class DecisionManager : AbstractGameManager
             _not_todo_prob.Add(activeDecisionSO.decisionlevels[i].nottodo_prob);
             flickering_speed.Add(activeDecisionSO.decisionlevels[i].flickerspeed);
             _isflickering.Add(activeDecisionSO.decisionlevels[i].isflickering);
+            _scoreratio.Add(activeDecisionSO.decisionlevels[i].scoreratio);
         }
     }
 
@@ -165,7 +169,7 @@ public class DecisionManager : AbstractGameManager
 
     void TargetCaptured()
     {
-        score_manager.user_score++;
+        score_manager.user_score += score_tobe_added * score_ratio;
         SwitchColor();
     }
 
@@ -238,7 +242,8 @@ public class DecisionManager : AbstractGameManager
                 target_collider = spawned_target.GetComponent<CircleCollider2D>();
                 target_clickableobject._Onclick.AddListener(TargetCaptured);
                 spawnedTargetRenderer.color = targetFollowHand.color;
-                score_manager.total_score++;
+
+                score_manager.total_score += score_tobe_added * score_ratio;
 
                 float elapsed = 0f;
                 while (elapsed < colorchangetime)
@@ -295,6 +300,7 @@ public class DecisionManager : AbstractGameManager
                     switch_colors = _switch_colors[i];
                     flickering_manager.flickeringspeed = flickering_speed[i];
                     not_todo_prob = _not_todo_prob[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
 

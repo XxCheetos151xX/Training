@@ -29,12 +29,14 @@ public class RecognitionSpeedManager : AbstractGameManager
     private float timer;
     private float life_span;
     private float speed;
+    private float score_ratio;
     private int size;
     private bool all_targets_clicked;
     private List<float> _starttime = new List<float>();
     private List<float> _lifespan = new List<float>();
     private List<float> _speed = new List<float>();
     private List<float> _flickerinspeed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<int> _size = new List<int>();
     private List<bool> _isflickering = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
@@ -82,6 +84,7 @@ public class RecognitionSpeedManager : AbstractGameManager
             _size.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].size);
             _flickerinspeed.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].flickeringspeed);
             _isflickering.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].isflickering);
+            _scoreratio.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].scoreratio);
         }
     }
 
@@ -97,7 +100,8 @@ public class RecognitionSpeedManager : AbstractGameManager
         spawned_target_renderer.color = normal_color;
         active_targets.Add(spawned_target);
         spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-        scoremanager.total_score += max_score;
+        
+        scoremanager.total_score += max_score * score_ratio;
     }
 
     void DestroyAtciveTargets()
@@ -131,11 +135,11 @@ public class RecognitionSpeedManager : AbstractGameManager
 
         if (dist <= tolerance)
         {
-            scoremanager.user_score += max_score;
+            scoremanager.user_score += max_score * score_ratio;
         }
         else
         {
-            scoremanager.user_score += min_score;
+            scoremanager.user_score += min_score * score_ratio;
         }
 
 
@@ -182,6 +186,7 @@ public class RecognitionSpeedManager : AbstractGameManager
                     size = _size[i];
                     flickermanager.flickeringspeed = _flickerinspeed[i];
                     flickermanager.isflickering = _isflickering[i]; 
+                    score_ratio = _scoreratio[i];
                 } 
             }
 

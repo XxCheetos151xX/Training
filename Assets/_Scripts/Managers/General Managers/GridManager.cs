@@ -23,7 +23,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private bool shuffle_grid = false;
     [SerializeField] private bool circular_tile = false;
 
-    [SerializeField] private ScoreManager score_manager;
     [SerializeField] private AbstractGameManager game_manager;
     [SerializeField] private BackgroundGenerator background_generator;
 
@@ -192,7 +191,6 @@ public class GridManager : MonoBehaviour
                     {
                         tile = Instantiate(diff_tile_prefab, new Vector2(xPos, yPos), Quaternion.identity);
                         tile.GetComponent<ClickableObject>().OnClick.AddListener(game_manager.TargetClicked);
-                        score_manager.total_score++;
                     }
                     else
                     {

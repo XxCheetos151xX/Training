@@ -28,11 +28,13 @@ public class NoisyFocusManager : AbstractGameManager
     private float min_speed;
     private float max_speed;
     private float timer;
+    private float score_ratio;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
     private List<float> _maxspeed = new List<float>(); 
     private List<float> _flickeringspeed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
 
@@ -87,14 +89,14 @@ public class NoisyFocusManager : AbstractGameManager
         spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
         active_targets.Add(spawned_target);
-        scoremanager.total_score += score_tobe_added;
+        scoremanager.total_score += score_tobe_added * score_ratio;
     }
 
 
 
     public void TargetClicked()
     {
-        scoremanager.user_score += score_tobe_added;
+        scoremanager.user_score += score_tobe_added * score_ratio;
     }
 
     void GameSetup()
@@ -111,6 +113,7 @@ public class NoisyFocusManager : AbstractGameManager
             _maxspeed.Add(activeNoisyFocusSO.noisyfocuslevels[i].maxSpeed);
             _flickeringspeed.Add(activeNoisyFocusSO.noisyfocuslevels[i].flickeringspeed);
             _isflickering.Add(activeNoisyFocusSO.noisyfocuslevels[i].isflickering);
+            _scoreratio.Add(activeNoisyFocusSO.noisyfocuslevels[i].scoreratio);
         }
     }
 
@@ -196,6 +199,7 @@ public class NoisyFocusManager : AbstractGameManager
                     max_speed = _maxspeed[i];
                     flickeringmanager.flickeringspeed = _flickeringspeed[i];
                     flickeringmanager.isflickering = _isflickering[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
             if (initial_timer <= 0)

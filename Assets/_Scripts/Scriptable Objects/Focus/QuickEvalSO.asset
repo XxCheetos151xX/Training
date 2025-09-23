@@ -16,33 +16,49 @@ MonoBehaviour:
   focuslevels:
   - starttime: 0
     lifespan: 2
+    scale: 0
+    scoreratio: 1
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 22.5
+  - starttime: 10
     lifespan: 1.75
+    scale: 0
+    scoreratio: 1.5
     isflickering: 0
     flickeringspeed: 0
   - starttime: 45
     lifespan: 1.5
+    scale: 0
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0
   - starttime: 67.5
     lifespan: 1.25
+    scale: 0
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0
   - starttime: 90
     lifespan: 1
+    scale: 0
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0
   - starttime: 112.5
     lifespan: 0.75
+    scale: 0
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0
   - starttime: 135
     lifespan: 1.5
+    scale: 0
+    scoreratio: 0
     isflickering: 1
     flickeringspeed: 0.01
   - starttime: 157.5
     lifespan: 1.5
+    scale: 0
+    scoreratio: 0
     isflickering: 1
     flickeringspeed: 0.1

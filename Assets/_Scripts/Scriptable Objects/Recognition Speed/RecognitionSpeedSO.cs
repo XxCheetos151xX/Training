@@ -14,6 +14,7 @@ public class RecognitionSpeedVariables
     public float starttime;
     public float lifespan;
     public float speed;
+    public float scoreratio;
     public int size;
     public bool isflickering;
     public float flickeringspeed;

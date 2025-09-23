@@ -16,6 +16,7 @@ MonoBehaviour:
   spacinglevels:
   - starttime: 0
     speed: 6
+    scoreratio: 2
     rows: 8
     columns: 16
     isflickering: 0

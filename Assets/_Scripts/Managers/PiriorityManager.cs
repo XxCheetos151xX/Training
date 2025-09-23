@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 
 public class PiriorityManager : AbstractGameManager
 {
@@ -34,11 +34,13 @@ public class PiriorityManager : AbstractGameManager
     private float timer;
     private float life_span;
     private float delay;
+    private float score_ratio;
     private bool valid_pos;
     private List<float> _starttime = new List<float>();
     private List<float> _lifespan = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _flickeringspeed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<Vector3> active_pos = new List<Vector3>();
     private List<GameObject> active_targets = new List<GameObject>();
@@ -85,6 +87,7 @@ public class PiriorityManager : AbstractGameManager
                 _delay.Add(activePirioritySO.pirioritylevels[i].delaybetweentargets);
                 _flickeringspeed.Add(activePirioritySO.pirioritylevels[i].flickeringspeed);
                 _isflickering.Add(activePirioritySO.pirioritylevels[i].isflickering);
+                _scoreratio.Add(activePirioritySO.pirioritylevels[i].scoreratio);
             }
         }
     }
@@ -121,7 +124,7 @@ public class PiriorityManager : AbstractGameManager
             spawned_target_renderer = spawned_target.GetComponent<SpriteRenderer>();
             spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
 
-            scoremanager.total_score += score_tobe_added_each_spawn;
+            scoremanager.total_score += score_tobe_added_each_spawn * score_ratio;
             active_pos.Add(pos);
             active_targets.Add(spawned_target);
 
@@ -135,22 +138,22 @@ public class PiriorityManager : AbstractGameManager
     {
         if (t.GetComponent<SpriteRenderer>().color == first_color)
         {
-            scoremanager.user_score += first_color_score;
+            scoremanager.user_score += first_color_score * score_ratio;
         } 
         
         else if (t.GetComponent<SpriteRenderer>().color == second_color)
         {
-            scoremanager.user_score += second_color_score;
+            scoremanager.user_score += second_color_score * score_ratio;
         } 
         
         else if (t.GetComponent<SpriteRenderer>().color == third_color)
         {
-            scoremanager.user_score += third_color_score;
+            scoremanager.user_score += third_color_score * score_ratio;
         }
         
         else if (t.GetComponent<SpriteRenderer>().color == fourth_color)
         {
-            scoremanager.user_score += fourth_color_score;
+            scoremanager.user_score += fourth_color_score * score_ratio;
         }
 
         active_pos.Remove(t.transform.position);
@@ -228,6 +231,7 @@ public class PiriorityManager : AbstractGameManager
                     delay = _delay[i];
                     flickeringmanager.flickeringspeed = _flickeringspeed[i];
                     flickeringmanager.isflickering = _isflickering[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
             

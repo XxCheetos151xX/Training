@@ -30,6 +30,7 @@ public class ChaseManager : AbstractGameManager
     private float minY, minX, maxX, maxY;
     private float distance;
     private float timer;
+    private float score_ratio;
     private bool has_started;
     private bool is_touching;
     private ChaseSO activeChaseSO;
@@ -38,6 +39,7 @@ public class ChaseManager : AbstractGameManager
     private Vector3 target_currentPos;
     private List<float> levelstarttime = new List<float>();
     private List<float> _target_speed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<float> _flickerspeed  = new List<float>();
     private List<bool> _flickerenabled = new List<bool>();
    
@@ -84,7 +86,6 @@ public class ChaseManager : AbstractGameManager
         maxY = Camera.main.transform.position.y + halfHeight - 0.5f;
         timer = 0;
         initial_timer = activeChaseSO.timer;
-        score_manager.total_score = activeChaseSO.timer;
         has_started = false;
         is_touching = false;
         line.positionCount = 2;
@@ -100,6 +101,7 @@ public class ChaseManager : AbstractGameManager
                 _target_speed.Add (activeChaseSO.ChaseLevels[i].ballSpeed);
                 _flickerspeed.Add (activeChaseSO.ChaseLevels[i].flickerSpeed);
                 _flickerenabled.Add(activeChaseSO.ChaseLevels[i].isFlickering);
+                _scoreratio.Add(activeChaseSO.ChaseLevels[i].scoreratio);
             }
         }
     }
@@ -207,7 +209,7 @@ public class ChaseManager : AbstractGameManager
             {
                 line.startColor = right_color;
                 line.endColor = right_color;
-                score_manager.user_score += Time.deltaTime;
+                score_manager.user_score += Time.deltaTime * score_ratio;
             }
             else
             {
@@ -223,6 +225,8 @@ public class ChaseManager : AbstractGameManager
     {
         while (timer != activeChaseSO.timer)
         {
+            score_manager.total_score = activeChaseSO.timer * score_ratio;
+
             timer += Time.deltaTime;
 
             initial_timer -= Time.deltaTime;
@@ -234,6 +238,7 @@ public class ChaseManager : AbstractGameManager
                     target_speed = _target_speed[i];
                     flickering_manager.flickeringspeed = _flickerspeed[i];
                     flickering_manager.isflickering = _flickerenabled[i];
+                    score_ratio = _scoreratio[i];
                     break;
                 }
             }

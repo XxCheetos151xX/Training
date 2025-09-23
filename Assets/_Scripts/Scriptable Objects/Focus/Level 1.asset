@@ -18,3 +18,4 @@ MonoBehaviour:
     lifespan: 2
     isflickering: 0
     flickeringspeed: 0.1
+    scale: 2

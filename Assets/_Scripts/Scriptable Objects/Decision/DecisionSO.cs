@@ -15,6 +15,7 @@ public class DecisionVariables
 {
     public float starttime;
     public float color_changetimer;
+    public float scoreratio;
     [Range(1, 10)] public float nottodo_prob;
     public bool switchcolors;
     public bool isflickering;

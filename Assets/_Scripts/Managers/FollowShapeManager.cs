@@ -46,7 +46,7 @@ public class FollowShapeManager : AbstractGameManager
     {
         touchPositionAction.action.Enable();
         touchPressAction.action.Enable();
-        ShuffleShapes();
+        //ShuffleShapes();
     }
 
     private void OnDestroy()
@@ -465,6 +465,7 @@ public class FollowShapeManager : AbstractGameManager
         foreach (var p in pts) trans.Add(p - c);
 
         float minX = trans[0].x, maxX = trans[0].x, minY = trans[0].y, maxY = trans[0].y;
+
         foreach (var p in trans)
         {
             if (p.x < minX) minX = p.x;

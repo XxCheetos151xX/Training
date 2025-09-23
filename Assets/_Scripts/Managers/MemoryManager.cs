@@ -15,6 +15,7 @@ public class MemoryManager : AbstractGameManager
 
     [Header("Game Settings")]
     [SerializeField] private float delay;
+    [SerializeField] private float score_tobe_added;
     [SerializeField] private Color original_color;
     [SerializeField] private Color pattern_color;
     [SerializeField] private Color right_color;
@@ -25,6 +26,7 @@ public class MemoryManager : AbstractGameManager
     private float timer;
     private float user_time_window;
     private float pattern_speed;
+    private float score_ratio;
     private int row, col, pattern_size;
     private int current_stage;
     private int streak;
@@ -34,6 +36,7 @@ public class MemoryManager : AbstractGameManager
     private List<float> _paternspeed = new List<float>();
     private List<float> _usertimewindow = new List<float>();
     private List<float> _flickeringtime = new List<float>();
+    private List<float> _scoreratio = new List<float>();            
     private List<int> _rows = new List<int>();
     private List<int> _columns = new List<int>();
     private List<int> _patternsize = new List<int>();
@@ -67,6 +70,7 @@ public class MemoryManager : AbstractGameManager
             _columns.Add(activeMemorySO.memorylevels[i].cols);
             _isflickering.Add(activeMemorySO.memorylevels[i].isflickering);
             _flickeringtime.Add(activeMemorySO.memorylevels[i].flickeringspeed);
+            _scoreratio.Add(activeMemorySO.memorylevels[i].scoreratio);
         }
 
         pattern_speed = _paternspeed[current_stage];
@@ -118,7 +122,7 @@ public class MemoryManager : AbstractGameManager
 
         if (!wrong_tile && pressed_tiles.Count == pattern.Count)
         {
-            score_manager.user_score++;
+            score_manager.user_score += score_tobe_added * score_ratio;
             streak++;
 
             if (streak >= 3 && current_stage + 1 < _usertimewindow.Count)
@@ -178,6 +182,7 @@ public class MemoryManager : AbstractGameManager
                 {
                     flickering_manager.isflickering = _isflickering[i];
                     flickering_manager.flickeringspeed = _flickeringtime[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
 
@@ -196,7 +201,7 @@ public class MemoryManager : AbstractGameManager
         while (true)
         {
             stopPattern = false;
-            score_manager.total_score++;
+            score_manager.total_score += score_tobe_added * score_ratio;
 
             
             foreach (var t in grid_manager.active_tiles)

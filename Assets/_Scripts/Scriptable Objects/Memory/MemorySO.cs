@@ -16,6 +16,7 @@ public class MemoryVariables
     public float flickerstarttime;
     public float patternspeed;
     public float usertimewindow;
+    public float scoreratio;
     public int patternsize;
     public int rows;
     public int cols;

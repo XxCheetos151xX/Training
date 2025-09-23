@@ -33,6 +33,7 @@ public class ComplexFunctionManager : AbstractGameManager
     private float target_life_span;
     private float min_delay_between_targets;
     private float max_delay_between_targets;
+    private float score_ratio;
     private bool is_flickering;
     private bool is_flickering_together;
     private bool isright;
@@ -44,6 +45,7 @@ public class ComplexFunctionManager : AbstractGameManager
     private List<float> _targetlifespan = new List<float>();
     private List<float> _mindelaybetweentargets = new List<float>();
     private List<float> _maxdelaybetweentargets = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickeringtogether = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
 
@@ -100,6 +102,7 @@ public class ComplexFunctionManager : AbstractGameManager
             _mindelaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].mindelaybetweentargets);
             _maxdelaybetweentargets.Add(activeComplexFunctionsSO.complexfunctionslevels[i].maxdelaybetweentargets);
             _isflickeringtogether.Add(activeComplexFunctionsSO.complexfunctionslevels[i].isflickeringtogether);
+            _scoreratio.Add(activeComplexFunctionsSO.complexfunctionslevels[i].scoreratio);
         }
     }
 
@@ -149,7 +152,7 @@ public class ComplexFunctionManager : AbstractGameManager
         right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         active_targets.Add(right_spawned_target);
         StartCoroutine(HandleTarget(right_spawned_target));
-        scoremanager.total_score += score_tobe_added * 2;
+        scoremanager.total_score += (score_tobe_added * 2) * score_ratio;
     }
 
 
@@ -157,25 +160,24 @@ public class ComplexFunctionManager : AbstractGameManager
     {
         if (!is_flickering)
         {
-            scoremanager.user_score -= score_tobe_added * 2;
+            scoremanager.user_score -= (score_tobe_added * 2) * score_ratio;
         }
 
         if (!is_flickering_together)
         {
             if (clickedtarget == left_spawned_target && !isright)
             {
-                scoremanager.user_score += score_tobe_added;
+                scoremanager.user_score += score_tobe_added * score_ratio;
             }
             else if (clickedtarget == right_spawned_target && isright)
             {
-                scoremanager.user_score += score_tobe_added;
+                scoremanager.user_score += score_tobe_added * score_ratio;
             }
         }
         else 
         {
-            scoremanager.user_score += score_tobe_added;
+            scoremanager.user_score += score_tobe_added * score_ratio;
         }
-        print(scoremanager.user_score);
     }
 
 

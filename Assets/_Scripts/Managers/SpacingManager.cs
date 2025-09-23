@@ -14,6 +14,7 @@ public class SpacingManager : AbstractGameManager
 
     [Header("Game Settings")]
     [SerializeField] private float grid_delay;
+    [SerializeField] private float score_tobe_added;
     [SerializeField] private Color clicked_color;
     [SerializeField] UnityEvent GameEnded;
 
@@ -22,6 +23,7 @@ public class SpacingManager : AbstractGameManager
     private float timer;
     private float lifespan;
     private float nextGridSpawnTime;
+    private float score_ratio;
     private int row;
     private int column;
     private int streak;
@@ -30,6 +32,7 @@ public class SpacingManager : AbstractGameManager
     private List<float> starttime = new List<float>();
     private List<float> life_span = new List<float>();
     private List<float> flickeringspeed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> isflickering = new List<bool>();
     private List<int> rows = new List<int>();
     private List<int> columns = new List<int>();
@@ -58,6 +61,7 @@ public class SpacingManager : AbstractGameManager
             columns.Add(activeSpacingSO.spacinglevels[i].columns);
             isflickering.Add(activeSpacingSO.spacinglevels[i].isflickering);
             flickeringspeed.Add(activeSpacingSO.spacinglevels[i].flickeringspeed);
+            _scoreratio.Add(activeSpacingSO.spacinglevels[i].scoreratio);
         }
 
         lifespan = life_span[activeLevelIndex];
@@ -76,8 +80,8 @@ public class SpacingManager : AbstractGameManager
     public override void TargetClicked(GameObject good_tile)
     {
         good_tile.GetComponent<SpriteRenderer>().color = clicked_color;
-        
-        score_manager.user_score++;
+        good_tile.GetComponent<CircleCollider2D>().enabled = false;
+        score_manager.user_score += score_tobe_added * score_ratio;
         streak++;
         if (streak >= 2)
         {
@@ -124,6 +128,8 @@ public class SpacingManager : AbstractGameManager
                 }
 
                 grid_manager.GenerateGrid(row, column);
+                score_manager.total_score += (score_tobe_added * 2) * score_ratio;
+                print(score_manager.total_score);
                 streak = 0;
                 nextGridSpawnTime = Time.time + lifespan;
             }
@@ -155,6 +161,7 @@ public class SpacingManager : AbstractGameManager
                     column = columns[i];
                     flickering_manager.flickeringspeed = flickeringspeed[i];
                     flickering_manager.isflickering = isflickering[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
 

@@ -14,6 +14,7 @@ public class SpacingVariables
 {
     public float starttime;
     public float speed;
+    public float scoreratio;
     public int rows;
     public int columns;
     public bool isflickering;

@@ -15,6 +15,7 @@ public class FlickeringVariables
     public float minspeed;
     public float maxspeed;
     public float delay;
+    public float scoreratio;
     public bool isflickeing;
     public float flickeringspeed;
 }

@@ -15,6 +15,7 @@ public class NoisyFocusVariables
     public float delay;
     public float minSpeed;
     public float maxSpeed;
+    public float scoreratio;
     public bool isflickering;
     public float flickeringspeed;
 }

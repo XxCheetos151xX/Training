@@ -14,6 +14,8 @@ public class FocusVariables
 {
     public float starttime;
     public float lifespan;
+    public float scale;
+    public float scoreratio;
     public bool isflickering;
     public float flickeringspeed;
 }

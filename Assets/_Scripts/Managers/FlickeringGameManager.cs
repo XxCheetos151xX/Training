@@ -33,11 +33,13 @@ public class FlickeringGameManager : AbstractGameManager
     private float delay;
     private float right_spawning_area_border;
     private float left_spawning_area_border;
+    private float score_ratio;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
     private List<float> _maxspeed = new List<float>();
     private List<float> _flickeringspeed = new List<float>();
+    private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
 
@@ -88,6 +90,7 @@ public class FlickeringGameManager : AbstractGameManager
             _maxspeed.Add(activeFlickeringSO.flickeringlevels[i].maxspeed);
             _flickeringspeed.Add(activeFlickeringSO.flickeringlevels[i].flickeringspeed);
             _isflickering.Add(activeFlickeringSO.flickeringlevels[i].isflickeing);
+            _scoreratio.Add(activeFlickeringSO.flickeringlevels[i].scoreratio);
         }
     }
 
@@ -115,7 +118,7 @@ public class FlickeringGameManager : AbstractGameManager
         spawned_target.transform.localScale = new Vector3(target_scale, target_scale, target_scale);
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
 
-        scoremanager.total_score += score_tobe_added;
+        scoremanager.total_score += score_tobe_added * score_ratio;
 
         active_targets.Add(spawned_target);
 
@@ -125,7 +128,7 @@ public class FlickeringGameManager : AbstractGameManager
 
     void TargetClicked()
     {
-        scoremanager.user_score += score_tobe_added;
+        scoremanager.user_score += score_tobe_added * score_ratio;
     }
 
     void ClearActiveTargets()
@@ -161,6 +164,7 @@ public class FlickeringGameManager : AbstractGameManager
                     max_speed = _maxspeed[i];
                     flickeringmanager.flickeringspeed = _flickeringspeed[i];
                     flickeringmanager.isflickering = _isflickering[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
             if (initial_timer <= 0)

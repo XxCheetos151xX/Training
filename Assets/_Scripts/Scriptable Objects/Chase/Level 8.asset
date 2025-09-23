@@ -17,4 +17,4 @@ MonoBehaviour:
   - startTime: 0
     ballSpeed: 17.5
     isFlickering: 1
-    flickerSpeed: 0.4
+    flickerSpeed: 0.2

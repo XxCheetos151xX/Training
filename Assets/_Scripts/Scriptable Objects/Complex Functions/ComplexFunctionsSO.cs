@@ -18,5 +18,6 @@ public class ComplexFunctionVariables
     public float targetlifespan;
     public float mindelaybetweentargets;
     public float maxdelaybetweentargets;
+    public float scoreratio;
     public bool isflickeringtogether;
 }

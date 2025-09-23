@@ -16,6 +16,7 @@ public class PiriorityVariables
     public float starttime;
     public float targetlifetime;
     public float delaybetweentargets;
+    public float scoreratio;
     public bool isflickering;
     public float flickeringspeed;
 }
