@@ -16,33 +16,41 @@ MonoBehaviour:
   ChaseLevels:
   - startTime: 0
     ballSpeed: 3.5
+    scoreratio: 0.125
     isFlickering: 0
     flickerSpeed: 0.1
   - startTime: 22.5
     ballSpeed: 5.5
+    scoreratio: 0.25
     isFlickering: 0
     flickerSpeed: 0
   - startTime: 45
     ballSpeed: 7.5
+    scoreratio: 0.375
     isFlickering: 0
     flickerSpeed: 1
   - startTime: 67.5
     ballSpeed: 9.5
+    scoreratio: 0.5
     isFlickering: 0
     flickerSpeed: 0
   - startTime: 90
     ballSpeed: 11.5
+    scoreratio: 0.625
     isFlickering: 0
     flickerSpeed: 0
   - startTime: 112.5
     ballSpeed: 13.5
+    scoreratio: 0.75
     isFlickering: 0
     flickerSpeed: 0.25
   - startTime: 135
     ballSpeed: 15.5
+    scoreratio: 0.875
     isFlickering: 1
     flickerSpeed: 0.2
   - startTime: 157.5
     ballSpeed: 17.5
+    scoreratio: 1
     isFlickering: 1
-    flickerSpeed: 0.4
+    flickerSpeed: 0.2

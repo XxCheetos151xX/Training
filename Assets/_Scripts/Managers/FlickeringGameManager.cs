@@ -118,7 +118,7 @@ public class FlickeringGameManager : AbstractGameManager
         spawned_target.transform.localScale = new Vector3(target_scale, target_scale, target_scale);
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
 
-        scoremanager.total_score += score_tobe_added * score_ratio;
+        scoremanager.total_score += score_tobe_added;
 
         active_targets.Add(spawned_target);
 
@@ -128,7 +128,12 @@ public class FlickeringGameManager : AbstractGameManager
 
     void TargetClicked()
     {
-        scoremanager.user_score += score_tobe_added * score_ratio;
+        if (activeFlickeringSO.flickeringlevels.Count > 1)
+        {
+            scoremanager.user_score += score_tobe_added * score_ratio;
+        }
+        else
+            scoremanager.user_score += score_tobe_added;
     }
 
     void ClearActiveTargets()

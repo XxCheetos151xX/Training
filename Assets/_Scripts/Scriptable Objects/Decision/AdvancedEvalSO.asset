@@ -16,48 +16,56 @@ MonoBehaviour:
   decisionlevels:
   - starttime: 0
     color_changetimer: 5
+    scoreratio: 0.125
     nottodo_prob: 0
     switchcolors: 0
     isflickering: 0
     flickerspeed: 0
   - starttime: 45
     color_changetimer: 4.5
+    scoreratio: 0.25
     nottodo_prob: 0
     switchcolors: 0
     isflickering: 0
     flickerspeed: 0
   - starttime: 90
     color_changetimer: 4
+    scoreratio: 0.375
     nottodo_prob: 0
     switchcolors: 0
     isflickering: 0
     flickerspeed: 0
   - starttime: 135
     color_changetimer: 3.5
+    scoreratio: 0.5
     nottodo_prob: 2
     switchcolors: 1
     isflickering: 0
     flickerspeed: 0
   - starttime: 180
     color_changetimer: 3
+    scoreratio: 0.625
     nottodo_prob: 3
     switchcolors: 1
     isflickering: 0
     flickerspeed: 0
   - starttime: 225
     color_changetimer: 2.5
+    scoreratio: 0.75
     nottodo_prob: 4
     switchcolors: 1
     isflickering: 0
     flickerspeed: 0
   - starttime: 270
     color_changetimer: 2
+    scoreratio: 0.875
     nottodo_prob: 6
     switchcolors: 1
     isflickering: 0
     flickerspeed: 0.1
   - starttime: 315
     color_changetimer: 2
+    scoreratio: 1
     nottodo_prob: 7
     switchcolors: 1
     isflickering: 0

@@ -89,14 +89,19 @@ public class NoisyFocusManager : AbstractGameManager
         spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);
         spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
         active_targets.Add(spawned_target);
-        scoremanager.total_score += score_tobe_added * score_ratio;
+        scoremanager.total_score += score_tobe_added;
     }
 
 
 
     public void TargetClicked()
     {
-        scoremanager.user_score += score_tobe_added * score_ratio;
+        if (activeNoisyFocusSO.noisyfocuslevels.Count > 1)
+        {
+            scoremanager.user_score += score_tobe_added * score_ratio;
+        }
+        else
+            scoremanager.user_score += score_tobe_added;
     }
 
     void GameSetup()

@@ -169,7 +169,12 @@ public class DecisionManager : AbstractGameManager
 
     void TargetCaptured()
     {
-        score_manager.user_score += score_tobe_added * score_ratio;
+        if (activeDecisionSO.decisionlevels.Count > 1)
+        {
+            score_manager.user_score += score_tobe_added * score_ratio;
+        }
+        else
+            score_manager.user_score += score_tobe_added;
         SwitchColor();
     }
 
@@ -243,7 +248,7 @@ public class DecisionManager : AbstractGameManager
                 target_clickableobject._Onclick.AddListener(TargetCaptured);
                 spawnedTargetRenderer.color = targetFollowHand.color;
 
-                score_manager.total_score += score_tobe_added * score_ratio;
+                score_manager.total_score += score_tobe_added;
 
                 float elapsed = 0f;
                 while (elapsed < colorchangetime)

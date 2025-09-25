@@ -152,7 +152,7 @@ public class ComplexFunctionManager : AbstractGameManager
         right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         active_targets.Add(right_spawned_target);
         StartCoroutine(HandleTarget(right_spawned_target));
-        scoremanager.total_score += (score_tobe_added * 2) * score_ratio;
+        scoremanager.total_score += (score_tobe_added * 2);
     }
 
 
@@ -160,23 +160,45 @@ public class ComplexFunctionManager : AbstractGameManager
     {
         if (!is_flickering)
         {
-            scoremanager.user_score -= (score_tobe_added * 2) * score_ratio;
+            scoremanager.user_score -= (score_tobe_added * 2);
         }
 
-        if (!is_flickering_together)
+        if (activeComplexFunctionsSO.complexfunctionslevels.Count > 1)
         {
-            if (clickedtarget == left_spawned_target && !isright)
+            if (!is_flickering_together)
             {
-                scoremanager.user_score += score_tobe_added * score_ratio;
+                if (clickedtarget == left_spawned_target && !isright)
+                {
+                    scoremanager.user_score += score_tobe_added * score_ratio;
+                }
+                else if (clickedtarget == right_spawned_target && isright)
+                {
+                    scoremanager.user_score += score_tobe_added * score_ratio;
+                }
             }
-            else if (clickedtarget == right_spawned_target && isright)
+            else
             {
                 scoremanager.user_score += score_tobe_added * score_ratio;
             }
         }
-        else 
+
+        else
         {
-            scoremanager.user_score += score_tobe_added * score_ratio;
+            if (!is_flickering_together)
+            {
+                if (clickedtarget == left_spawned_target && !isright)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+                else if (clickedtarget == right_spawned_target && isright)
+                {
+                    scoremanager.user_score += score_tobe_added;
+                }
+            }
+            else
+            {
+                scoremanager.user_score += score_tobe_added;
+            }
         }
     }
 

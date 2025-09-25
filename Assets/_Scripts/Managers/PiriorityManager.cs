@@ -124,7 +124,7 @@ public class PiriorityManager : AbstractGameManager
             spawned_target_renderer = spawned_target.GetComponent<SpriteRenderer>();
             spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
 
-            scoremanager.total_score += score_tobe_added_each_spawn * score_ratio;
+            scoremanager.total_score += score_tobe_added_each_spawn;
             active_pos.Add(pos);
             active_targets.Add(spawned_target);
 
@@ -136,22 +136,43 @@ public class PiriorityManager : AbstractGameManager
 
     public override void TargetClicked(GameObject t)
     {
-        if (t.GetComponent<SpriteRenderer>().color == first_color)
+        if (activePirioritySO.pirioritylevels.Count > 1)
         {
-            scoremanager.user_score += first_color_score * score_ratio;
-        } 
-        
-        else if (t.GetComponent<SpriteRenderer>().color == second_color)
+            if (t.GetComponent<SpriteRenderer>().color == first_color)
+            {
+                scoremanager.user_score += first_color_score * score_ratio;
+            }
+
+            else if (t.GetComponent<SpriteRenderer>().color == second_color)
+            {
+                scoremanager.user_score += second_color_score * score_ratio;
+            }
+
+            else if (t.GetComponent<SpriteRenderer>().color == third_color)
+            {
+                scoremanager.user_score += third_color_score * score_ratio;
+            }
+        }
+
+        else
         {
-            scoremanager.user_score += second_color_score * score_ratio;
-        } 
-        
-        else if (t.GetComponent<SpriteRenderer>().color == third_color)
-        {
-            scoremanager.user_score += third_color_score * score_ratio;
+            if (t.GetComponent<SpriteRenderer>().color == first_color)
+            {
+                scoremanager.user_score += first_color_score;
+            }
+
+            else if (t.GetComponent<SpriteRenderer>().color == second_color)
+            {
+                scoremanager.user_score += second_color_score;
+            }
+
+            else if (t.GetComponent<SpriteRenderer>().color == third_color)
+            {
+                scoremanager.user_score += third_color_score;
+            }
         }
         
-        else if (t.GetComponent<SpriteRenderer>().color == fourth_color)
+        if (t.GetComponent<SpriteRenderer>().color == fourth_color)
         {
             scoremanager.user_score += fourth_color_score * score_ratio;
         }

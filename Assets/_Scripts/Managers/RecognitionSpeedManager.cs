@@ -101,7 +101,7 @@ public class RecognitionSpeedManager : AbstractGameManager
         active_targets.Add(spawned_target);
         spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         
-        scoremanager.total_score += max_score * score_ratio;
+        scoremanager.total_score += max_score;
     }
 
     void DestroyAtciveTargets()
@@ -133,13 +133,28 @@ public class RecognitionSpeedManager : AbstractGameManager
          
         float tolerance = 0.1f; 
 
-        if (dist <= tolerance)
+        if (activeRecognitionSpeedSO.recognitionspeedlevels.Count > 1)
         {
-            scoremanager.user_score += max_score * score_ratio;
+            if (dist <= tolerance)
+            {
+                scoremanager.user_score += max_score * score_ratio;
+            }
+            else
+            {
+                scoremanager.user_score += min_score * score_ratio;
+            }
         }
+
         else
         {
-            scoremanager.user_score += min_score * score_ratio;
+            if (dist <= tolerance)
+            {
+                scoremanager.user_score += max_score;
+            }
+            else
+            {
+                scoremanager.user_score += min_score;
+            }
         }
 
 

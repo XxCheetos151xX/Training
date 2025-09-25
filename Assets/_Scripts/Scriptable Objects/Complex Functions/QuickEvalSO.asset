@@ -21,6 +21,7 @@ MonoBehaviour:
     targetlifespan: 5
     mindelaybetweentargets: 2.5
     maxdelaybetweentargets: 3.5
+    scoreratio: 0.125
     isflickeringtogether: 1
   - starttime: 22.5
     flickeringtime: 4
@@ -29,6 +30,7 @@ MonoBehaviour:
     targetlifespan: 4.5
     mindelaybetweentargets: 2
     maxdelaybetweentargets: 3
+    scoreratio: 0.25
     isflickeringtogether: 1
   - starttime: 45
     flickeringtime: 3.5
@@ -37,6 +39,7 @@ MonoBehaviour:
     targetlifespan: 4
     mindelaybetweentargets: 1.8
     maxdelaybetweentargets: 2.8
+    scoreratio: 0.375
     isflickeringtogether: 0
   - starttime: 67.5
     flickeringtime: 3
@@ -45,6 +48,7 @@ MonoBehaviour:
     targetlifespan: 3.5
     mindelaybetweentargets: 1.5
     maxdelaybetweentargets: 2.5
+    scoreratio: 0.5
     isflickeringtogether: 0
   - starttime: 90
     flickeringtime: 2.5
@@ -53,6 +57,7 @@ MonoBehaviour:
     targetlifespan: 3.2
     mindelaybetweentargets: 1.2
     maxdelaybetweentargets: 2.2
+    scoreratio: 0.625
     isflickeringtogether: 0
   - starttime: 112.5
     flickeringtime: 2.2
@@ -61,6 +66,7 @@ MonoBehaviour:
     targetlifespan: 3
     mindelaybetweentargets: 1
     maxdelaybetweentargets: 2
+    scoreratio: 0.75
     isflickeringtogether: 0
   - starttime: 135
     flickeringtime: 2
@@ -69,6 +75,7 @@ MonoBehaviour:
     targetlifespan: 2.7
     mindelaybetweentargets: 0.9
     maxdelaybetweentargets: 1.8
+    scoreratio: 0.875
     isflickeringtogether: 0
   - starttime: 157.5
     flickeringtime: 1.8
@@ -77,4 +84,5 @@ MonoBehaviour:
     targetlifespan: 2.5
     mindelaybetweentargets: 0.8
     maxdelaybetweentargets: 1.6
+    scoreratio: 1
     isflickeringtogether: 0

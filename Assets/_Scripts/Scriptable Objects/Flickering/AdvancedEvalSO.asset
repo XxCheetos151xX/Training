@@ -18,47 +18,55 @@ MonoBehaviour:
     minspeed: 2
     maxspeed: 4
     delay: 1
+    scoreratio: 0.125
     isflickeing: 1
     flickeringspeed: 0.1
   - starttime: 45
     minspeed: 3
     maxspeed: 5
     delay: 1
+    scoreratio: 0.25
     isflickeing: 1
     flickeringspeed: 0.1
   - starttime: 90
     minspeed: 3
     maxspeed: 5
     delay: 0.8
+    scoreratio: 0.375
     isflickeing: 1
     flickeringspeed: 0.1
   - starttime: 135
     minspeed: 4
     maxspeed: 6
     delay: 0.7
+    scoreratio: 0.5
     isflickeing: 1
     flickeringspeed: 0.1
   - starttime: 180
     minspeed: 4
     maxspeed: 6
     delay: 0.6
+    scoreratio: 0.625
     isflickeing: 1
     flickeringspeed: 0.3
   - starttime: 225
     minspeed: 5
     maxspeed: 7
     delay: 0.5
+    scoreratio: 0.75
     isflickeing: 1
     flickeringspeed: 0.3
   - starttime: 270
     minspeed: 5
     maxspeed: 7
     delay: 0.5
+    scoreratio: 0.875
     isflickeing: 1
     flickeringspeed: 0.5
   - starttime: 315
     minspeed: 5
     maxspeed: 7
     delay: 0.5
+    scoreratio: 1
     isflickeing: 1
     flickeringspeed: 0.5

@@ -209,7 +209,12 @@ public class ChaseManager : AbstractGameManager
             {
                 line.startColor = right_color;
                 line.endColor = right_color;
-                score_manager.user_score += Time.deltaTime * score_ratio;
+                if (activeChaseSO.ChaseLevels.Count > 1)
+                {
+                    score_manager.user_score += Time.deltaTime * score_ratio;
+                }
+                else
+                    score_manager.user_score += Time.deltaTime;
             }
             else
             {
@@ -225,7 +230,7 @@ public class ChaseManager : AbstractGameManager
     {
         while (timer != activeChaseSO.timer)
         {
-            score_manager.total_score = activeChaseSO.timer * score_ratio;
+            score_manager.total_score = activeChaseSO.timer;
 
             timer += Time.deltaTime;
 

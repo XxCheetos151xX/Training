@@ -16,5 +16,6 @@ MonoBehaviour:
   ChaseLevels:
   - startTime: 0
     ballSpeed: 17.5
+    scoreratio: 1
     isFlickering: 1
     flickerSpeed: 0.2

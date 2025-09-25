@@ -81,7 +81,14 @@ public class SpacingManager : AbstractGameManager
     {
         good_tile.GetComponent<SpriteRenderer>().color = clicked_color;
         good_tile.GetComponent<CircleCollider2D>().enabled = false;
-        score_manager.user_score += score_tobe_added * score_ratio;
+        
+        if (activeSpacingSO.spacinglevels.Count > 1)
+        {
+            score_manager.user_score += score_tobe_added * score_ratio;
+        }
+        else
+            score_manager.user_score += score_tobe_added;
+
         streak++;
         if (streak >= 2)
         {
@@ -128,7 +135,7 @@ public class SpacingManager : AbstractGameManager
                 }
 
                 grid_manager.GenerateGrid(row, column);
-                score_manager.total_score += (score_tobe_added * 2) * score_ratio;
+                score_manager.total_score += (score_tobe_added * 2);
                 print(score_manager.total_score);
                 streak = 0;
                 nextGridSpawnTime = Time.time + lifespan;

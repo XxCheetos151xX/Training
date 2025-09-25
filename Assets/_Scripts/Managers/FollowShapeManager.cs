@@ -11,12 +11,15 @@ public class FollowShapeManager : AbstractGameManager
     [SerializeField] private GameObject player;
     [SerializeField] private Material system_line_mat;
     [SerializeField] private Material user_line_mat;
+    [SerializeField] private Animator result_screen_animator;
     [SerializeField] private BackgroundGenerator backgroundGenerator;
-    [SerializeField] private LineRenderer userLine; // assign in Inspector
+    [SerializeField] private LineRenderer userLine; 
     [SerializeField] private List<LineRenderer> shapes;
 
     [Header("Game Settings")]
-    [SerializeField] private float delay_between_shapes = 1f;
+    [SerializeField] private float delay_between_shapes;
+    [SerializeField] private float threshold;
+    [SerializeField] private float smoothing_factor;
     [SerializeField] private Color visible_color;
     [SerializeField] private Color invisible_color;
     [SerializeField] private Color drawing_color;
@@ -29,6 +32,9 @@ public class FollowShapeManager : AbstractGameManager
 
     private Camera mainCam;
     private LineRenderer active_shape;
+    private float dtwWeight = 0.4f;
+    private float hausdorffWeight = 0.5f;
+    private float directionWeight = 0.1f;
     private int streak = 0;
     private int currentSegment = 0;
     private int current_shape_index = 0;
@@ -37,8 +43,7 @@ public class FollowShapeManager : AbstractGameManager
     private bool goingforward = true;
     private List<Vector3> userPoints = new List<Vector3>();
 
-    // internal state flags
-    private bool pendingCycle = false;         // set when forward+back completes while finger still down
+    // internal state flags        
     private bool drawingAllowed = false;       // true when system is in drawing-ready (shape invisible) state
     private bool userDrawingRunning = false;   // prevent multiple drawing coroutines
 
@@ -46,7 +51,7 @@ public class FollowShapeManager : AbstractGameManager
     {
         touchPositionAction.action.Enable();
         touchPressAction.action.Enable();
-        //ShuffleShapes();
+        ShuffleShapes();
     }
 
     private void OnDestroy()
@@ -135,11 +140,15 @@ public class FollowShapeManager : AbstractGameManager
             if (currentSegment <= 0 &&
                 Vector3.Distance(player.transform.position, active_shape.GetPosition(0)) < 0.05f)
             {
-                pendingCycle = true;
-                Debug.Log("Full cycle completed (pending streak, will commit on release).");
+               
+                streak++;
+                HandleStreak(streak);
+
+                Debug.Log("Full cycle completed and streak committed immediately.");
                 goingforward = true;
                 currentSegment = 0;
             }
+
         }
     }
 
@@ -215,6 +224,14 @@ public class FollowShapeManager : AbstractGameManager
         is_invisible = false;
         drawingAllowed = false;
         userDrawingRunning = false;
+
+        // If the player is already holding their finger, keep ball active
+        if (touchPressAction.action.IsPressed())
+        {
+            is_touching = true;
+            OnTouchperformed();
+        }
+
     }
 
     void DestroyShape()
@@ -223,6 +240,252 @@ public class FollowShapeManager : AbstractGameManager
             Destroy(active_shape.gameObject);
         active_shape = null;
     }
+
+
+    public Vector3[] PreprocessLine(Vector3[] rawPoints, int targetPointCount)
+    {
+        if (rawPoints == null || rawPoints.Length == 0)
+            return new Vector3[0];
+
+        // Step 1: Resample to fixed point count
+        Vector3[] resampled = ResamplePoints(rawPoints, targetPointCount);
+
+        // Step 2: Normalize scale and position
+        Vector3[] normalized = NormalizePoints(resampled);
+
+        // Step 3: Smooth to reduce noise
+        Vector3[] smoothed = SmoothPoints(normalized, smoothing_factor);
+
+        return smoothed;
+    }
+
+    private Vector3[] ResamplePoints(Vector3[] points, int targetCount)
+    {
+        if (points.Length <= 1 || targetCount <= 1) return points;
+
+        // Calculate total path length
+        float totalLength = 0f;
+        for (int i = 1; i < points.Length; i++)
+        {
+            totalLength += Vector3.Distance(points[i - 1], points[i]);
+        }
+
+        float interval = totalLength / (targetCount - 1);
+        Vector3[] resampled = new Vector3[targetCount];
+        resampled[0] = points[0];
+
+        float currentDistance = interval;
+        int currentIndex = 1;
+
+        for (int i = 1; i < targetCount - 1; i++)
+        {
+            float segmentDistance = 0f;
+
+            // Find the segment where currentDistance lies
+            while (currentIndex < points.Length - 1 &&
+                   currentDistance > segmentDistance + Vector3.Distance(points[currentIndex - 1], points[currentIndex]))
+            {
+                segmentDistance += Vector3.Distance(points[currentIndex - 1], points[currentIndex]);
+                currentIndex++;
+            }
+
+            // Interpolate within the segment
+            float segmentLength = Vector3.Distance(points[currentIndex - 1], points[currentIndex]);
+            float t = (currentDistance - segmentDistance) / segmentLength;
+            resampled[i] = Vector3.Lerp(points[currentIndex - 1], points[currentIndex], t);
+
+            currentDistance += interval;
+        }
+
+        resampled[targetCount - 1] = points[points.Length - 1];
+        return resampled;
+    }
+
+
+    private Vector3[] NormalizePoints(Vector3[] points)
+    {
+        if (points.Length == 0) return points;
+
+        // Find bounding box
+        Vector3 min = points[0];
+        Vector3 max = points[0];
+
+        foreach (Vector3 point in points)
+        {
+            min = Vector3.Min(min, point);
+            max = Vector3.Max(max, point);
+        }
+
+        // Calculate center and size
+        Vector3 center = (min + max) * 0.5f;
+        float size = Mathf.Max(max.x - min.x, max.y - min.y);
+        if (size == 0) size = 1f; // Avoid division by zero
+
+        // Normalize to unit square centered at origin
+        Vector3[] normalized = new Vector3[points.Length];
+        for (int i = 0; i < points.Length; i++)
+        {
+            normalized[i] = (points[i] - center) / size;
+        }
+
+        return normalized;
+    }
+
+    private Vector3[] SmoothPoints(Vector3[] points, float smoothFactor)
+    {
+        if (points.Length <= 2) return points;
+
+        Vector3[] smoothed = new Vector3[points.Length];
+        smoothed[0] = points[0];
+        smoothed[points.Length - 1] = points[points.Length - 1];
+
+        for (int i = 1; i < points.Length - 1; i++)
+        {
+            // Simple moving average
+            smoothed[i] = Vector3.Lerp(points[i],
+                (points[i - 1] + points[i] + points[i + 1]) / 3f,
+                smoothFactor);
+        }
+
+        return smoothed;
+    }
+
+    private bool CompareShapes(LineRenderer systemShape, List<Vector3> userPoints, int sampleCount, float threshold)
+    {
+        if (systemShape == null || userPoints.Count < 2) return false;
+
+        // Get system shape points
+        Vector3[] systemPoints = new Vector3[systemShape.positionCount];
+        systemShape.GetPositions(systemPoints);
+
+        // Convert user points to array
+        Vector3[] userPointsArray = userPoints.ToArray();
+
+        // Preprocess both curves
+        Vector3[] processedSystem = PreprocessLine(systemPoints, sampleCount);
+        Vector3[] processedUser = PreprocessLine(userPointsArray, sampleCount);
+
+        // Calculate similarity score (0-1 where 1 = perfect match)
+        float similarity = CalculateSimilarity(processedSystem, processedUser);
+
+        Debug.Log($"Shape similarity: {similarity:F2} (threshold: {threshold})");
+
+        return similarity >= threshold;
+    }
+
+    private float CalculateSimilarity(Vector3[] template, Vector3[] userInput)
+    {
+        if (template.Length == 0 || userInput.Length == 0) return 0f;
+
+        // Calculate multiple similarity metrics
+        float dtwDistance = CalculateDTW(template, userInput);
+        float hausdorffDist = CalculateHausdorff(template, userInput);
+        float directionalSimilarity = CalculateDirectionSimilarity(template, userInput);
+
+        // Normalize scores (0 = perfect, 1 = terrible)
+        float normalizedDTW = NormalizeDTWScore(dtwDistance);
+        float normalizedHausdorff = NormalizeHausdorffScore(hausdorffDist);
+        float normalizedDirection = 1f - directionalSimilarity;
+
+        // Weighted combination
+        float finalDistance = dtwWeight * normalizedDTW +
+                             hausdorffWeight * normalizedHausdorff +
+                             directionWeight * normalizedDirection;
+
+        // Convert to similarity (1 = perfect match)
+        return Mathf.Clamp01(1f - finalDistance);
+    }
+
+    private float CalculateDTW(Vector3[] sequence1, Vector3[] sequence2)
+    {
+        int n = sequence1.Length;
+        int m = sequence2.Length;
+
+        float[,] dtw = new float[n + 1, m + 1];
+
+        // Initialize with large values
+        for (int i = 0; i <= n; i++)
+            for (int j = 0; j <= m; j++)
+                dtw[i, j] = float.MaxValue;
+
+        dtw[0, 0] = 0f;
+
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                float cost = Vector3.Distance(sequence1[i - 1], sequence2[j - 1]);
+                dtw[i, j] = cost + Mathf.Min(
+                    dtw[i - 1, j],     // insertion
+                    dtw[i, j - 1],     // deletion  
+                    dtw[i - 1, j - 1]  // match
+                );
+            }
+        }
+
+        return dtw[n, m];
+    }
+
+    private float CalculateHausdorff(Vector3[] setA, Vector3[] setB)
+    {
+        float maxMinDistance = 0f;
+
+        // For each point in setA, find closest point in setB
+        foreach (Vector3 a in setA)
+        {
+            float minDistance = float.MaxValue;
+            foreach (Vector3 b in setB)
+            {
+                float dist = Vector3.Distance(a, b);
+                if (dist < minDistance) minDistance = dist;
+            }
+            if (minDistance > maxMinDistance) maxMinDistance = minDistance;
+        }
+
+        return maxMinDistance;
+    }
+
+    private float CalculateDirectionSimilarity(Vector3[] template, Vector3[] userInput)
+    {
+        int minLength = Mathf.Min(template.Length, userInput.Length);
+        if (minLength < 2) return 0f;
+
+        float totalDot = 0f;
+        int comparisons = 0;
+
+        for (int i = 1; i < minLength; i++)
+        {
+            Vector3 templateDir = (template[i] - template[i - 1]).normalized;
+            Vector3 userDir = (userInput[i] - userInput[i - 1]).normalized;
+
+
+            float dot = Vector3.Dot(templateDir, userDir);
+
+
+            float similarity = (dot + 1f) * 0.5f;
+
+            totalDot += similarity;
+            comparisons++;
+        }
+
+        return comparisons > 0 ? totalDot / comparisons : 0f;
+    }
+
+    private float NormalizeDTWScore(float dtwDistance)
+    {
+
+        float maxExpected = 5f;
+        return Mathf.Clamp01(dtwDistance / maxExpected);
+    }
+
+    private float NormalizeHausdorffScore(float hausdorffDistance)
+    {
+
+        float maxExpected = 2f;
+        return Mathf.Clamp01(hausdorffDistance / maxExpected);
+    }
+
+
 
     IEnumerator HandleTouch()
     {
@@ -236,35 +499,29 @@ public class FollowShapeManager : AbstractGameManager
             Vector2 screenPos = touchPositionAction.action.ReadValue<Vector2>();
             Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -mainCam.transform.position.z));
 
-            bool justPressed = pressed && !prevPressed;
-            bool justReleased = !pressed && prevPressed;
+            
 
-            if (drawingAllowed && justPressed && !userDrawingRunning)
+            if (drawingAllowed && !userDrawingRunning)
             {
                 userDrawingRunning = true;
                 StartCoroutine(UserDrawingRoutine());
             }
 
-            if (!is_invisible && col != null && col.OverlapPoint(worldPos) && pressed)
+            if (!is_invisible && col != null && pressed)
             {
-                is_touching = true;
-                OnTouchperformed();
+                // Don’t require overlap strictly on first frame of new shape
+                if (col.OverlapPoint(worldPos) || is_touching)
+                {
+                    is_touching = true;
+                    OnTouchperformed();
+                }
             }
             else
             {
                 is_touching = false;
             }
 
-            if (justReleased)
-            {
-                if (pendingCycle)
-                {
-                    pendingCycle = false;
-                    streak++;
-                    Debug.Log("Committed streak on release. streak=" + streak);
-                    HandleStreak(streak);
-                }
-            }
+
 
             prevPressed = pressed;
             yield return null;
@@ -329,16 +586,26 @@ public class FollowShapeManager : AbstractGameManager
         if (player != null)
             player.SetActive(false);
 
-        Debug.Log("User finished drawing with " + userPoints.Count + " points.");
-
         bool matched = false;
         if (active_shape != null && userPoints.Count > 1)
         {
-            matched = CompareShapes(active_shape, userPoints);
-            Debug.Log(matched ? "✅ Shape matched!" : "❌ Shape did not match.");
+            matched = CompareShapes(active_shape, userPoints, 64, threshold);
+          
+
+            if (matched)
+            {
+                streak = 0; 
+                result_screen_animator.Play("Matched", -1, 0);
+            }
+            else
+            {
+                result_screen_animator.Play("Didn't Match", -1, 0);
+            }
         }
 
         yield return new WaitForSeconds(delay_between_shapes);
+
+
 
         if (userLine != null)
         {
@@ -358,128 +625,9 @@ public class FollowShapeManager : AbstractGameManager
             GameEnded.Invoke();
     }
 
-    private bool CompareShapes(LineRenderer systemShape, List<Vector3> userPts, int sampleCount = 64, float threshold = 0.12f)
-    {
-        if (systemShape == null || userPts == null || userPts.Count < 2) return false;
 
-        List<Vector3> systemPoints = new List<Vector3>();
-        for (int i = 0; i < systemShape.positionCount; i++)
-            systemPoints.Add(systemShape.GetPosition(i));
 
-        List<Vector2> sys = Resample(systemPoints, sampleCount);
-        List<Vector2> usr = Resample(userPts, sampleCount);
 
-        if (sys.Count == 0 || usr.Count == 0) return false;
+   
 
-        sys = Normalize(sys);
-        usr = Normalize(usr);
-
-        float sum = 0f;
-        for (int i = 0; i < sampleCount; i++)
-            sum += Vector2.Distance(sys[i], usr[i]);
-
-        float avg = sum / sampleCount;
-        Debug.Log($"CompareShapes avgDist={avg}");
-        return avg < threshold;
-    }
-
-    private List<Vector2> Resample(List<Vector3> pts3, int sampleCount)
-    {
-        List<Vector2> path = new List<Vector2>(pts3.Count);
-        foreach (var p in pts3) path.Add(new Vector2(p.x, p.y));
-        return Resample(path, sampleCount);
-    }
-
-    private List<Vector2> Resample(List<Vector2> path, int sampleCount)
-    {
-        List<Vector2> outPts = new List<Vector2>();
-        if (path.Count == 0) return outPts;
-        if (path.Count == 1)
-        {
-            for (int i = 0; i < sampleCount; i++) outPts.Add(path[0]);
-            return outPts;
-        }
-
-        float total = PathLength(path);
-        if (total <= Mathf.Epsilon)
-        {
-            for (int i = 0; i < sampleCount; i++) outPts.Add(path[0]);
-            return outPts;
-        }
-
-        float interval = total / (sampleCount - 1);
-        outPts.Add(path[0]);
-        int idx = 1;
-        float acc = 0f;
-
-        while (outPts.Count < sampleCount && idx < path.Count)
-        {
-            Vector2 a = path[idx - 1];
-            Vector2 b = path[idx];
-            float seg = Vector2.Distance(a, b);
-
-            if (seg <= Mathf.Epsilon)
-            {
-                idx++;
-                continue;
-            }
-
-            if (acc + seg >= interval)
-            {
-                float t = (interval - acc) / seg;
-                Vector2 np = Vector2.Lerp(a, b, t);
-                outPts.Add(np);
-                path[idx - 1] = np;
-                acc = 0f;
-            }
-            else
-            {
-                acc += seg;
-                idx++;
-            }
-        }
-
-        if (outPts.Count < sampleCount)
-            outPts.Add(path[path.Count - 1]);
-
-        return outPts;
-    }
-
-    private float PathLength(List<Vector2> pts)
-    {
-        float len = 0f;
-        for (int i = 1; i < pts.Count; i++) len += Vector2.Distance(pts[i - 1], pts[i]);
-        return len;
-    }
-
-    private List<Vector2> Normalize(List<Vector2> pts)
-    {
-        List<Vector2> outp = new List<Vector2>(pts.Count);
-        if (pts.Count == 0) return outp;
-
-        Vector2 c = Vector2.zero;
-        foreach (var p in pts) c += p;
-        c /= pts.Count;
-
-        List<Vector2> trans = new List<Vector2>();
-        foreach (var p in pts) trans.Add(p - c);
-
-        float minX = trans[0].x, maxX = trans[0].x, minY = trans[0].y, maxY = trans[0].y;
-
-        foreach (var p in trans)
-        {
-            if (p.x < minX) minX = p.x;
-            if (p.x > maxX) maxX = p.x;
-            if (p.y < minY) minY = p.y;
-            if (p.y > maxY) maxY = p.y;
-        }
-
-        float w = maxX - minX;
-        float h = maxY - minY;
-        float scale = Mathf.Max(w, h);
-        if (scale <= Mathf.Epsilon) scale = 1f;
-
-        foreach (var p in trans) outp.Add(p / scale);
-        return outp;
-    }
 }

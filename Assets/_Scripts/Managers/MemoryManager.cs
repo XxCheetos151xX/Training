@@ -122,7 +122,13 @@ public class MemoryManager : AbstractGameManager
 
         if (!wrong_tile && pressed_tiles.Count == pattern.Count)
         {
-            score_manager.user_score += score_tobe_added * score_ratio;
+            if (activeMemorySO.memorylevels.Count > 1)
+            {
+                score_manager.user_score += score_tobe_added * score_ratio;
+            }
+            else
+                score_manager.user_score += score_tobe_added;
+
             streak++;
 
             if (streak >= 3 && current_stage + 1 < _usertimewindow.Count)
@@ -201,7 +207,7 @@ public class MemoryManager : AbstractGameManager
         while (true)
         {
             stopPattern = false;
-            score_manager.total_score += score_tobe_added * score_ratio;
+            score_manager.total_score += score_tobe_added;
 
             
             foreach (var t in grid_manager.active_tiles)

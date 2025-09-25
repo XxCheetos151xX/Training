@@ -141,8 +141,12 @@ public class FocusManager : AbstractGameManager
 
     public void TargetCaptured(GameObject clickedObj)
     {
-        score_manager.user_score += score_tobe_added * score_ratio;
-        print(score_manager.user_score);
+        if (activeFocusSO.focuslevels.Count > 1)
+        {
+            score_manager.user_score += score_tobe_added * score_ratio;
+        }
+        else
+            score_manager.user_score += score_tobe_added;
         streak++;
         targetQueue.Enqueue(clickedObj);
         clickedObj.SetActive(false);
@@ -208,7 +212,7 @@ public class FocusManager : AbstractGameManager
             spawned_target1.transform.localScale = new Vector3(scale, scale, scale);
             spawned_target2.transform.localScale = new Vector3(scale, scale, scale);
 
-            score_manager.total_score += (score_tobe_added * 2) * score_ratio;
+            score_manager.total_score += (score_tobe_added * 2);
 
             float t = 0f;
             while (t < life_span && (spawned_target1.activeSelf || spawned_target2.activeSelf))

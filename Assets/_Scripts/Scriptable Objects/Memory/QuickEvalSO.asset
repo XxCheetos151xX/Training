@@ -17,6 +17,7 @@ MonoBehaviour:
   - flickerstarttime: 0
     patternspeed: 1
     usertimewindow: 5
+    scoreratio: 0.125
     patternsize: 2
     rows: 8
     cols: 8
@@ -25,6 +26,7 @@ MonoBehaviour:
   - flickerstarttime: 22.5
     patternspeed: 1
     usertimewindow: 4.5
+    scoreratio: 0.25
     patternsize: 3
     rows: 8
     cols: 8
@@ -33,6 +35,7 @@ MonoBehaviour:
   - flickerstarttime: 45
     patternspeed: 1
     usertimewindow: 4
+    scoreratio: 0.375
     patternsize: 4
     rows: 10
     cols: 10
@@ -41,6 +44,7 @@ MonoBehaviour:
   - flickerstarttime: 67.5
     patternspeed: 1
     usertimewindow: 3.5
+    scoreratio: 0.5
     patternsize: 5
     rows: 12
     cols: 12
@@ -49,6 +53,7 @@ MonoBehaviour:
   - flickerstarttime: 90
     patternspeed: 0.7
     usertimewindow: 3
+    scoreratio: 0.625
     patternsize: 5
     rows: 14
     cols: 14
@@ -57,6 +62,7 @@ MonoBehaviour:
   - flickerstarttime: 112.5
     patternspeed: 0.7
     usertimewindow: 2.5
+    scoreratio: 0.75
     patternsize: 5
     rows: 16
     cols: 16
@@ -65,6 +71,7 @@ MonoBehaviour:
   - flickerstarttime: 135
     patternspeed: 0.7
     usertimewindow: 2.5
+    scoreratio: 0.875
     patternsize: 5
     rows: 18
     cols: 18
@@ -73,6 +80,7 @@ MonoBehaviour:
   - flickerstarttime: 167.5
     patternspeed: 0.7
     usertimewindow: 2.5
+    scoreratio: 1
     patternsize: 5
     rows: 20
     cols: 20

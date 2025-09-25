@@ -16,6 +16,7 @@ MonoBehaviour:
   focuslevels:
   - starttime: 0
     lifespan: 1.25
+    scale: 1.25
+    scoreratio: 0.75
     isflickering: 0
     flickeringspeed: 0
-    scale: 1.25
