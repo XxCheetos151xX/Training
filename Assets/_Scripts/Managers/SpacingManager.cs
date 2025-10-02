@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Events;
-
+using System.Globalization;
 
 public class SpacingManager : AbstractGameManager
 {
@@ -16,7 +16,8 @@ public class SpacingManager : AbstractGameManager
     [SerializeField] private float grid_delay;
     [SerializeField] private float score_tobe_added;
     [SerializeField] private Color clicked_color;
-    [SerializeField] UnityEvent GameEnded;
+    [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
 
     private SpacingSO activeSpacingSO;
@@ -29,6 +30,7 @@ public class SpacingManager : AbstractGameManager
     private int streak;
     private int activeLevelIndex = 0;
     private bool isWaitingAfterClick = false;
+    private string chosen_mode;
     private List<float> starttime = new List<float>();
     private List<float> life_span = new List<float>();
     private List<float> flickeringspeed = new List<float>();
@@ -37,8 +39,8 @@ public class SpacingManager : AbstractGameManager
     private List<int> rows = new List<int>();
     private List<int> columns = new List<int>();
 
-    private void Start()
-    {
+    void Start()
+    {        
         GameSetup();
         StartCoroutine(ui_manager.Timer());
         StartCoroutine(GameLoop());
@@ -51,18 +53,19 @@ public class SpacingManager : AbstractGameManager
     {
         initial_timer = activeSpacingSO.timer;
 
+        chosen_mode = PlayerPrefs.GetString("GameMode");
        
        
-        for (int i = 0; i < activeSpacingSO.spacinglevels.Count; i++)
-        {
-            starttime.Add(activeSpacingSO.spacinglevels[i].starttime);
-            life_span.Add(activeSpacingSO.spacinglevels[i].speed);
-            rows.Add(activeSpacingSO.spacinglevels[i].rows);
-            columns.Add(activeSpacingSO.spacinglevels[i].columns);
-            isflickering.Add(activeSpacingSO.spacinglevels[i].isflickering);
-            flickeringspeed.Add(activeSpacingSO.spacinglevels[i].flickeringspeed);
-            _scoreratio.Add(activeSpacingSO.spacinglevels[i].scoreratio);
-        }
+       for (int i = 0; i < activeSpacingSO.spacinglevels.Count; i++)
+       {
+           starttime.Add(activeSpacingSO.spacinglevels[i].starttime);
+           life_span.Add(activeSpacingSO.spacinglevels[i].speed);
+           rows.Add(activeSpacingSO.spacinglevels[i].rows);
+           columns.Add(activeSpacingSO.spacinglevels[i].columns);
+           isflickering.Add(activeSpacingSO.spacinglevels[i].isflickering);
+           flickeringspeed.Add(activeSpacingSO.spacinglevels[i].flickeringspeed);
+           _scoreratio.Add(activeSpacingSO.spacinglevels[i].scoreratio);
+       }
 
         lifespan = life_span[activeLevelIndex];
 
@@ -105,6 +108,16 @@ public class SpacingManager : AbstractGameManager
         grid_manager.ClearGrid();
         StopAllCoroutines();
     }
+
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
 
 
     public void SetActiveSpacingSO(SpacingSO val) => activeSpacingSO = val;
@@ -172,9 +185,14 @@ public class SpacingManager : AbstractGameManager
                 }
             }
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
+            }
+
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
 
             yield return null;

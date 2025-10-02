@@ -22,6 +22,7 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private float spawning_area_width;
     [SerializeField] private float inverted_collider_pos;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private FlickeringSO activeFlickeringSO;
     private Camera cam;
@@ -34,6 +35,7 @@ public class FlickeringGameManager : AbstractGameManager
     private float right_spawning_area_border;
     private float left_spawning_area_border;
     private float score_ratio;
+    private string chosen_mode;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
@@ -75,6 +77,8 @@ public class FlickeringGameManager : AbstractGameManager
         timer = 0;
 
         initial_timer = activeFlickeringSO.timer;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         right_goal.position = new Vector3(maxX - 1f, 0, 0);
         left_goal.position = new Vector3(minX + 1f, 0, 0);
@@ -150,6 +154,16 @@ public class FlickeringGameManager : AbstractGameManager
         ClearActiveTargets();
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
     public void SetActiveFlickeringSO(FlickeringSO val) => activeFlickeringSO = val;
 
     IEnumerator GameLoop()
@@ -172,9 +186,13 @@ public class FlickeringGameManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
             yield return null;
         }

@@ -4,6 +4,7 @@ public class FlickeringGameDataGetter : GameDataGetter
 {
     public FlickeringSO advancedEvalSO;
     public FlickeringSO quickEvalSO;
+    public FlickeringSO generalEvalSO;
     public List<FlickeringSO> traininglevelSO = new List<FlickeringSO>();
 
     public FlickeringGameManager manager;
@@ -21,6 +22,9 @@ public class FlickeringGameDataGetter : GameDataGetter
                 break;
             case GameMode.QuickEval:
                 SetGameSettings(quickEvalSO);
+                break;
+            case GameMode.GeneralEval:
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

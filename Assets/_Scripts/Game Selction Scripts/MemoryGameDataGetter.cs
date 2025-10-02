@@ -6,6 +6,7 @@ public class MemoryGameDataGetter : GameDataGetter
 {
     public MemorySO advancedEvalSO;
     public MemorySO quickEvalSO;
+    public MemorySO generalEvalSO;
     public List<MemorySO> traininglevelSO = new List<MemorySO>();
 
     public MemoryManager manager;
@@ -23,6 +24,9 @@ public class MemoryGameDataGetter : GameDataGetter
             case GameMode.Training:
                 int level = PlayerPrefs.GetInt("LevelSelected");
                 SetGameSettings(traininglevelSO[level - 1]);
+                break;
+            case GameMode.GeneralEval:
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

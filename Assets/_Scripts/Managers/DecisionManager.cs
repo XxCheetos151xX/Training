@@ -12,7 +12,6 @@ public class DecisionManager : AbstractGameManager
     [SerializeField] private GameObject false_target_prefab;
     [SerializeField] private GameObject left_hand;
     [SerializeField] private GameObject right_hand;
-    [SerializeField] private GameObject end_screen;
     [SerializeField] private FlickeringManager flickering_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private UIManager ui_manager;
@@ -25,6 +24,7 @@ public class DecisionManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private List<Color> colors = new List<Color>();
     [SerializeField] private UnityEvent GameEnd;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private DecisionSO activeDecisionSO;
     private Camera cam;
@@ -40,6 +40,7 @@ public class DecisionManager : AbstractGameManager
     private bool righthandpressed = false;
     private bool gamestarted = false;
     private bool switch_colors;
+    private string chosen_mode;
     private GameObject spawned_target;
     private GameObject spawned_false_target;
     private ClickableObject target_clickableobject;
@@ -56,7 +57,7 @@ public class DecisionManager : AbstractGameManager
     private List<bool> _isflickering = new List<bool>();
     private List<bool> _switch_colors = new List<bool>();
 
-    private void Start()
+    void Start()
     {
         GameSetup();
         background_generator.GenerateConstantBackGround(0.5f);
@@ -65,6 +66,8 @@ public class DecisionManager : AbstractGameManager
 
     void GameSetup()
     {
+        chosen_mode = PlayerPrefs.GetString("GameMode");
+
         initial_timer = activeDecisionSO.timer;
         cam = Camera.main;
         timer = 0;
@@ -198,6 +201,16 @@ public class DecisionManager : AbstractGameManager
         }
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
     public void SetActiveDecisionSO(DecisionSO val) => activeDecisionSO = val;
 
 
@@ -309,9 +322,13 @@ public class DecisionManager : AbstractGameManager
                 }
             }
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnd.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
             yield return null;
         }

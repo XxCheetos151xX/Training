@@ -20,6 +20,7 @@ public class RecognitionSpeedManager : AbstractGameManager
     [SerializeField] private Color invisible_color;
     [SerializeField] private Color clicked_color;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private RecognitionSpeedSO activeRecognitionSpeedSO;
     private Camera cam;
@@ -32,6 +33,7 @@ public class RecognitionSpeedManager : AbstractGameManager
     private float score_ratio;
     private int size;
     private bool all_targets_clicked;
+    private string chosen_mode;
     private List<float> _starttime = new List<float>();
     private List<float> _lifespan = new List<float>();
     private List<float> _speed = new List<float>();
@@ -42,7 +44,7 @@ public class RecognitionSpeedManager : AbstractGameManager
     private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {
+    {        
         SetupScreen();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
@@ -71,6 +73,8 @@ public class RecognitionSpeedManager : AbstractGameManager
     void GameSetup()
     {
         timer = 0;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         initial_timer = activeRecognitionSpeedSO.timer;
 
@@ -181,6 +185,16 @@ public class RecognitionSpeedManager : AbstractGameManager
         DestroyAtciveTargets();
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
 
     public void SetActiveRecognitionSpeedSO(RecognitionSpeedSO val) => activeRecognitionSpeedSO = val;
 
@@ -205,9 +219,13 @@ public class RecognitionSpeedManager : AbstractGameManager
                 } 
             }
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
 
             yield return null;

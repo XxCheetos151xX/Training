@@ -5,6 +5,7 @@ public class ComplexFunctionsGameDataGetter : GameDataGetter
 {
     public ComplexFunctionsSO advancedEvalSO;
     public ComplexFunctionsSO quickEvalSO;
+    public ComplexFunctionsSO generalEvalSO;
     public List<ComplexFunctionsSO> traininglevelSO = new List<ComplexFunctionsSO>();
 
     public ComplexFunctionManager manager;
@@ -22,6 +23,9 @@ public class ComplexFunctionsGameDataGetter : GameDataGetter
                 break;
             case GameMode.QuickEval:
                 SetGameSettings(quickEvalSO);
+                break;
+            case GameMode.GeneralEval:
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

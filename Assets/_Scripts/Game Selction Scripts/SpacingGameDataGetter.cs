@@ -5,6 +5,7 @@ public class SpacingGameDataGetter : GameDataGetter
 {
     public SpacingSO advancedevalSO;
     public SpacingSO quickevalSO;
+    public SpacingSO generalEvalSO;
     public List<SpacingSO> traininglevelSO = new List<SpacingSO>();
 
     public SpacingManager manager;
@@ -23,6 +24,9 @@ public class SpacingGameDataGetter : GameDataGetter
             case GameMode.Training:
                 int level = PlayerPrefs.GetInt("LevelSelected");
                 SetGameSettings(traininglevelSO[level - 1]);
+                break;
+            case GameMode.GeneralEval: 
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

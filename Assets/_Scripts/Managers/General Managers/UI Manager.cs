@@ -1,21 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Video;
+using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("UI References")]
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private TextMeshProUGUI score_txt;
+    [SerializeField] private TextMeshProUGUI next_game_title;
+
+    [Header("Result Prefab & Container")]
+    [SerializeField] private GameObject resultTextPrefab;   // Prefab with TextMeshProUGUI
+    [SerializeField] private Transform resultsContainer;
+    [SerializeField] private Transform lowestResultsContainer;
+    [SerializeField] private TextMeshProUGUI average_score_txt;
+
+    [Header("Panels")]
     [SerializeField] private GameObject ending_panel;
+    [SerializeField] private GameObject sequence_ended_panel;
+    [SerializeField] private GameObject generaleval_ending_panel;
+
+    [Header("Managers")]
+    [SerializeField] private SaveAndLoadManager save_and_load_manager;
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private AbstractGameManager manager;
+
+    [Header("Video Mode")]
     [SerializeField] private bool isvideo;
-    
     public VideoPlayer video_player;
 
     [HideInInspector] public double remaining;
+
+    // ================== Menu Buttons ==================
     public void LoadMenu()
     {
         SceneManager.LoadScene("Main Menu");
@@ -31,18 +50,115 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
+    // ================== Game End ==================
     public void GameEnd()
     {
         StopAllCoroutines();
+
         if (score_manager != null)
             score_txt.text = score_manager.final_score.ToString("F2") + "%";
+
         if (timer_txt != null)
             timer_txt.enabled = false;
+
         if (ending_panel != null)
             ending_panel.SetActive(true);
     }
 
+    // ================== Sequence End ==================
+    public void SequenceEnded()
+    {
+        StopAllCoroutines();
 
+        if (timer_txt != null)
+            timer_txt.enabled = false;
+
+        if (SequenceManager.Instance.currentIndex < SequenceManager.Instance.drillScenes.Count - 1)
+        {
+            if (sequence_ended_panel != null)
+                sequence_ended_panel.SetActive(true);
+
+            if (next_game_title != null)
+            {
+                string nextScene = SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex + 1];
+                next_game_title.text = "Next Game Is " + nextScene;
+            }
+        }
+        else if (SequenceManager.Instance.currentIndex >= SequenceManager.Instance.drillScenes.Count - 1)
+        {
+            score_manager.GetAverageScore();
+            ShowGeneralEvalEnding();
+        }
+    }
+
+    // ================== General Eval Ending ==================
+    private void ShowGeneralEvalEnding()
+    {
+        if (generaleval_ending_panel != null)
+        {
+            generaleval_ending_panel.SetActive(true);
+
+            // Clear old children first
+            foreach (Transform child in resultsContainer)
+                Destroy(child.gameObject);
+
+            foreach (Transform child in lowestResultsContainer)
+                Destroy(child.gameObject);
+
+            if (save_and_load_manager != null)
+            {
+                var saved = save_and_load_manager.LoadScore();
+
+                if (saved.wrapper.Count == 0)
+                {
+                    var noResultObj = Instantiate(resultTextPrefab, resultsContainer);
+                    var noResultText = noResultObj.GetComponent<TextMeshProUGUI>();
+                    noResultText.text = "No results recorded.";
+                }
+                else
+                {
+                    // --- Show all results ---
+                    foreach (var entry in saved.wrapper)
+                    {
+                        var textObj = Instantiate(resultTextPrefab, resultsContainer);
+                        var textInstance = textObj.GetComponent<TextMeshProUGUI>();
+                        textInstance.enabled = true;
+                        textInstance.text = $"{entry.scene_name}: {entry.score:F1}%";
+                    }
+
+                    // --- Show 3 lowest scores ---
+                    var lowestThree = saved.wrapper
+                        .OrderBy(entry => entry.score)
+                        .Take(3);
+
+                    foreach (var entry in lowestThree)
+                    {
+                        var textObj = Instantiate(resultTextPrefab, lowestResultsContainer);
+                        var textInstance = textObj.GetComponent<TextMeshProUGUI>();
+                        textInstance.enabled = true;
+                        textInstance.text = $"{entry.scene_name}: {entry.score:F1}%";
+                    }
+
+                    // --- Average ---
+                    average_score_txt.text = "Average is: " + score_manager.average.ToString("F1") + "%";
+                }
+            }
+        }
+    }
+
+
+    // ================== Start General Eval ==================
+    public void StartGeneralEval()
+    {
+        PlayerPrefs.SetString("GameMode", GameMode.GeneralEval.ToString());
+
+        if (SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.StartSequence();
+        }
+    }
+
+    // ================== Timer ==================
     public IEnumerator Timer()
     {
         while (true)

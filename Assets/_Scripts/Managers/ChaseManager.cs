@@ -24,6 +24,7 @@ public class ChaseManager : AbstractGameManager
     [SerializeField] private Color normal_color;
     [SerializeField] private Color right_color;
     [SerializeField] private UnityEvent GameEnd;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private float target_speed;
     private float target_angle;
@@ -33,6 +34,7 @@ public class ChaseManager : AbstractGameManager
     private float score_ratio;
     private bool has_started;
     private bool is_touching;
+    private string chosen_mode;
     private ChaseSO activeChaseSO;
     private Vector3 target_direction;
     private RaycastHit2D hit;
@@ -42,6 +44,7 @@ public class ChaseManager : AbstractGameManager
     private List<float> _scoreratio = new List<float>();
     private List<float> _flickerspeed  = new List<float>();
     private List<bool> _flickerenabled = new List<bool>();
+
    
     
     private void Awake()
@@ -62,19 +65,22 @@ public class ChaseManager : AbstractGameManager
         ClickActionRef.action.Disable();
     }
 
-    private void Start()
-    {
+     void Start()
+     { 
         Setup();
         GameSetup();
         PickDirection();
-        background_generator.GenerateConstantBackGround(0.5f);       
-    }
+        background_generator.GenerateConstantBackGround(0.5f);  
+     }
+
 
     public void SetActiveChaseSO(ChaseSO val) => activeChaseSO = val;
 
 
     void Setup()
     {
+        chosen_mode = PlayerPrefs.GetString("GameMode");
+
         float aspectRatio = (float)Screen.width / Screen.height;
         float verticalSize = Camera.main.orthographicSize * 2;
         float horizontalSize = verticalSize * aspectRatio;
@@ -104,6 +110,7 @@ public class ChaseManager : AbstractGameManager
                 _scoreratio.Add(activeChaseSO.ChaseLevels[i].scoreratio);
             }
         }
+
     }
 
     private void OnTouchPerformed(InputAction.CallbackContext ctx)
@@ -141,17 +148,27 @@ public class ChaseManager : AbstractGameManager
         target_direction = new Vector3(Mathf.Cos(target_angle), Mathf.Sin(target_angle), 0).normalized;
         target_currentPos = target.transform.position + target_direction * Random.Range(1f, 3f);
     }
-    
-    
+
+
     public void EndGame()
-    {   
+    {
         StopAllCoroutines();
         player.SetActive(false);
         target.SetActive(false);
         line.enabled = false;
     }
-    
-    
+
+
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
     IEnumerator TargetBehaviour()
     {
         while (true)
@@ -247,9 +264,14 @@ public class ChaseManager : AbstractGameManager
                     break;
                 }
             }
-            if (initial_timer <= 0)
+
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnd.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
             yield return null;
         }

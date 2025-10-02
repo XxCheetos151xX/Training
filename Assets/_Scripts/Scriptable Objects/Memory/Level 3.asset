@@ -15,10 +15,11 @@ MonoBehaviour:
   timer: 90
   memorylevels:
   - flickerstarttime: 0
-    patternspeed: 1
-    usertimewindow: 4
-    patternsize: 4
-    rows: 10
-    cols: 10
+    patternspeed: 1.7
+    usertimewindow: 4.5
+    scoreratio: 0
+    patternsize: 2
+    rows: 6
+    cols: 6
     isflickering: 0
     flickeringspeed: 0

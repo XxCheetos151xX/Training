@@ -5,6 +5,7 @@ public class ChaseGameDataGetter : GameDataGetter
 {
     public ChaseSO advancedEvalSO;
     public ChaseSO quickEvalSO;
+    public ChaseSO generalEvalSO;
     public List<ChaseSO> trainingSOLevel;
 
     public ChaseManager manager;
@@ -24,7 +25,9 @@ public class ChaseGameDataGetter : GameDataGetter
             case GameMode.AdvancedEval:
                 SetGameSettings(advancedEvalSO);
                 break;
-
+            case GameMode.GeneralEval:
+                SetGameSettings(generalEvalSO);
+                break;
         }
     }
 

@@ -16,11 +16,13 @@ public class MemoryManager : AbstractGameManager
     [Header("Game Settings")]
     [SerializeField] private float delay;
     [SerializeField] private float score_tobe_added;
-    [SerializeField] private Color original_color;
+    [SerializeField] private Color original_opaque_color;
+    [SerializeField] private Color original_transparent_color;
     [SerializeField] private Color pattern_color;
     [SerializeField] private Color right_color;
     [SerializeField] private Color wrong_color;
     [SerializeField] private UnityEvent GameEnd;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private MemorySO activeMemorySO;
     private float timer;
@@ -31,6 +33,7 @@ public class MemoryManager : AbstractGameManager
     private int current_stage;
     private int streak;
     private bool stopPattern = false;
+    private string chosen_mode;
     private Coroutine patternCoroutine;
     private List<float> _flickerstarttime = new List<float>();
     private List<float> _paternspeed = new List<float>();
@@ -45,7 +48,7 @@ public class MemoryManager : AbstractGameManager
     private List<GameObject> pressed_tiles = new List<GameObject>();
 
 
-    private void Start()
+    void Start()
     {
         GameSetup();
         StartCoroutine(GameInit());
@@ -57,6 +60,8 @@ public class MemoryManager : AbstractGameManager
     {
         timer = 0;
         initial_timer = activeMemorySO.timer;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         current_stage = 0;
 
@@ -160,6 +165,16 @@ public class MemoryManager : AbstractGameManager
         StopAllCoroutines();
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
     public void SetActiveMemorySO(MemorySO val) => activeMemorySO = val;
 
 
@@ -167,6 +182,10 @@ public class MemoryManager : AbstractGameManager
     {
         yield return null;
         grid_manager.GenerateGrid(row, col);
+        foreach (var t in grid_manager.active_tiles)
+        {
+            t.GetComponent<SpriteRenderer>().color = original_opaque_color;
+        }
         StartCoroutine(ui_manager.Timer());
         StartCoroutine(GameLoop());
         patternCoroutine = StartCoroutine(GeneratePattern());
@@ -193,9 +212,14 @@ public class MemoryManager : AbstractGameManager
             }
 
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnd.Invoke();
+            }
+
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
 
             yield return null;
@@ -239,7 +263,7 @@ public class MemoryManager : AbstractGameManager
                     {
                         if (stopPattern)
                         {
-                            rend.color = original_color;
+                            rend.color = original_opaque_color;
                             yield break;
                         }
                         elapsed += Time.deltaTime;
@@ -247,7 +271,7 @@ public class MemoryManager : AbstractGameManager
                     }
 
                     if (!stopPattern && rend != null)
-                        rend.color = original_color;
+                        rend.color = original_opaque_color;
 
                     float pause = 0f;
                     while (pause < 0.2f)
@@ -262,7 +286,11 @@ public class MemoryManager : AbstractGameManager
             
             foreach (var t in grid_manager.active_tiles)
                 if (t != null && t.TryGetComponent(out BoxCollider2D col))
+                {
                     col.enabled = true;
+                    t.GetComponent<SpriteRenderer>().color = original_transparent_color;
+                }
+                    
 
             if (stopPattern) yield break;
 
@@ -302,10 +330,10 @@ public class MemoryManager : AbstractGameManager
 
         yield return new WaitForSeconds(delay);
 
-        foreach (var tile in pressed_tiles)
+        foreach (var tile in grid_manager.active_tiles)
         {
             if (tile != null && tile.TryGetComponent(out SpriteRenderer rend))
-                rend.color = original_color;
+                rend.color = original_opaque_color;
         }
 
         pressed_tiles.Clear();
@@ -319,6 +347,10 @@ public class MemoryManager : AbstractGameManager
         yield return new WaitForSeconds(delay);
         pattern.Clear();
         grid_manager.GenerateGrid(row, col);
+        foreach (var t in grid_manager.active_tiles)
+        {
+            t.GetComponent<SpriteRenderer>().color = original_opaque_color;
+        }
     }
 
 }

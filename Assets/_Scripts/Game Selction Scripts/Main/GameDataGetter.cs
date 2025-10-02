@@ -27,6 +27,9 @@ public abstract class GameDataGetter : MonoBehaviour
             case GameMode.AdvancedEval:
 
                 break;
+            case GameMode.GeneralEval:
+
+                break;
 
         }
     }

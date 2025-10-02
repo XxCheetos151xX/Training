@@ -25,6 +25,7 @@ public class PiriorityManager : AbstractGameManager
     [SerializeField] private float score_tobe_added_each_spawn;
     [SerializeField] private float minimum_distance_between_targets;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private PirioritySO activePirioritySO;
     private Camera cam;
@@ -36,6 +37,7 @@ public class PiriorityManager : AbstractGameManager
     private float delay;
     private float score_ratio;
     private bool valid_pos;
+    private string chosen_mode;
     private List<float> _starttime = new List<float>();
     private List<float> _lifespan = new List<float>();
     private List<float> _delay = new List<float>();
@@ -46,7 +48,7 @@ public class PiriorityManager : AbstractGameManager
     private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {
+    {        
         SetupScreen();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
@@ -77,6 +79,8 @@ public class PiriorityManager : AbstractGameManager
         timer = 0;
 
         initial_timer = activePirioritySO.timer;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         if (activePirioritySO != null)
         {
@@ -190,6 +194,16 @@ public class PiriorityManager : AbstractGameManager
         }
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
     public void SetActivePirioritySO(PirioritySO val) => activePirioritySO = val;
 
 
@@ -256,9 +270,13 @@ public class PiriorityManager : AbstractGameManager
                 }
             }
             
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
 
             yield return null;

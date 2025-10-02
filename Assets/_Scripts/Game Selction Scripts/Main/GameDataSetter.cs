@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameDataSetter : MonoBehaviour
 {
-    [SerializeField] private List<int> game_types = new List<int>();
-    [SerializeField] private List<int> game_levels = new List<int>();
+     public List<int> quickplay_game_types = new List<int>();
+     public List<int> quickplay_game_levels = new List<int>();
 
     public GameType gameType;
     public GameMode gameMode;
@@ -34,20 +34,20 @@ public class GameDataSetter : MonoBehaviour
     public void LoadRandomScene()
     {
         // 1. Random game type from list
-        if (game_types.Count > 0)
+        if (quickplay_game_types.Count > 0)
         {
-            int randomGameTypeIndex = UnityEngine.Random.Range(0, game_types.Count);
-            gameType = (GameType)game_types[randomGameTypeIndex];
+            int randomGameTypeIndex = UnityEngine.Random.Range(0, quickplay_game_types.Count);
+            gameType = (GameType)quickplay_game_types[randomGameTypeIndex];
         }
 
         // 2. Force game mode to Training
         gameMode = GameMode.Training;
 
         // 3. Random level from list
-        if (game_levels.Count > 0)
+        if (quickplay_game_levels.Count > 0)
         {
-            int randomLevelIndex = UnityEngine.Random.Range(0, game_levels.Count);
-            int selectedLevel = game_levels[randomLevelIndex];
+            int randomLevelIndex = UnityEngine.Random.Range(0, quickplay_game_levels.Count);
+            int selectedLevel = quickplay_game_levels[randomLevelIndex];
             PlayerPrefs.SetInt("LevelSelected", selectedLevel);
         }
 
@@ -57,7 +57,6 @@ public class GameDataSetter : MonoBehaviour
         // 5. Load scene based on GameType enum name
         SceneManager.LoadScene(gameType.ToString());
     }
-
 }
 
 [Serializable]
@@ -84,5 +83,6 @@ public enum GameMode
     Training,
     QuickEval,
     AdvancedEval,
+    GeneralEval,
 }
 

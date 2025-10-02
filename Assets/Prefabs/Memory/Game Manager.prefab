@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &216621205145106335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7464422610242486835}
+  - component: {fileID: 6329037273705137652}
+  - component: {fileID: 8432574671874172213}
+  - component: {fileID: 9088931702536436847}
+  - component: {fileID: 3175105192150407267}
+  - component: {fileID: 7073146229606932011}
+  - component: {fileID: 7010512546631555278}
+  - component: {fileID: 3963378033431827359}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7464422610242486835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1049.8645, y: 793.2369, z: -8.866506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6329037273705137652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c28c437d99da549ae6992d2c552fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initial_timer: 0
+  flickering_manager: {fileID: 7073146229606932011}
+  score_manager: {fileID: 7010512546631555278}
+  grid_manager: {fileID: 3963378033431827359}
+  ui_manager: {fileID: 9088931702536436847}
+  delay: 1
+  score_tobe_added: 1
+  original_opaque_color: {r: 0.24528301, g: 0.244126, b: 0.244126, a: 0.49019608}
+  original_transparent_color: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.49019608}
+  pattern_color: {r: 0.22352941, g: 0.29411766, b: 0.83137256, a: 0.49019608}
+  right_color: {r: 0.22352941, g: 0.83137256, b: 0.3372549, a: 0.49019608}
+  wrong_color: {r: 0.85882354, g: 0.22352941, b: 0.22352941, a: 0.49019608}
+  GameEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6329037273705137652}
+        m_TargetAssemblyTypeName: MemoryManager, Assembly-CSharp
+        m_MethodName: GameEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7010512546631555278}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 9088931702536436847}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: GameEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8432574671874172213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245914a4b2147dc41966522d1138380e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedEvalSO: {fileID: 11400000, guid: aa07eb9f56975d94c9c5cfd37b7ef096, type: 2}
+  quickEvalSO: {fileID: 11400000, guid: b7cf83658507cbb4db3f764eaccc7d2f, type: 2}
+  traininglevelSO:
+  - {fileID: 11400000, guid: f35fbb6747242fd4583759568b015a06, type: 2}
+  - {fileID: 11400000, guid: db854c4ac462ad14fae2dffd736dd2e8, type: 2}
+  - {fileID: 11400000, guid: e23711d8ca0ece14e873a921dc5b2636, type: 2}
+  - {fileID: 11400000, guid: c9db2aceb9231574ba738952966550fa, type: 2}
+  - {fileID: 11400000, guid: 749750a3543422e498c2b0ffad3d0e72, type: 2}
+  - {fileID: 11400000, guid: 1db69b5ba2e4ebc458737d0a3c3a439c, type: 2}
+  - {fileID: 11400000, guid: 018ef182c1e341d4c9bef01875fdc4e3, type: 2}
+  - {fileID: 11400000, guid: 5dad3332d2960054dab71a8f9964901d, type: 2}
+  manager: {fileID: 6329037273705137652}
+--- !u!114 &9088931702536436847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer_txt: {fileID: 0}
+  score_txt: {fileID: 0}
+  ending_panel: {fileID: 0}
+  score_manager: {fileID: 7010512546631555278}
+  manager: {fileID: 6329037273705137652}
+  isvideo: 0
+  video_player: {fileID: 0}
+  remaining: 0
+--- !u!114 &3175105192150407267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a9405b639f1d1429c18f44377f9f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7073146229606932011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b308b9cd81d72a24fa8680034ea08f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  black_screen: {fileID: 0}
+--- !u!114 &7010512546631555278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
+--- !u!114 &3963378033431827359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216621205145106335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1c3482bc843da49b5ac06c8fc54713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal_tile_prefab: {fileID: 3010214325582817647, guid: e193cfbd8a9ec76448466b83de960bbc, type: 3}
+  diff_tile_prefab: {fileID: 0}
+  has_diff_tile: 0
+  number_of_diff_tiles: 0
+  line_prefab: {fileID: 2262013932064006402, guid: c0abe8e5cf4efe64ab338cd4115c4a97, type: 3}
+  line_thickness: 0.03
+  has_lines: 0
+  offset: 0.8
+  notch_min_x: -1
+  notch_max_x: 1
+  shuffle_grid: 0
+  circular_tile: 0
+  game_manager: {fileID: 6329037273705137652}
+  background_generator: {fileID: 0}
+  all_positions: []
+  active_tiles: []
+  grid_lines: []

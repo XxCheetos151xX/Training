@@ -1078,12 +1078,13 @@ MonoBehaviour:
   backgroundGenerator: {fileID: 6554153583917719183}
   userLine: {fileID: 445323831}
   shapes:
+  - {fileID: 8027344658765659274, guid: 4e6b99a9933f41c4984238288f06fd78, type: 3}
   - {fileID: 5764951827168378838, guid: 8ed315d3cab19984ea84d5f84983c461, type: 3}
-  - {fileID: 3429549585226975497, guid: 90fd8e2f910b02e4d89c495ea0aaf19a, type: 3}
-  - {fileID: 3950696972870773080, guid: a0f478f5156dbe546b341411983035fe, type: 3}
-  - {fileID: 8137695757560725537, guid: 4737609eb29e72845a9009307c82e04e, type: 3}
   - {fileID: 6707147549321532639, guid: 9ccc08dcb4d58ee4fb9621aed4d33c7f, type: 3}
-  delay_between_shapes: 3
+  - {fileID: 8137695757560725537, guid: 4737609eb29e72845a9009307c82e04e, type: 3}
+  - {fileID: 3950696972870773080, guid: a0f478f5156dbe546b341411983035fe, type: 3}
+  - {fileID: 3429549585226975497, guid: 90fd8e2f910b02e4d89c495ea0aaf19a, type: 3}
+  delay_between_shapes: 6
   threshold: 0.6
   smoothing_factor: 0.2
   visible_color: {r: 1, g: 1, b: 1, a: 0.49019608}

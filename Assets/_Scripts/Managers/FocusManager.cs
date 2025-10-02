@@ -25,6 +25,7 @@ public class FocusManager : AbstractGameManager
     [SerializeField] private Color second_color;
     [SerializeField] private List<float> radius;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private FocusSO activeFocusSO;
     private GameObject spawned_target1;
@@ -41,6 +42,7 @@ public class FocusManager : AbstractGameManager
     private int streak;
     private int used_radius;
     private bool has_started;
+    private string chosen_mode;
     private List<float> levelstarttime = new List<float>();
     private List<float> lifespan = new List<float>();
     private List<float> flickeringspeed = new List<float>();
@@ -52,45 +54,41 @@ public class FocusManager : AbstractGameManager
 
     public Queue<GameObject> targetQueue = new Queue<GameObject>();
 
-    private void Awake()
-    {
-        ClickAction.action.performed += StartGame;
-        ClickAction.action.Enable();
-    }
 
     private void OnDisable()
     {
-        ClickAction.action.performed += StartGame;
+        ClickAction.action.performed -= StartGame;
         ClickAction.action.Disable();
     }
 
 
-    private void Start()
+    void Start()
     {
+        ClickAction.action.performed += StartGame;
+        ClickAction.action.Enable();
+
         GameSetup();
         background_generator.GenerateConstantBackGround(0.5f);
     }
-
 
     void StartGame(InputAction.CallbackContext ctx)
     {
         if (!has_started)
         {
-            Vector2 screenPos = ctx.ReadValue<Vector2>();
+            // Get the screen position of the finger that pressed
+            Vector2 screenPos = Touchscreen.current.primaryTouch.position.ReadValue();
 
-           
+            // Convert to world position at same depth as focus_point
+            float depth = mainCam.WorldToScreenPoint(focus_point.transform.position).z;
             Vector3 worldPos = mainCam.ScreenToWorldPoint(
-                new Vector3(screenPos.x, screenPos.y, Mathf.Abs(mainCam.transform.position.z))
+                new Vector3(screenPos.x, screenPos.y, depth)
             );
 
-         
+            // Place focus point (lock X/Z if you want)
             focus_point.transform.position = new Vector3(0f, worldPos.y, 0f);
 
             focus_point.SetActive(true);
-
             has_started = true;
-            focus_point.SetActive(true);
-
             prestart_txt.enabled = false;
 
             StartCoroutine(GameLoop());
@@ -105,6 +103,8 @@ public class FocusManager : AbstractGameManager
     {
         initial_timer = activeFocusSO.timer;
         timer = 0;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         has_started = false;
 
@@ -158,7 +158,18 @@ public class FocusManager : AbstractGameManager
         
         Destroy(spawned_target1);
         Destroy(spawned_target2);
+
     }
+
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
 
     public void SetActiveFocusSO(FocusSO val) => activeFocusSO = val;
 
@@ -263,11 +274,14 @@ public class FocusManager : AbstractGameManager
                 }
             }
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
             }
-
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
+            }
             yield return null;
         }
     }

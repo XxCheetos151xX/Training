@@ -51,7 +51,7 @@ public class FollowShapeManager : AbstractGameManager
     {
         touchPositionAction.action.Enable();
         touchPressAction.action.Enable();
-        ShuffleShapes();
+        //ShuffleShapes();
     }
 
     private void OnDestroy()
@@ -60,7 +60,7 @@ public class FollowShapeManager : AbstractGameManager
         touchPressAction.action.Disable();
     }
 
-    private void Start()
+    void Start()
     {
         mainCam = Camera.main;
 

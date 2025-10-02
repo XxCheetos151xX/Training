@@ -5,6 +5,7 @@ public class FocusGameDataGetter : GameDataGetter
 {
     public FocusSO advancedevalSO;
     public FocusSO quickevalSO;
+    public FocusSO generalEvalSO;
     public List<FocusSO> trainingSOlevel;
 
     public FocusManager manager;
@@ -26,8 +27,9 @@ public class FocusGameDataGetter : GameDataGetter
             case GameMode.AdvancedEval:
                 SetGameSettings(advancedevalSO);
                 break;
-
-
+            case GameMode.GeneralEval: 
+                SetGameSettings(generalEvalSO);
+                break;
         }
     }
 

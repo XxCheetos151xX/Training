@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7223493492623913737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8600699802945632227}
+  - component: {fileID: 7094267130480601314}
+  - component: {fileID: 1685332688673692550}
+  - component: {fileID: 5873706950223034931}
+  - component: {fileID: 5848129711982065845}
+  - component: {fileID: 5664720045751976924}
+  - component: {fileID: 5476207347530014923}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8600699802945632227
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.0922182, y: 0.43225667, z: 0.014164414}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7094267130480601314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb5b794aedff144ea133baad647eaad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initial_timer: 0
+  target_prefab: {fileID: 5792354108777461335, guid: d507408b9de0f874d94fb03fa9cd1fe8, type: 3}
+  scoremanager: {fileID: 5848129711982065845}
+  flickeringmanager: {fileID: 5476207347530014923}
+  uimanager: {fileID: 5873706950223034931}
+  backgroundgenerator: {fileID: 0}
+  first_color: {r: 0, g: 1, b: 0, a: 0.49019608}
+  second_color: {r: 0, g: 0, b: 1, a: 0.49019608}
+  third_color: {r: 0.7176471, g: 0, b: 1, a: 0.49019608}
+  fourth_color: {r: 1, g: 0, b: 0, a: 0.49019608}
+  first_color_score: 1
+  second_color_score: 2
+  third_color_score: 3
+  fourth_color_score: -3
+  score_tobe_added_each_spawn: 3
+  minimum_distance_between_targets: 1
+  GameEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7094267130480601314}
+        m_TargetAssemblyTypeName: PiriorityManager, Assembly-CSharp
+        m_MethodName: GameEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5848129711982065845}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: CalculateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5873706950223034931}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: GameEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1685332688673692550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522cee2024565dc49be3171b073ed0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedevalSO: {fileID: 11400000, guid: 9c5c21dfc9bff4a418b8dd8c3ce1adf9, type: 2}
+  quickevalSO: {fileID: 11400000, guid: ba547049dca0f954e8b61678ad08e602, type: 2}
+  traininglevelSO:
+  - {fileID: 11400000, guid: 141b7bc4fa6c5c3429a0ef21614d52d2, type: 2}
+  - {fileID: 11400000, guid: ed37e1eb5d75b0e4e94b5113ed66cf07, type: 2}
+  - {fileID: 11400000, guid: bc00acfece3878540b1a33a252bef2ae, type: 2}
+  - {fileID: 11400000, guid: ebba3e0d985945548ac1fd5c248d82a1, type: 2}
+  - {fileID: 11400000, guid: f7319c7e909d5964fb2bbf29e3f90149, type: 2}
+  - {fileID: 11400000, guid: 0f151cbca062bc14a879258004ca24e4, type: 2}
+  - {fileID: 11400000, guid: 5d81c97877650d84bb33ece2ba33f7bb, type: 2}
+  - {fileID: 11400000, guid: f5e9d711313e7bf40ae6b928d3e5a81e, type: 2}
+  manager: {fileID: 7094267130480601314}
+--- !u!114 &5873706950223034931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer_txt: {fileID: 0}
+  score_txt: {fileID: 0}
+  ending_panel: {fileID: 0}
+  score_manager: {fileID: 5848129711982065845}
+  manager: {fileID: 7094267130480601314}
+  isvideo: 0
+  video_player: {fileID: 0}
+  remaining: 0
+--- !u!114 &5848129711982065845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81365a15e58945549aace9161942c745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  user_score: 0
+  total_score: 0
+  final_score: 0
+  misses: 0
+--- !u!114 &5664720045751976924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a9405b639f1d1429c18f44377f9f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5476207347530014923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223493492623913737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b308b9cd81d72a24fa8680034ea08f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  black_screen: {fileID: 0}

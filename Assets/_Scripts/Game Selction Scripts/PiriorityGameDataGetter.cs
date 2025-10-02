@@ -5,6 +5,7 @@ public class PiriorityGameDataGetter : GameDataGetter
 {
     public PirioritySO advancedevalSO;
     public PirioritySO quickevalSO;
+    public PirioritySO generalEvalSO;
     public List<PirioritySO> traininglevelSO = new List<PirioritySO>();
 
     public PiriorityManager manager;
@@ -23,6 +24,9 @@ public class PiriorityGameDataGetter : GameDataGetter
             case GameMode.Training:
                 int level = PlayerPrefs.GetInt("LevelSelected");
                 SetGameSettings(traininglevelSO[level - 1]);
+                break;
+            case GameMode.GeneralEval: 
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

@@ -17,6 +17,7 @@ public class NoisyFocusManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private float inverted_collider_pos;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     [HideInInspector] public float spawned_target_speed;
 
@@ -29,6 +30,7 @@ public class NoisyFocusManager : AbstractGameManager
     private float max_speed;
     private float timer;
     private float score_ratio;
+    private string chosen_mode;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
@@ -39,7 +41,7 @@ public class NoisyFocusManager : AbstractGameManager
     private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {
+    {        
         ScreenSetup();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
@@ -108,6 +110,8 @@ public class NoisyFocusManager : AbstractGameManager
     {
         timer = 0;
 
+        chosen_mode = PlayerPrefs.GetString("GameMode");
+
         initial_timer = activeNoisyFocusSO.timer;
 
         for (int i = 0; i < activeNoisyFocusSO.noisyfocuslevels.Count; i++)
@@ -131,6 +135,16 @@ public class NoisyFocusManager : AbstractGameManager
             Destroy(t);
         }
     }
+
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
 
     public void SetActiveNoisyFocusSO(NoisyFocusSO val) => activeNoisyFocusSO = val;
 
@@ -207,9 +221,13 @@ public class NoisyFocusManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
             {
                 GameEnded.Invoke();
+            }
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
             yield return null;
         }

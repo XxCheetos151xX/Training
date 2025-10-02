@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+
 
 public class ComplexFunctionManager : AbstractGameManager
 {
@@ -18,6 +18,7 @@ public class ComplexFunctionManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private float flicker_speed;
     [SerializeField] private UnityEvent GameEnded;
+    [SerializeField] private UnityEvent SequenceEnd;
 
     private ComplexFunctionsSO activeComplexFunctionsSO;
     private Camera cam;
@@ -37,6 +38,7 @@ public class ComplexFunctionManager : AbstractGameManager
     private bool is_flickering;
     private bool is_flickering_together;
     private bool isright;
+    private string chosen_mode;
     private Vector2 rightpos, leftpos;
     private List<float> _starttime = new List<float>();
     private List<float> _flickeringtime = new List<float>();
@@ -62,6 +64,8 @@ public class ComplexFunctionManager : AbstractGameManager
 
     void SetupScreen()
     {
+        chosen_mode = PlayerPrefs.GetString("GameMode");
+
         cam = Camera.main;
 
         float aspectRatio = (float)Screen.width / Screen.height;
@@ -120,6 +124,17 @@ public class ComplexFunctionManager : AbstractGameManager
         ClearTargets();
     }
 
+    public void ContinueSequence()
+    {
+        chosen_mode = PlayerPrefs.GetString("GameMode", "None");
+        if (chosen_mode == GameMode.GeneralEval.ToString() && SequenceManager.Instance != null)
+        {
+            SequenceManager.Instance.LoadNextScene();
+        }
+    }
+
+
+
     void GeneratePositions()
     {
 
@@ -141,20 +156,43 @@ public class ComplexFunctionManager : AbstractGameManager
     }
 
 
-    void SpawnTarget()
+    void SpawnRightTarget()
+    {
+        right_spawned_target = Instantiate(target_prefab, rightpos, Quaternion.identity);
+        right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+        active_targets.Add(right_spawned_target);
+        StartCoroutine(HandleTarget(right_spawned_target));
+        if (is_flickering_together && is_flickering)
+        {
+            scoremanager.total_score += score_tobe_added;
+            print(scoremanager.total_score);
+        }
+        else if (!is_flickering_together && is_flickering && isright)
+        {
+            scoremanager.total_score += score_tobe_added;
+            print(scoremanager.total_score);
+        }
+    }
+
+
+   void SpawnLeftTarget()
     {
         GeneratePositions();
         left_spawned_target = Instantiate(target_prefab, leftpos, Quaternion.identity);
         left_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         active_targets.Add(left_spawned_target);
         StartCoroutine(HandleTarget(left_spawned_target));
-        right_spawned_target = Instantiate(target_prefab, rightpos, Quaternion.identity);
-        right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-        active_targets.Add(right_spawned_target);
-        StartCoroutine(HandleTarget(right_spawned_target));
-        scoremanager.total_score += (score_tobe_added * 2);
+        if (is_flickering_together && is_flickering)
+        {
+            scoremanager.total_score += score_tobe_added;
+            print(scoremanager.total_score);
+        }
+        else if (!is_flickering_together && is_flickering && !isright)
+        {
+            scoremanager.total_score += score_tobe_added;
+            print(scoremanager.total_score);
+        }
     }
-
 
     public override void TargetClicked(GameObject clickedtarget)
     {
@@ -211,7 +249,8 @@ public class ComplexFunctionManager : AbstractGameManager
     {
         while (true)
         {
-            SpawnTarget();
+            SpawnRightTarget();
+            SpawnLeftTarget();
             yield return new WaitForSeconds(Random.Range(min_delay_between_targets, max_delay_between_targets));
         }
     }
@@ -248,9 +287,14 @@ public class ComplexFunctionManager : AbstractGameManager
                 }
             }
 
-            if (initial_timer <= 0)
+            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString()) 
             {
                 GameEnded.Invoke();
+            }
+
+            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            {
+                SequenceEnd.Invoke();
             }
 
             yield return null;

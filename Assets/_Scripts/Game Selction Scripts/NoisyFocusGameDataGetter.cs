@@ -5,6 +5,7 @@ public class NoisyFocusGameDataGetter : GameDataGetter
 {
     public NoisyFocusSO advancedEvalSO;
     public NoisyFocusSO quickEvalSO;
+    public NoisyFocusSO generalEvalSO;
     public List<NoisyFocusSO> traininglevelSO = new List<NoisyFocusSO>();
 
     public NoisyFocusManager manager;
@@ -22,6 +23,9 @@ public class NoisyFocusGameDataGetter : GameDataGetter
             case GameMode.Training:
                 int level = PlayerPrefs.GetInt("LevelSelected");
                 SetGameSettings(traininglevelSO[level - 1]);
+                break;
+            case GameMode.GeneralEval: 
+                SetGameSettings(generalEvalSO);
                 break;
         }
     }

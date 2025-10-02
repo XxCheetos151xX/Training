@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2becadaa36d584fb72c2d9d4b62507, type: 3}
+  m_Name: GeneralEvalSO
+  m_EditorClassIdentifier: 
+  timer: 40
+  memorylevels:
+  - flickerstarttime: 0
+    patternspeed: 1.7
+    usertimewindow: 4.5
+    scoreratio: 1
+    patternsize: 2
+    rows: 6
+    cols: 6
+    isflickering: 0
+    flickeringspeed: 0
+  - flickerstarttime: 13.33333
+    patternspeed: 1.4
+    usertimewindow: 3
+    scoreratio: 1
+    patternsize: 3
+    rows: 8
+    cols: 8
+    isflickering: 0
+    flickeringspeed: 0
+  - flickerstarttime: 26.66667
+    patternspeed: 1.1
+    usertimewindow: 2.5
+    scoreratio: 1
+    patternsize: 5
+    rows: 10
+    cols: 10
+    isflickering: 0
+    flickeringspeed: 0.1
