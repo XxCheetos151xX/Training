@@ -13,10 +13,7 @@ public class GameDataSetter : MonoBehaviour
     public GameType gameType;
     public GameMode gameMode;
 
-    public void IsTimeless(int val)
-    {
-        PlayerPrefs.SetInt("IsTimeless", val);
-    }
+
 
     public void SetGameType(int Val)
     {
@@ -89,16 +86,6 @@ public class GameDataSetter : MonoBehaviour
         SceneManager.LoadScene(gameType.ToString());
     }
 
-    public void ChooseRandomLevel()
-    {
-        int lvlindex = UnityEngine.Random.Range(0, timeless_mode_levels.Count - 1);
-        int lvl = timeless_mode_levels[lvlindex];
-        PlayerPrefs.SetInt("LevelSelected", lvl);
-
-        gameMode = GameMode.Training;
-
-        print(lvl);
-    }
 }
 
 [Serializable]
@@ -125,6 +112,7 @@ public enum GameMode
     Training,
     QuickEval,
     AdvancedEval,
-    GeneralEval
+    GeneralEval,
+    Timeless
 }
 

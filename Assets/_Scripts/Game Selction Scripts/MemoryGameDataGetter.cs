@@ -7,6 +7,7 @@ public class MemoryGameDataGetter : GameDataGetter
     public MemorySO advancedEvalSO;
     public MemorySO quickEvalSO;
     public MemorySO generalEvalSO;
+    public MemorySO timelessSO;
     public List<MemorySO> traininglevelSO = new List<MemorySO>();
 
     public MemoryManager manager;
@@ -27,6 +28,9 @@ public class MemoryGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval:
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

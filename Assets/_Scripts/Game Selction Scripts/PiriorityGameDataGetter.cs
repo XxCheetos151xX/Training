@@ -6,6 +6,7 @@ public class PiriorityGameDataGetter : GameDataGetter
     public PirioritySO advancedevalSO;
     public PirioritySO quickevalSO;
     public PirioritySO generalEvalSO;
+    public PirioritySO timelessSO;
     public List<PirioritySO> traininglevelSO = new List<PirioritySO>();
 
     public PiriorityManager manager;
@@ -27,6 +28,9 @@ public class PiriorityGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval: 
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

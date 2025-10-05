@@ -6,6 +6,7 @@ public class ChaseGameDataGetter : GameDataGetter
     public ChaseSO advancedEvalSO;
     public ChaseSO quickEvalSO;
     public ChaseSO generalEvalSO;
+    public ChaseSO timelessSO;
     public List<ChaseSO> trainingSOLevel;
 
     public ChaseManager manager;
@@ -27,6 +28,9 @@ public class ChaseGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval:
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

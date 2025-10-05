@@ -31,10 +31,20 @@ public class GridManager : MonoBehaviour
     [HideInInspector] public List<GameObject> grid_lines = new List<GameObject>();
 
     private float minX, minY, maxX, maxY;
+    private string chosen_mode;
 
     private void Start()
     {
         SetupScreen();
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
+
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            offset = 0;
+            notch_max_x = 0;
+            notch_min_x = 0;
+        }
     }
 
     void SetupScreen()

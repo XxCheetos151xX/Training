@@ -5,6 +5,7 @@ public class DecisionGameDataGetter : GameDataGetter
     public DecisionSO advancedEvalSO;
     public DecisionSO quickEvalSO;
     public DecisionSO generalEvalSO;
+    public DecisionSO timelessSO;
     public List<DecisionSO> trainingSOlevel;
 
     public DecisionManager manager;
@@ -25,6 +26,9 @@ public class DecisionGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval:
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

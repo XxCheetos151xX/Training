@@ -6,6 +6,7 @@ public class RecognitionSpeedDataGetter : GameDataGetter
     public RecognitionSpeedSO advancedEvalSO;
     public RecognitionSpeedSO quickEvalSO;
     public RecognitionSpeedSO generalEvalSO;
+    public RecognitionSpeedSO timelessSO;
     public List<RecognitionSpeedSO> trainingSOlevel = new List<RecognitionSpeedSO>();
 
     public RecognitionSpeedManager manager;
@@ -28,6 +29,9 @@ public class RecognitionSpeedDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval:
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
 
         }

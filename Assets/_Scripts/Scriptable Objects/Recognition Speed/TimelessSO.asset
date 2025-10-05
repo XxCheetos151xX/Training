@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 470978b2e3a3ae649af71c536a35da2d, type: 3}
+  m_Name: TimelessSO
+  m_EditorClassIdentifier: 
+  timer: 0
+  recognitionspeedlevels:
+  - starttime: 0
+    lifespan: 3.5
+    speed: 1
+    scoreratio: 1
+    size: 2
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 30
+    lifespan: 3.5
+    speed: 1
+    scoreratio: 1
+    size: 3
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 60
+    lifespan: 3
+    speed: 0.8
+    scoreratio: 1
+    size: 3
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    lifespan: 3
+    speed: 0.8
+    scoreratio: 1
+    size: 3
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 120
+    lifespan: 2.5
+    speed: 0.8
+    scoreratio: 1
+    size: 4
+    isflickering: 1
+    flickeringspeed: 0.1
+  - starttime: 150
+    lifespan: 2.5
+    speed: 0.8
+    scoreratio: 1
+    size: 4
+    isflickering: 1
+    flickeringspeed: 0.5

@@ -35,14 +35,16 @@ public class UIManager : MonoBehaviour
 
     public VideoPlayer video_player;
 
-    private bool istimeless;
+
+    private string chosen_mode;
+    
 
 
     private void Start()
     {
-        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
-        if (istimeless && timer_txt != null)
+        if (chosen_mode == GameMode.Timeless.ToString() && timer_txt != null)
         {
             timer_txt.enabled = false;
         }
@@ -136,7 +138,13 @@ public class UIManager : MonoBehaviour
                 else
                 {
                     // --- Show all results ---
-                    foreach (var entry in saved.wrapper)
+                    var validScenes = SequenceManager.Instance.drillScenes;
+
+                    var filteredResults = saved.wrapper
+                        .Where(entry => validScenes.Contains(entry.scene_name))
+                        .ToList();
+
+                    foreach (var entry in filteredResults)
                     {
                         var textObj = Instantiate(resultTextPrefab, resultsContainer);
                         var textInstance = textObj.GetComponent<TextMeshProUGUI>();
@@ -144,21 +152,23 @@ public class UIManager : MonoBehaviour
                         textInstance.text = $"{entry.scene_name}: {entry.score:F1}%";
                     }
 
-                    // --- Show 3 lowest scores ---
+                    // --- Show 3 lowest scores (only from valid general eval scenes) ---
                     var lowestThree = saved.wrapper
+                        .Where(entry => validScenes.Contains(entry.scene_name))
                         .OrderBy(entry => entry.score)
                         .Take(3);
+
 
                     foreach (var entry in lowestThree)
                     {
                         var textObj = Instantiate(resultTextPrefab, lowestResultsContainer);
                         var textInstance = textObj.GetComponent<TextMeshProUGUI>();
                         textInstance.enabled = true;
-                        textInstance.text = $"{entry.scene_name}: {entry.score:F1}%";
+                        textInstance.text = $"{entry.scene_name}";
                     }
 
                     // --- Average ---
-                    average_score_txt.text = "Average is: " + score_manager.average.ToString("F1") + "%";
+                    average_score_txt.text = "CI Index: \n" + score_manager.average.ToString("F1") + "%";
                 }
             }
         }

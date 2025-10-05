@@ -48,14 +48,8 @@ public class PiriorityManager : AbstractGameManager
     private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {        
-        SetupScreen();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
-        GameSetup();
-        StartCoroutine(uimanager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(SpawnTargets());
-        StartCoroutine(flickeringmanager.Flickering());
+    {
+        StartCoroutine(GameInit());
     }
 
 
@@ -179,6 +173,7 @@ public class PiriorityManager : AbstractGameManager
         if (t.GetComponent<SpriteRenderer>().color == fourth_color)
         {
             scoremanager.user_score += fourth_color_score * score_ratio;
+            scoremanager.LoseALife();
         }
 
         active_pos.Remove(t.transform.position);
@@ -206,6 +201,19 @@ public class PiriorityManager : AbstractGameManager
 
     public void SetActivePirioritySO(PirioritySO val) => activePirioritySO = val;
 
+
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        SetupScreen();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        GameSetup();
+        StartCoroutine(uimanager.Timer());
+        StartCoroutine(GameLoop());
+        StartCoroutine(SpawnTargets());
+        StartCoroutine(flickeringmanager.Flickering());
+    }
 
     IEnumerator SpawnTargets()
     {
@@ -269,15 +277,27 @@ public class PiriorityManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
+            if (chosen_mode != GameMode.Timeless.ToString())
+            {
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
+            }
+
+            else
+            {
+                if (scoremanager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
+            }
             
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
-            {
-                GameEnded.Invoke();
-            }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
-            {
-                SequenceEnd.Invoke();
-            }
+          
 
             yield return null;
         }

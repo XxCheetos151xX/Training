@@ -221,14 +221,25 @@ public class NoisyFocusManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
-                GameEnded.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (scoremanager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
+          
             yield return null;
         }
     }

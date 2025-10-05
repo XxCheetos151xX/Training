@@ -44,14 +44,8 @@ public class RecognitionSpeedManager : AbstractGameManager
     private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {        
-        SetupScreen();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
-        GameSetup();
-        StartCoroutine(uimanager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(flickermanager.Flickering());
-        StartCoroutine(SpawnTargets());
+    {
+        StartCoroutine(GameInit());
     }
 
     void SetupScreen()
@@ -198,6 +192,20 @@ public class RecognitionSpeedManager : AbstractGameManager
 
     public void SetActiveRecognitionSpeedSO(RecognitionSpeedSO val) => activeRecognitionSpeedSO = val;
 
+
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        SetupScreen();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        GameSetup();
+        StartCoroutine(uimanager.Timer());
+        StartCoroutine(GameLoop());
+        StartCoroutine(flickermanager.Flickering());
+        StartCoroutine(SpawnTargets());
+    }
+
     IEnumerator GameLoop()
     {
         while (true)
@@ -218,15 +226,25 @@ public class RecognitionSpeedManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 } 
             }
-
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
-                GameEnded.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (scoremanager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
+          
 
             yield return null;
         }
@@ -259,7 +277,10 @@ public class RecognitionSpeedManager : AbstractGameManager
                 yield return new WaitForSeconds(delay);
                 all_targets_clicked = false;
             }
-
+            else
+            {
+                scoremanager.LoseALife();
+            }
             DestroyAtciveTargets();
 
 

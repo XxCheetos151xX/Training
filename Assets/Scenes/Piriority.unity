@@ -1290,6 +1290,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1685332688673692550, guid: bace287fb568c4e438fae994882083dc, type: 3}
+      propertyPath: timelessSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 840fa30d862b2364fbcdab76da158f12, type: 2}
+    - target: {fileID: 1685332688673692550, guid: bace287fb568c4e438fae994882083dc, type: 3}
       propertyPath: generalEvalSO
       value: 
       objectReference: {fileID: 11400000, guid: ea382358d845e644f932d17601992b6f, type: 2}

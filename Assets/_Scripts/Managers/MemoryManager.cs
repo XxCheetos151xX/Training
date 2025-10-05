@@ -33,7 +33,6 @@ public class MemoryManager : AbstractGameManager
     private int current_stage;
     private int streak;
     private bool stopPattern = false;
-    private bool istimeless;
     private string chosen_mode;
     private Coroutine patternCoroutine;
     private List<float> _flickerstarttime = new List<float>();
@@ -61,8 +60,6 @@ public class MemoryManager : AbstractGameManager
     {
         timer = 0;
         initial_timer = activeMemorySO.timer;
-
-        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
 
         chosen_mode = PlayerPrefs.GetString("GameMode");
 
@@ -215,7 +212,7 @@ public class MemoryManager : AbstractGameManager
                 }
             }
 
-            if (!istimeless)
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
                 if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
                 {

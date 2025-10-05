@@ -36,7 +36,6 @@ public class FlickeringGameManager : AbstractGameManager
     private float left_spawning_area_border;
     private float score_ratio;
     private string chosen_mode;
-    private bool istimeless;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
@@ -74,8 +73,6 @@ public class FlickeringGameManager : AbstractGameManager
         initial_timer = activeFlickeringSO.timer;
 
         chosen_mode = PlayerPrefs.GetString("GameMode");
-
-        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
         
         right_goal.position = new Vector3(maxX - 1f, 0, 0);
         left_goal.position = new Vector3(minX + 1f, 0, 0);
@@ -178,8 +175,6 @@ public class FlickeringGameManager : AbstractGameManager
 
     IEnumerator GameLoop()
     {
-        //yield return new WaitUntil(() => activeFlickeringSO != null && activeFlickeringSO.timer > 0);
-
 
         while (true)
         {
@@ -199,7 +194,7 @@ public class FlickeringGameManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-            if (!istimeless)
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
                 if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
                 {

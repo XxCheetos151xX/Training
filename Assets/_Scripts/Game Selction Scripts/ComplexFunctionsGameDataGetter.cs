@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class ComplexFunctionsGameDataGetter : GameDataGetter
 {
     public ComplexFunctionsSO advancedEvalSO;
     public ComplexFunctionsSO quickEvalSO;
     public ComplexFunctionsSO generalEvalSO;
+    public ComplexFunctionsSO timelessSO;
     public List<ComplexFunctionsSO> traininglevelSO = new List<ComplexFunctionsSO>();
 
     public ComplexFunctionManager manager;
@@ -26,6 +28,9 @@ public class ComplexFunctionsGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval:
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

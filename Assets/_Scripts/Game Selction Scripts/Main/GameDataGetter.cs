@@ -30,7 +30,9 @@ public abstract class GameDataGetter : MonoBehaviour
             case GameMode.GeneralEval:
 
                 break;
+            case GameMode.Timeless:
 
+                break;
         }
     }
 

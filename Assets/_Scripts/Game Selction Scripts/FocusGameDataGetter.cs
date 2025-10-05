@@ -6,6 +6,7 @@ public class FocusGameDataGetter : GameDataGetter
     public FocusSO advancedevalSO;
     public FocusSO quickevalSO;
     public FocusSO generalEvalSO;
+    public FocusSO timelessSO;
     public List<FocusSO> trainingSOlevel;
 
     public FocusManager manager;
@@ -29,6 +30,9 @@ public class FocusGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval: 
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }

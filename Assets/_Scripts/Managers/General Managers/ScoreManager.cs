@@ -19,6 +19,7 @@ public class ScoreManager : MonoBehaviour
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
         lives = 3;
+        print(lives);
     }
 
     public void CalculateScore()

@@ -182,7 +182,6 @@ public class FocusManager : AbstractGameManager
                 if (used_radius < radius.Count - 1)
                 {
                     used_radius++;
-                    print(used_radius);
                 }
                 streak = 0;
             }
@@ -239,6 +238,7 @@ public class FocusManager : AbstractGameManager
                 score_manager.misses++;
                 spawned_target1.SetActive(false);
                 targetQueue.Enqueue(spawned_target1);
+                score_manager.LoseALife();
                 left_eye_data.Add(score_manager.misses, timer);
             }
 
@@ -246,6 +246,7 @@ public class FocusManager : AbstractGameManager
             {
                 score_manager.misses++;
                 spawned_target2.SetActive(false);
+                score_manager.LoseALife();
                 targetQueue.Enqueue(spawned_target2);
                 right_eye_data.Add(score_manager.misses, timer);
             }
@@ -269,18 +270,26 @@ public class FocusManager : AbstractGameManager
                     flickering_manager.isflickering = flickeringenabled[i];
                     scale = _scale[i];
                     score_ratio = _scoreratio[i];
-                    print(score_ratio);
                     break;
                 }
             }
-
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
-                GameEnded.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (score_manager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
             yield return null;
         }

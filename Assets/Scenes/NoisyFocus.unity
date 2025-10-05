@@ -1240,6 +1240,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4432410896999076216, guid: 506c61a0e1d3958409a5e8ce12c556a8, type: 3}
   m_PrefabInstance: {fileID: 1872234621}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &2107043894 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5560782693980418969, guid: e66629892ef5cf54fa481f9cbc5863a3, type: 3}
+  m_PrefabInstance: {fileID: 1733201132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1848580531076945611
 Transform:
   m_ObjectHideFlags: 0
@@ -1300,6 +1305,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2482525502282595750}
     - target: {fileID: 948092435837866, guid: e8fc971738683174c9c72db3ab99b886, type: 3}
+      propertyPath: lowestResultsContainer
+      value: 
+      objectReference: {fileID: 2107043894}
+    - target: {fileID: 948092435837866, guid: e8fc971738683174c9c72db3ab99b886, type: 3}
       propertyPath: generaleval_ending_panel
       value: 
       objectReference: {fileID: 1733201137}
@@ -1307,6 +1316,10 @@ PrefabInstance:
       propertyPath: saveandloadmanager
       value: 
       objectReference: {fileID: 2482525502282595750}
+    - target: {fileID: 623719009782538537, guid: e8fc971738683174c9c72db3ab99b886, type: 3}
+      propertyPath: timelessSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 687db7443ed646944a95c3b54de65325, type: 2}
     - target: {fileID: 623719009782538537, guid: e8fc971738683174c9c72db3ab99b886, type: 3}
       propertyPath: generalEvalSO
       value: 

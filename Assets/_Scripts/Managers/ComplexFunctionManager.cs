@@ -38,7 +38,6 @@ public class ComplexFunctionManager : AbstractGameManager
     private bool is_flickering;
     private bool is_flickering_together;
     private bool isright;
-    private bool istimeless;
     private string chosen_mode;
     private Vector2 rightpos, leftpos;
     private List<float> _starttime = new List<float>();
@@ -89,8 +88,6 @@ public class ComplexFunctionManager : AbstractGameManager
         initial_timer = activeComplexFunctionsSO.timer;
 
         timer = 0;
-
-        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
 
         left_central_point_renderer = left_central_point.GetComponent<SpriteRenderer>();
         right_central_point_renderer = right_central_point.GetComponent<SpriteRenderer>();
@@ -288,7 +285,7 @@ public class ComplexFunctionManager : AbstractGameManager
                 }
             }
 
-            if (!istimeless)
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
                 if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
                 {

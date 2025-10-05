@@ -1302,6 +1302,10 @@ PrefabInstance:
       value: Game Manager
       objectReference: {fileID: 0}
     - target: {fileID: 753543447111742975, guid: 1800cb9ba48bf2e42852ee7cbed44816, type: 3}
+      propertyPath: timelessSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b845a1465b1c5dd4a9bacf201ed74b37, type: 2}
+    - target: {fileID: 753543447111742975, guid: 1800cb9ba48bf2e42852ee7cbed44816, type: 3}
       propertyPath: generalEvalSO
       value: 
       objectReference: {fileID: 11400000, guid: a3556ddb75c347249bc42c872efdd641, type: 2}

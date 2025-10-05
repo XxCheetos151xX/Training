@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Events;
@@ -30,6 +30,7 @@ public class SpacingManager : AbstractGameManager
     private int streak;
     private int activeLevelIndex = 0;
     private bool isWaitingAfterClick = false;
+    private bool isfirstgrid;
     private string chosen_mode;
     private List<float> starttime = new List<float>();
     private List<float> life_span = new List<float>();
@@ -40,13 +41,8 @@ public class SpacingManager : AbstractGameManager
     private List<int> columns = new List<int>();
 
     void Start()
-    {        
-        GameSetup();
-        StartCoroutine(ui_manager.Timer());
-        StartCoroutine(GameLoop());
-        grid_manager.GenerateGrid(row, column);
-        StartCoroutine(GenerateGrid());
-        StartCoroutine(flickering_manager.Flickering());
+    {
+        StartCoroutine(GameInit());
     }
 
     void GameSetup()
@@ -54,8 +50,9 @@ public class SpacingManager : AbstractGameManager
         initial_timer = activeSpacingSO.timer;
 
         chosen_mode = PlayerPrefs.GetString("GameMode");
-       
-       
+
+        isfirstgrid = true;
+
        for (int i = 0; i < activeSpacingSO.spacinglevels.Count; i++)
        {
            starttime.Add(activeSpacingSO.spacinglevels[i].starttime);
@@ -95,7 +92,6 @@ public class SpacingManager : AbstractGameManager
         streak++;
         if (streak >= 2)
         {
-            streak = 0;
             StartCoroutine(WaitBeforeNewGrid());
         }
     }
@@ -122,6 +118,19 @@ public class SpacingManager : AbstractGameManager
 
     public void SetActiveSpacingSO(SpacingSO val) => activeSpacingSO = val;
 
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        GameSetup();
+        StartCoroutine(ui_manager.Timer());
+        StartCoroutine(GameLoop());
+        grid_manager.GenerateGrid(row, column);
+        StartCoroutine(GenerateGrid());
+        StartCoroutine(flickering_manager.Flickering());
+    }
+
+
     private IEnumerator WaitBeforeNewGrid()
     {
         isWaitingAfterClick = true;
@@ -146,12 +155,16 @@ public class SpacingManager : AbstractGameManager
                 {
                     yield return new WaitForSeconds(grid_delay);
                 }
-
+                if (streak < 2 && !isfirstgrid)
+                {
+                    score_manager.LoseALife();
+                }
+                
                 grid_manager.GenerateGrid(row, column);
                 score_manager.total_score += (score_tobe_added * 2);
-                print(score_manager.total_score);
                 streak = 0;
                 nextGridSpawnTime = Time.time + lifespan;
+                isfirstgrid = false;
             }
 
             yield return null;
@@ -184,15 +197,25 @@ public class SpacingManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (chosen_mode != GameMode.Timeless.ToString())
             {
-                GameEnded.Invoke();
+
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (score_manager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
 
             yield return null;

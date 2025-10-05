@@ -1390,6 +1390,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7448834932961820895}
     - target: {fileID: 8126195507104846446, guid: d15cce8727aa87941937b61de6b5e927, type: 3}
+      propertyPath: timelessSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 11472aba9d595384b89049e568509331, type: 2}
+    - target: {fileID: 8126195507104846446, guid: d15cce8727aa87941937b61de6b5e927, type: 3}
       propertyPath: generalEvalSO
       value: 
       objectReference: {fileID: 11400000, guid: d84e7b45e522049458c885f38fbe55e8, type: 2}

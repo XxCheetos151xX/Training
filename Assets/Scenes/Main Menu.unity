@@ -1562,18 +1562,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1747126421}
         m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
@@ -4939,18 +4927,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1677848898}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -5241,18 +5217,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1747126421}
         m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
         m_MethodName: AntiStress
@@ -5798,18 +5762,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1747126421}
         m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
         m_MethodName: QuickPlay
@@ -7334,30 +7286,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1747126421}
         m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: ChooseRandomLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
@@ -7977,8 +7905,8 @@ MonoBehaviour:
   score_manager: {fileID: 0}
   manager: {fileID: 0}
   isvideo: 0
-  video_player: {fileID: 0}
   remaining: 0
+  video_player: {fileID: 0}
 --- !u!1 &1779743231
 GameObject:
   m_ObjectHideFlags: 0
@@ -9097,18 +9025,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1747126421}
         m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
@@ -9472,18 +9388,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1747126421}
-        m_TargetAssemblyTypeName: GameDataSetter, Assembly-CSharp
-        m_MethodName: IsTimeless
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12786,11 +12690,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drillScenes:
-  - Chase
   - Focus
-  - Spacing
-  - Memory
   - Piriority
+  - NoisyFocus
+  - Chase
+  - Memory
   ending_panel: {fileID: 673676803941209525, guid: e66629892ef5cf54fa481f9cbc5863a3, type: 3}
   currentIndex: 0
 --- !u!224 &9200488800765046159

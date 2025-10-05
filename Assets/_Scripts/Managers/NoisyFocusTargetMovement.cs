@@ -47,6 +47,7 @@ public class NoisyFocusTargetMovement : MonoBehaviour
         {
             Destroy(gameObject);
             MiddleMan.Instance.score_manager.misses++;
+            MiddleMan.Instance.score_manager.LoseALife();
         }
     }
 }

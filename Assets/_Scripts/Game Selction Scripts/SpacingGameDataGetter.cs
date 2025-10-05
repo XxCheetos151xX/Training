@@ -6,6 +6,7 @@ public class SpacingGameDataGetter : GameDataGetter
     public SpacingSO advancedevalSO;
     public SpacingSO quickevalSO;
     public SpacingSO generalEvalSO;
+    public SpacingSO timelessSO;
     public List<SpacingSO> traininglevelSO = new List<SpacingSO>();
 
     public SpacingManager manager;
@@ -27,6 +28,9 @@ public class SpacingGameDataGetter : GameDataGetter
                 break;
             case GameMode.GeneralEval: 
                 SetGameSettings(generalEvalSO);
+                break;
+            case GameMode.Timeless:
+                SetGameSettings(timelessSO);
                 break;
         }
     }
