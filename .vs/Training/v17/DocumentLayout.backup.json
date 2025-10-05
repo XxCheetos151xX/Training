@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Training\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\chasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\chasemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\backgroundgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\sequencemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\sequencemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,33 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BackgroundGenerator.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\BackgroundGenerator.cs",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAkwAwAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ChaseManager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\ChaseManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\ChaseManager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\ChaseManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\ChaseManager.cs",
+              "ViewState": "AgIAAOkAAAAAAAAAAAAewPcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-27T15:03:07.562Z",
+              "WhenOpened": "2025-10-04T16:09:58.354Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FocusManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAuwEAAAABJAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "GameDataSetter.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAiwF0AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-02T21:26:31.307Z",
+              "WhenOpened": "2025-10-04T15:53:22.992Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UI Manager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAswGUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T10:26:59.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SequenceManager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\SequenceManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\SequenceManager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\SequenceManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\SequenceManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T10:26:18.568Z"
             }
           ]
         }

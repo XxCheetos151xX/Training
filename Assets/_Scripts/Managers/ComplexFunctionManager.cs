@@ -38,6 +38,7 @@ public class ComplexFunctionManager : AbstractGameManager
     private bool is_flickering;
     private bool is_flickering_together;
     private bool isright;
+    private bool istimeless;
     private string chosen_mode;
     private Vector2 rightpos, leftpos;
     private List<float> _starttime = new List<float>();
@@ -88,6 +89,8 @@ public class ComplexFunctionManager : AbstractGameManager
         initial_timer = activeComplexFunctionsSO.timer;
 
         timer = 0;
+
+        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
 
         left_central_point_renderer = left_central_point.GetComponent<SpriteRenderer>();
         right_central_point_renderer = right_central_point.GetComponent<SpriteRenderer>();
@@ -165,12 +168,10 @@ public class ComplexFunctionManager : AbstractGameManager
         if (is_flickering_together && is_flickering)
         {
             scoremanager.total_score += score_tobe_added;
-            print(scoremanager.total_score);
         }
         else if (!is_flickering_together && is_flickering && isright)
         {
             scoremanager.total_score += score_tobe_added;
-            print(scoremanager.total_score);
         }
     }
 
@@ -199,6 +200,7 @@ public class ComplexFunctionManager : AbstractGameManager
         if (!is_flickering)
         {
             scoremanager.user_score -= (score_tobe_added * 2);
+            scoremanager.LoseALife();
         }
 
         if (activeComplexFunctionsSO.complexfunctionslevels.Count > 1)
@@ -261,7 +263,6 @@ public class ComplexFunctionManager : AbstractGameManager
         {
             yield return new WaitForSeconds(target_life_span);
             Destroy(target);
-            scoremanager.misses++;
         }
     }
 
@@ -287,14 +288,24 @@ public class ComplexFunctionManager : AbstractGameManager
                 }
             }
 
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString()) 
+            if (!istimeless)
             {
-                GameEnded.Invoke();
-            }
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
 
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
+            }
+            else
             {
-                SequenceEnd.Invoke();
+                if (scoremanager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
 
             yield return null;

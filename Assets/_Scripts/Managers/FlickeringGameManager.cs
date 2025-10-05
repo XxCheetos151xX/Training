@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 
 public class FlickeringGameManager : AbstractGameManager
 {
@@ -36,6 +36,7 @@ public class FlickeringGameManager : AbstractGameManager
     private float left_spawning_area_border;
     private float score_ratio;
     private string chosen_mode;
+    private bool istimeless;
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
@@ -47,13 +48,7 @@ public class FlickeringGameManager : AbstractGameManager
 
     void Start()
     {
-        SetupScreen();
-        GameSetup();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
-        StartCoroutine(uimanager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(flickeringmanager.Flickering());
-        StartCoroutine(SpawnTargets());
+        StartCoroutine(GameInit());
     }
 
 
@@ -80,6 +75,8 @@ public class FlickeringGameManager : AbstractGameManager
 
         chosen_mode = PlayerPrefs.GetString("GameMode");
 
+        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
+        
         right_goal.position = new Vector3(maxX - 1f, 0, 0);
         left_goal.position = new Vector3(minX + 1f, 0, 0);
 
@@ -166,8 +163,24 @@ public class FlickeringGameManager : AbstractGameManager
 
     public void SetActiveFlickeringSO(FlickeringSO val) => activeFlickeringSO = val;
 
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        SetupScreen();
+        GameSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        StartCoroutine(uimanager.Timer());
+        StartCoroutine(GameLoop());
+        StartCoroutine(flickeringmanager.Flickering());
+        StartCoroutine(SpawnTargets());
+    }
+
     IEnumerator GameLoop()
     {
+        //yield return new WaitUntil(() => activeFlickeringSO != null && activeFlickeringSO.timer > 0);
+
+
         while (true)
         {
             timer += Time.deltaTime;
@@ -186,13 +199,23 @@ public class FlickeringGameManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (!istimeless)
             {
-                GameEnded.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnded.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (scoremanager.lives <= 0)
+                {
+                    GameEnded.Invoke();
+                }
             }
             yield return null;
         }
@@ -225,6 +248,7 @@ public class FlickeringGameManager : AbstractGameManager
             {
                 Destroy(target);
                 scoremanager.misses++;
+                scoremanager.LoseALife();
                 yield break;
             }
 

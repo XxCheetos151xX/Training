@@ -30,9 +30,27 @@ public class UIManager : MonoBehaviour
 
     [Header("Video Mode")]
     [SerializeField] private bool isvideo;
-    public VideoPlayer video_player;
 
     [HideInInspector] public double remaining;
+
+    public VideoPlayer video_player;
+
+    private bool istimeless;
+
+
+    private void Start()
+    {
+        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
+
+        if (istimeless && timer_txt != null)
+        {
+            timer_txt.enabled = false;
+        }
+        if (ending_panel != null)
+        {
+            ending_panel.SetActive(false);
+        }
+    }
 
     // ================== Menu Buttons ==================
     public void LoadMenu()

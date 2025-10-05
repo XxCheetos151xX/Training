@@ -12,11 +12,13 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector] public float final_score;
     [HideInInspector] public float misses;
     [HideInInspector] public float average;
+    [HideInInspector] public int lives;
     private string chosen_mode;
 
     private void Start()
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
+        lives = 3;
     }
 
     public void CalculateScore()
@@ -47,5 +49,11 @@ public class ScoreManager : MonoBehaviour
         }
 
         average =  (sum / saved.wrapper.Count);
+    }
+
+    public void LoseALife()
+    {
+        lives -= 1;
+        print(lives);
     }
 }

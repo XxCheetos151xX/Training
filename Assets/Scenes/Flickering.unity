@@ -723,6 +723,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45411396374296c48920cf0cc510acf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1006456644 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5560782693980418969, guid: e66629892ef5cf54fa481f9cbc5863a3, type: 3}
+  m_PrefabInstance: {fileID: 1372085324}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1039916077
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +860,10 @@ PrefabInstance:
     - target: {fileID: 4350331577274210344, guid: 0d9205eb6592855429835a2164bb0948, type: 3}
       propertyPath: m_Name
       value: Ending Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350331577274210344, guid: 0d9205eb6592855429835a2164bb0948, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8166303910225124456, guid: 0d9205eb6592855429835a2164bb0948, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1456,6 +1465,10 @@ PrefabInstance:
       propertyPath: save_and_load_manager
       value: 
       objectReference: {fileID: 8097704638297356129}
+    - target: {fileID: 1552407533034757131, guid: f6a7c343bdb7c4846898929052739127, type: 3}
+      propertyPath: lowestResultsContainer
+      value: 
+      objectReference: {fileID: 1006456644}
     - target: {fileID: 1552407533034757131, guid: f6a7c343bdb7c4846898929052739127, type: 3}
       propertyPath: generaleval_ending_panel
       value: 

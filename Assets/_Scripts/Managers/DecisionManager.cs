@@ -40,6 +40,7 @@ public class DecisionManager : AbstractGameManager
     private bool righthandpressed = false;
     private bool gamestarted = false;
     private bool switch_colors;
+    private bool istimeless;
     private string chosen_mode;
     private GameObject spawned_target;
     private GameObject spawned_false_target;
@@ -67,6 +68,8 @@ public class DecisionManager : AbstractGameManager
     void GameSetup()
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
+
+        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
 
         initial_timer = activeDecisionSO.timer;
         cam = Camera.main;
@@ -184,6 +187,7 @@ public class DecisionManager : AbstractGameManager
     void FalseTargetCaptured()
     {
         score_manager.misses++;
+        score_manager.LoseALife();
     }
 
 
@@ -289,6 +293,7 @@ public class DecisionManager : AbstractGameManager
                 {
                     Destroy(spawned_target);
                     score_manager.misses++;
+                    score_manager.LoseALife();
                     SwitchColor();
                 }
 
@@ -321,14 +326,23 @@ public class DecisionManager : AbstractGameManager
                     score_ratio = _scoreratio[i];
                 }
             }
-
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (!istimeless)
             {
-                GameEnd.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnd.Invoke();
+                }
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (score_manager.lives <= 0)
+                {
+                    GameEnd.Invoke();
+                }
             }
             yield return null;
         }

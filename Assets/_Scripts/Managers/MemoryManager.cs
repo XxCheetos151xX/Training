@@ -33,6 +33,7 @@ public class MemoryManager : AbstractGameManager
     private int current_stage;
     private int streak;
     private bool stopPattern = false;
+    private bool istimeless;
     private string chosen_mode;
     private Coroutine patternCoroutine;
     private List<float> _flickerstarttime = new List<float>();
@@ -60,6 +61,8 @@ public class MemoryManager : AbstractGameManager
     {
         timer = 0;
         initial_timer = activeMemorySO.timer;
+
+        istimeless = PlayerPrefs.GetInt("IsTimeless") == 1;
 
         chosen_mode = PlayerPrefs.GetString("GameMode");
 
@@ -115,6 +118,7 @@ public class MemoryManager : AbstractGameManager
         if (wrong_tile)
         {
             score_manager.misses++;
+            score_manager.LoseALife();
 
             foreach (var tile in pressed_tiles)
             {
@@ -211,15 +215,24 @@ public class MemoryManager : AbstractGameManager
                 }
             }
 
-
-            if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+            if (!istimeless)
             {
-                GameEnd.Invoke();
+                if (initial_timer <= 0 && chosen_mode != GameMode.GeneralEval.ToString())
+                {
+                    GameEnd.Invoke();
+                }
+
+                else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+                {
+                    SequenceEnd.Invoke();
+                }
             }
-
-            else if (initial_timer <= 0 && chosen_mode == GameMode.GeneralEval.ToString())
+            else
             {
-                SequenceEnd.Invoke();
+                if (score_manager.lives <= 0)
+                {
+                    GameEnd.Invoke();
+                }
             }
 
             yield return null;
@@ -311,6 +324,7 @@ public class MemoryManager : AbstractGameManager
             if (pressed_tiles.Count < pattern.Count)
             {
                 score_manager.misses++;
+                score_manager.LoseALife();
                 StartCoroutine(DelayedResetAndGenerate());
                 yield break;
             }
