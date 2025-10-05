@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983848aebc151b2478fbae209231b17d, type: 3}
   m_Name: QucikEvalSO
   m_EditorClassIdentifier: 
-  timer: 180
+  timer: 120
   noisyfocuslevels:
   - starttime: 0
     delay: 1
@@ -21,49 +21,49 @@ MonoBehaviour:
     scoreratio: 0.125
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 22.5
+  - starttime: 15
     delay: 1
     minSpeed: 3
     maxSpeed: 5
     scoreratio: 0.25
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 45
+  - starttime: 30
     delay: 0.8
     minSpeed: 3
     maxSpeed: 5
     scoreratio: 0.375
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 67.5
+  - starttime: 45
     delay: 0.8
     minSpeed: 3
     maxSpeed: 5
     scoreratio: 0.5
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 90
+  - starttime: 60
     delay: 0.7
     minSpeed: 4
     maxSpeed: 6
     scoreratio: 0.625
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 112.5
+  - starttime: 75
     delay: 0.7
     minSpeed: 4
     maxSpeed: 6
     scoreratio: 0.75
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 135
+  - starttime: 90
     delay: 0.5
     minSpeed: 4
     maxSpeed: 6
     scoreratio: 0.875
     isflickering: 1
     flickeringspeed: 0.1
-  - starttime: 157.5
+  - starttime: 105
     delay: 0.5
     minSpeed: 4
     maxSpeed: 6

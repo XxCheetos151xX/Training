@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2becadaa36d584fb72c2d9d4b62507, type: 3}
   m_Name: QuickEvalSO
   m_EditorClassIdentifier: 
-  timer: 180
+  timer: 120
   memorylevels:
   - flickerstarttime: 0
     patternspeed: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
     cols: 8
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 22.5
+  - flickerstarttime: 15
     patternspeed: 1
     usertimewindow: 4.5
     scoreratio: 0.25
@@ -32,7 +32,7 @@ MonoBehaviour:
     cols: 8
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 45
+  - flickerstarttime: 30
     patternspeed: 1
     usertimewindow: 4
     scoreratio: 0.375
@@ -41,7 +41,7 @@ MonoBehaviour:
     cols: 10
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 67.5
+  - flickerstarttime: 45
     patternspeed: 1
     usertimewindow: 3.5
     scoreratio: 0.5
@@ -50,7 +50,7 @@ MonoBehaviour:
     cols: 12
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 90
+  - flickerstarttime: 60
     patternspeed: 0.7
     usertimewindow: 3
     scoreratio: 0.625
@@ -59,7 +59,7 @@ MonoBehaviour:
     cols: 14
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 112.5
+  - flickerstarttime: 75
     patternspeed: 0.7
     usertimewindow: 2.5
     scoreratio: 0.75
@@ -68,7 +68,7 @@ MonoBehaviour:
     cols: 16
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 135
+  - flickerstarttime: 90
     patternspeed: 0.7
     usertimewindow: 2.5
     scoreratio: 0.875
@@ -77,7 +77,7 @@ MonoBehaviour:
     cols: 18
     isflickering: 1
     flickeringspeed: 0.1
-  - flickerstarttime: 167.5
+  - flickerstarttime: 105
     patternspeed: 0.7
     usertimewindow: 2.5
     scoreratio: 1

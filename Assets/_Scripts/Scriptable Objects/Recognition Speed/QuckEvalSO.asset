@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470978b2e3a3ae649af71c536a35da2d, type: 3}
   m_Name: QuckEvalSO
   m_EditorClassIdentifier: 
-  timer: 180
+  timer: 120
   recognitionspeedlevels:
   - starttime: 0
     lifespan: 5
@@ -21,49 +21,49 @@ MonoBehaviour:
     size: 2
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 22.5
+  - starttime: 15
     lifespan: 4.5
     speed: 1
     scoreratio: 0.25
     size: 2
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 45
+  - starttime: 30
     lifespan: 3.5
     speed: 1
     scoreratio: 0.375
     size: 2
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 67.5
+  - starttime: 45
     lifespan: 3.5
     speed: 1
     scoreratio: 0.5
     size: 3
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 90
+  - starttime: 60
     lifespan: 3
     speed: 0.8
     scoreratio: 0.625
     size: 3
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 112.5
+  - starttime: 75
     lifespan: 3
     speed: 0.8
     scoreratio: 0.75
     size: 3
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 135
+  - starttime: 90
     lifespan: 2.5
     speed: 0.8
     scoreratio: 0.875
     size: 4
     isflickering: 1
     flickeringspeed: 0.1
-  - starttime: 157.5
+  - starttime: 105
     lifespan: 2.5
     speed: 0.8
     scoreratio: 1

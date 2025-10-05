@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29611864799377a409dbfd7831e445cb, type: 3}
   m_Name: QuickEvalSO
   m_EditorClassIdentifier: 
-  timer: 180
+  timer: 120
   spacinglevels:
   - starttime: 0
     speed: 6
@@ -21,49 +21,49 @@ MonoBehaviour:
     columns: 16
     isflickering: 0
     flickeringspeed: 0.1
-  - starttime: 22.5
+  - starttime: 15
     speed: 5.5
     scoreratio: 0.25
     rows: 10
     columns: 20
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 45
+  - starttime: 30
     speed: 5
     scoreratio: 0.375
     rows: 12
     columns: 24
     isflickering: 0
     flickeringspeed: 1
-  - starttime: 67.5
+  - starttime: 45
     speed: 4.5
     scoreratio: 0.5
     rows: 14
     columns: 28
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 90
+  - starttime: 60
     speed: 4
     scoreratio: 0.625
     rows: 16
     columns: 32
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 112.5
+  - starttime: 75
     speed: 3.5
     scoreratio: 0.75
     rows: 18
     columns: 36
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 135
+  - starttime: 90
     speed: 3
     scoreratio: 0.875
     rows: 20
     columns: 40
     isflickering: 0
     flickeringspeed: 0.2
-  - starttime: 157.5
+  - starttime: 105
     speed: 2.5
     scoreratio: 1
     rows: 22

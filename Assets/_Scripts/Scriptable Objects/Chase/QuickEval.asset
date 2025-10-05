@@ -12,44 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017c6fdc7964dbb4581681dabf55e574, type: 3}
   m_Name: QuickEval
   m_EditorClassIdentifier: 
-  timer: 10
+  timer: 120
   ChaseLevels:
   - startTime: 0
     ballSpeed: 3.5
     scoreratio: 0.125
     isFlickering: 0
     flickerSpeed: 0.1
-  - startTime: 22.5
+  - startTime: 15
     ballSpeed: 5.5
     scoreratio: 0.25
     isFlickering: 0
     flickerSpeed: 0
-  - startTime: 45
+  - startTime: 30
     ballSpeed: 7.5
     scoreratio: 0.375
     isFlickering: 0
     flickerSpeed: 1
-  - startTime: 67.5
+  - startTime: 45
     ballSpeed: 9.5
     scoreratio: 0.5
     isFlickering: 0
     flickerSpeed: 0
-  - startTime: 90
+  - startTime: 60
     ballSpeed: 11.5
     scoreratio: 0.625
     isFlickering: 0
     flickerSpeed: 0
-  - startTime: 112.5
+  - startTime: 75
     ballSpeed: 13.5
     scoreratio: 0.75
     isFlickering: 0
     flickerSpeed: 0.25
-  - startTime: 135
+  - startTime: 90
     ballSpeed: 15.5
     scoreratio: 0.875
     isFlickering: 1
     flickerSpeed: 0.2
-  - startTime: 157.5
+  - startTime: 105
     ballSpeed: 17.5
     scoreratio: 1
     isFlickering: 1
