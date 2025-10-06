@@ -15,8 +15,9 @@ MonoBehaviour:
   timer: 90
   noisyfocuslevels:
   - starttime: 0
-    delay: 0.7
-    minSpeed: 4
-    maxSpeed: 6
+    delay: 0.6
+    minSpeed: 3.5
+    maxSpeed: 5.5
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0

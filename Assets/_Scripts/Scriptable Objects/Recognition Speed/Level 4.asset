@@ -16,7 +16,9 @@ MonoBehaviour:
   recognitionspeedlevels:
   - starttime: 0
     lifespan: 3.5
-    speed: 1
+    speed: 0.9
+    scoreratio: 0
     size: 3
+    ball_size: 1.9
     isflickering: 0
     flickeringspeed: 0

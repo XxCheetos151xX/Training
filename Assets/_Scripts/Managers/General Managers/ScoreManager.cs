@@ -19,7 +19,6 @@ public class ScoreManager : MonoBehaviour
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
         lives = 3;
-        print(lives);
     }
 
     public void CalculateScore()
@@ -55,6 +54,9 @@ public class ScoreManager : MonoBehaviour
     public void LoseALife()
     {
         lives -= 1;
-        print(lives);
+        if (lives <= 0)
+        {
+            lives = 0;
+        }
     }
 }

@@ -32,6 +32,7 @@ public class RecognitionSpeedManager : AbstractGameManager
     private float speed;
     private float score_ratio;
     private int size;
+    private float ball_size;
     private bool all_targets_clicked;
     private string chosen_mode;
     private List<float> _starttime = new List<float>();
@@ -40,6 +41,7 @@ public class RecognitionSpeedManager : AbstractGameManager
     private List<float> _flickerinspeed = new List<float>();
     private List<float> _scoreratio = new List<float>();
     private List<int> _size = new List<int>();
+    private List<float> _ballsize = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<GameObject> active_targets = new List<GameObject>();
 
@@ -82,6 +84,7 @@ public class RecognitionSpeedManager : AbstractGameManager
             _size.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].size);
             _flickerinspeed.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].flickeringspeed);
             _isflickering.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].isflickering);
+            _ballsize.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].ball_size);
             _scoreratio.Add(activeRecognitionSpeedSO.recognitionspeedlevels[i].scoreratio);
         }
     }
@@ -93,6 +96,7 @@ public class RecognitionSpeedManager : AbstractGameManager
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
 
         spawned_target = Instantiate(target_prefab, new Vector2(posx, posy), Quaternion.identity);
+        spawned_target.transform.localScale = new Vector3(ball_size, ball_size, 0);
         spawned_target.GetComponent<CircleCollider2D>().enabled = false;
         spawned_target_renderer = spawned_target.GetComponent<SpriteRenderer>();
         spawned_target_renderer.color = normal_color;
@@ -224,6 +228,7 @@ public class RecognitionSpeedManager : AbstractGameManager
                     flickermanager.flickeringspeed = _flickerinspeed[i];
                     flickermanager.isflickering = _isflickering[i]; 
                     score_ratio = _scoreratio[i];
+                    ball_size = _ballsize[i];
                 } 
             }
             if (chosen_mode != GameMode.Timeless.ToString())

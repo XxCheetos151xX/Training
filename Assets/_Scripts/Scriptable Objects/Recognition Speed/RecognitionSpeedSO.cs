@@ -16,6 +16,7 @@ public class RecognitionSpeedVariables
     public float speed;
     public float scoreratio;
     public int size;
+    public float ball_size;
     public bool isflickering;
     public float flickeringspeed;
 }

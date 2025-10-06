@@ -92,7 +92,14 @@ public class FocusManager : AbstractGameManager
             prestart_txt.enabled = false;
 
             StartCoroutine(GameLoop());
-            StartCoroutine(ui_manager.Timer());
+            if (chosen_mode == GameMode.Timeless.ToString())
+            {
+                StartCoroutine(ui_manager.Lives());
+            }
+            else
+            {
+                StartCoroutine(ui_manager.Timer());
+            }
             StartCoroutine(Spawntarget());
             StartCoroutine(ChangeRadius());
             StartCoroutine(flickering_manager.Flickering());
@@ -155,7 +162,7 @@ public class FocusManager : AbstractGameManager
     public void GameEnd()
     {
         StopAllCoroutines();
-        
+        StartCoroutine(ui_manager.Lives());
         Destroy(spawned_target1);
         Destroy(spawned_target2);
 

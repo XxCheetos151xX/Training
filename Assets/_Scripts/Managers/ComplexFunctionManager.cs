@@ -20,7 +20,7 @@ public class ComplexFunctionManager : AbstractGameManager
     [SerializeField] private UnityEvent GameEnded;
     [SerializeField] private UnityEvent SequenceEnd;
 
-    private ComplexFunctionsSO activeComplexFunctionsSO;
+    public ComplexFunctionsSO activeComplexFunctionsSO;
     private Camera cam;
     private GameObject left_spawned_target;
     private GameObject right_spawned_target;
@@ -158,6 +158,7 @@ public class ComplexFunctionManager : AbstractGameManager
 
     void SpawnRightTarget()
     {
+        GeneratePositions();
         right_spawned_target = Instantiate(target_prefab, rightpos, Quaternion.identity);
         right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
         active_targets.Add(right_spawned_target);
@@ -183,12 +184,10 @@ public class ComplexFunctionManager : AbstractGameManager
         if (is_flickering_together && is_flickering)
         {
             scoremanager.total_score += score_tobe_added;
-            print(scoremanager.total_score);
         }
         else if (!is_flickering_together && is_flickering && !isright)
         {
             scoremanager.total_score += score_tobe_added;
-            print(scoremanager.total_score);
         }
     }
 
@@ -237,6 +236,7 @@ public class ComplexFunctionManager : AbstractGameManager
                 scoremanager.user_score += score_tobe_added;
             }
         }
+        print(scoremanager.user_score);
     }
 
 
@@ -248,6 +248,7 @@ public class ComplexFunctionManager : AbstractGameManager
     {
         while (true)
         {
+            GeneratePositions();
             SpawnRightTarget();
             SpawnLeftTarget();
             yield return new WaitForSeconds(Random.Range(min_delay_between_targets, max_delay_between_targets));
@@ -282,6 +283,7 @@ public class ComplexFunctionManager : AbstractGameManager
                     min_delay_between_targets = _mindelaybetweentargets[i];
                     max_delay_between_targets = _maxdelaybetweentargets[i];
                     is_flickering_together = _isflickeringtogether[i];
+                    score_ratio = _scoreratio[i];
                 }
             }
 
@@ -309,20 +311,16 @@ public class ComplexFunctionManager : AbstractGameManager
         }
     }
 
-    
+
 
     IEnumerator StartFlickering()
     {
         while (true)
         {
-            
             if (!is_flickering_together)
-            {
                 isright = Random.value < 0.5f;
-            }
 
             is_flickering = true;
-
             Coroutine flickerRoutine = StartCoroutine(Flicker());
 
             yield return new WaitForSeconds(flickering_time);
@@ -331,13 +329,13 @@ public class ComplexFunctionManager : AbstractGameManager
 
             is_flickering = false;
 
-           
             left_central_point_renderer.enabled = true;
             right_central_point_renderer.enabled = true;
 
             yield return new WaitForSeconds(Random.Range(min_flickering_cooldown, max_flickering_cooldown));
         }
     }
+
 
     IEnumerator Flicker()
     {

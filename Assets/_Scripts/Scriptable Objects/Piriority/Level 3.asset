@@ -15,7 +15,8 @@ MonoBehaviour:
   timer: 90
   pirioritylevels:
   - starttime: 0
-    targetlifetime: 5
-    delaybetweentargets: 0.7
+    targetlifetime: 6.2
+    delaybetweentargets: 1
+    scoreratio: 0
     isflickering: 0
     flickeringspeed: 0

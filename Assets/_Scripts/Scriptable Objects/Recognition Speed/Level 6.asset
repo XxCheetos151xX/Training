@@ -15,8 +15,10 @@ MonoBehaviour:
   timer: 90
   recognitionspeedlevels:
   - starttime: 0
-    lifespan: 3
+    lifespan: 2.8
     speed: 0.8
+    scoreratio: 0
     size: 3
+    ball_size: 1.7
     isflickering: 0
     flickeringspeed: 0

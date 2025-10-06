@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Video;
 using System.Linq;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer_txt;
     [SerializeField] private TextMeshProUGUI score_txt;
     [SerializeField] private TextMeshProUGUI next_game_title;
+    [SerializeField] private TextMeshProUGUI lives_txt;
 
     [Header("Result Prefab & Container")]
     [SerializeField] private GameObject resultTextPrefab;   // Prefab with TextMeshProUGUI
@@ -28,6 +30,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ScoreManager score_manager;
     [SerializeField] private AbstractGameManager manager;
 
+    [SerializeField] private GameObject sequence_manager_prefab;
+
     [Header("Video Mode")]
     [SerializeField] private bool isvideo;
 
@@ -44,9 +48,10 @@ public class UIManager : MonoBehaviour
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
 
-        if (chosen_mode == GameMode.Timeless.ToString() && timer_txt != null)
+        if (chosen_mode == GameMode.Timeless.ToString() && timer_txt != null && lives_txt != null)
         {
             timer_txt.enabled = false;
+            lives_txt.enabled = true;  
         }
         if (ending_panel != null)
         {
@@ -89,6 +94,7 @@ public class UIManager : MonoBehaviour
     public void SequenceEnded()
     {
         StopAllCoroutines();
+
 
         if (timer_txt != null)
             timer_txt.enabled = false;
@@ -180,9 +186,59 @@ public class UIManager : MonoBehaviour
     {
         PlayerPrefs.SetString("GameMode", GameMode.GeneralEval.ToString());
 
-        if (SequenceManager.Instance != null)
+        if (SequenceManager.Instance == null)
+        {
+            if (sequence_manager_prefab != null)
+            {
+                StartCoroutine(SpawnSequenceManagerAndAssign());
+            }
+        }
+        else
         {
             SequenceManager.Instance.StartSequence();
+        }
+    }
+
+
+    private IEnumerator SpawnSequenceManagerAndAssign()
+    {
+        Instantiate(sequence_manager_prefab);
+
+        // Wait one frame to let Awake() run and Instance initialize
+        yield return null;
+
+        if (SequenceManager.Instance != null)
+        {
+            // Add listener safely now
+            var btn = sequence_ended_panel.GetComponentInChildren<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(SequenceManager.Instance.StartSequence);
+            }
+
+            // Update UI safely
+            sequence_ended_panel.SetActive(true);
+
+            if (next_game_title != null)
+            {
+                next_game_title.text = "Next Game Is " +
+                    SequenceManager.Instance.drillScenes[0];
+            }
+        }
+        else
+        {
+            Debug.LogError("SequenceManager Instance still null after instantiation!");
+        }
+    }
+
+
+    public IEnumerator Lives()
+    {
+        while (true)
+        {
+            lives_txt.text = "Tries:" + " " + score_manager.lives.ToString();
+            yield return null;
         }
     }
 
@@ -196,18 +252,17 @@ public class UIManager : MonoBehaviour
                 int minutes = Mathf.FloorToInt(manager.initial_timer / 60f);
                 int seconds = Mathf.FloorToInt(manager.initial_timer % 60f);
                 timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-                yield return null;
             }
             else if (isvideo && video_player != null)
             {
                 remaining = video_player.length - video_player.time;
-
                 int minutes = Mathf.FloorToInt((float)remaining / 60f);
                 int seconds = Mathf.FloorToInt((float)remaining % 60f);
                 timer_txt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-                yield return null;
             }
+
+            yield return null;
         }
     }
+
 }

@@ -17,6 +17,8 @@ MonoBehaviour:
   - starttime: 0
     lifespan: 2.5
     speed: 0.8
-    size: 4
-    isflickering: 1
+    scoreratio: 0
+    size: 3
+    ball_size: 1.6
+    isflickering: 0
     flickeringspeed: 0.1
