@@ -3,40 +3,8 @@
   "WorkspaceRootPath": "C:\\Training\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\sequencemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\sequencemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\focusmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\flickeringgamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\flickeringgamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\complexfunctionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\complexfunctionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\memorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\memorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\general managers\\scoremanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\scoremanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|C:\\Training\\assets\\_scripts\\managers\\decisionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\decisionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\recognitionspeedmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\recognitionspeedmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,119 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SequenceManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\SequenceManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\SequenceManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\SequenceManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\SequenceManager.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAQwCQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T17:53:56.735Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FocusManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\FocusManager.cs",
-              "ViewState": "AgIAAA0BAAAAAAAAAAAgwCkBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T17:26:42.211Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FlickeringGameManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\FlickeringGameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\FlickeringGameManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\FlickeringGameManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\FlickeringGameManager.cs",
-              "ViewState": "AgIAAJwAAAAAAAAAAAAqwKUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T23:35:58.214Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DecisionManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\DecisionManager.cs",
-              "ViewState": "AgIAAEYBAAAAAAAAAAAhwFcBAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T22:08:33.437Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ScoreManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\ScoreManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\ScoreManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\ScoreManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\ScoreManager.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAgwDgAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T22:02:37.773Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ComplexFunctionManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\ComplexFunctionManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\ComplexFunctionManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\ComplexFunctionManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\ComplexFunctionManager.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAYwHEBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T21:54:51.952Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MemoryManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\MemoryManager.cs",
-              "ViewState": "AgIAAFUBAAAAAAAAAAAuwGYBAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T16:28:56.596Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GameDataSetter.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAswGEAAAAEAAAAAAAAAA==",
+              "Title": "RecognitionSpeedManager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAHIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T15:53:22.992Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UI Manager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
-              "ViewState": "AgIAALoAAAAAAAAAAAAUwNUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T10:26:59.647Z",
+              "WhenOpened": "2025-10-06T17:02:04.348Z",
               "EditorCaption": ""
             }
           ]

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
@@ -59,10 +59,10 @@ public class RecognitionSpeedManager : AbstractGameManager
         float horizontalSize = verticalSize * aspectRatio;
         float halfWidth = horizontalSize / 2f;
         float halfHeight = verticalSize / 2f;
-        minY = cam.transform.position.y - halfHeight;
-        minX = cam.transform.position.x - halfWidth;
-        maxX = cam.transform.position.x + halfWidth;
-        maxY = cam.transform.position.y + halfHeight;
+        minY = cam.transform.position.y - halfHeight + 1;
+        minX = cam.transform.position.x - halfWidth + 1;
+        maxX = cam.transform.position.x + halfWidth - 1;
+        maxY = cam.transform.position.y + halfHeight - 1;
     }
 
 
@@ -92,19 +92,54 @@ public class RecognitionSpeedManager : AbstractGameManager
 
     void SpawnSingleTarget()
     {
-        float posx = Random.Range(minX + 0.5f, maxX - 0.5f);
-        float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
+        int maxAttempts = 50; // safety limit to avoid infinite loops
+        bool validPositionFound = false;
+        Vector2 spawnPos = Vector2.zero;
+        float radius = ball_size * 0.5f; // approximate radius of target
 
-        spawned_target = Instantiate(target_prefab, new Vector2(posx, posy), Quaternion.identity);
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            float posx = Random.Range(minX + radius, maxX - radius);
+            float posy = Random.Range(minY + radius, maxY - radius);
+            spawnPos = new Vector2(posx, posy);
+
+            bool overlaps = false;
+
+            // Check against all active targets
+            foreach (var target in active_targets)
+            {
+                if (target == null) continue;
+
+                float dist = Vector2.Distance(spawnPos, target.transform.position);
+                if (dist < ball_size) // too close → overlap
+                {
+                    overlaps = true;
+                    break;
+                }
+            }
+
+            if (!overlaps)
+            {
+                validPositionFound = true;
+                break;
+            }
+        }
+
+        // If no valid position found, still spawn last generated one (prevents freeze)
+        spawned_target = Instantiate(target_prefab, spawnPos, Quaternion.identity);
         spawned_target.transform.localScale = new Vector3(ball_size, ball_size, 0);
         spawned_target.GetComponent<CircleCollider2D>().enabled = false;
+
         spawned_target_renderer = spawned_target.GetComponent<SpriteRenderer>();
         spawned_target_renderer.color = normal_color;
+
         active_targets.Add(spawned_target);
         spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-        
+
         scoremanager.total_score += max_score;
     }
+
+
 
     void DestroyAtciveTargets()
     {
@@ -133,7 +168,7 @@ public class RecognitionSpeedManager : AbstractGameManager
 
         circle.SetActive(true);
          
-        float tolerance = 0.1f; 
+        float tolerance = 0.5f; 
 
         if (activeRecognitionSpeedSO.recognitionspeedlevels.Count > 1)
         {
@@ -174,6 +209,8 @@ public class RecognitionSpeedManager : AbstractGameManager
             all_targets_clicked = true;
             pressed_targets = 0;
         }
+
+        print(scoremanager.user_score);
     }
 
 
