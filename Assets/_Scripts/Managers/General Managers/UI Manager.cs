@@ -90,6 +90,19 @@ public class UIManager : MonoBehaviour
             ending_panel.SetActive(true);
     }
 
+    public void StartSequencePanel()
+    {
+        if (sequence_ended_panel != null)
+        {
+            sequence_ended_panel.SetActive(true);
+        }
+
+        if (next_game_title != null)
+        {
+            next_game_title.text = "Next Game Is " + SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex].ToString();
+        }
+    }
+
     // ================== Sequence End ==================
     public void SequenceEnded()
     {
@@ -185,52 +198,11 @@ public class UIManager : MonoBehaviour
     public void StartGeneralEval()
     {
         PlayerPrefs.SetString("GameMode", GameMode.GeneralEval.ToString());
-
-        if (SequenceManager.Instance == null)
-        {
-            if (sequence_manager_prefab != null)
-            {
-                StartCoroutine(SpawnSequenceManagerAndAssign());
-            }
-        }
-        else
-        {
-            SequenceManager.Instance.StartSequence();
-        }
+        SequenceManager.Instance.StartSequence();
     }
 
 
-    private IEnumerator SpawnSequenceManagerAndAssign()
-    {
-        Instantiate(sequence_manager_prefab);
 
-        // Wait one frame to let Awake() run and Instance initialize
-        yield return null;
-
-        if (SequenceManager.Instance != null)
-        {
-            // Add listener safely now
-            var btn = sequence_ended_panel.GetComponentInChildren<Button>();
-            if (btn != null)
-            {
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(SequenceManager.Instance.StartSequence);
-            }
-
-            // Update UI safely
-            sequence_ended_panel.SetActive(true);
-
-            if (next_game_title != null)
-            {
-                next_game_title.text = "Next Game Is " +
-                    SequenceManager.Instance.drillScenes[0];
-            }
-        }
-        else
-        {
-            Debug.LogError("SequenceManager Instance still null after instantiation!");
-        }
-    }
 
 
     public IEnumerator Lives()

@@ -28,7 +28,10 @@ public class GameDataSetter : MonoBehaviour
     public void SetGameType(int Val)
     {
         gameType = (GameType)Val;
-        SetDescription(Val-1);
+        if (Val <= games_descriptions.Count - 1)
+        {
+            SetDescription(Val - 1);
+        }
     }
 
     public void SetGameMode(int Val)
@@ -43,6 +46,7 @@ public class GameDataSetter : MonoBehaviour
     }
 
     public void SelectLevel(int Level)=>PlayerPrefs.SetInt("LevelSelected",Level); 
+
     public void LoadScene()
     {
         PlayerPrefs.SetString("GameMode", gameMode.ToString());
