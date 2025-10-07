@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PiriorityDescription
   m_EditorClassIdentifier: 
   game_description: Game Description
+  game_image: {fileID: 21300000, guid: 78b9511a09bd31e44ad195adbb0d3a3a, type: 3}

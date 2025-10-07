@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: RecognitionDescription
   m_EditorClassIdentifier: 
   game_description: Game Description
+  game_image: {fileID: 21300000, guid: e546c5c63ee19d7468cf69f014e70c87, type: 3}

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.Video;
 using System.Linq;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AbstractGameManager manager;
 
     [SerializeField] private GameObject sequence_manager_prefab;
+    [SerializeField] private TextMeshProUGUI game_description_txt;
+    [SerializeField] private Image game_image;
 
     [Header("Video Mode")]
     [SerializeField] private bool isvideo;
@@ -39,9 +42,11 @@ public class UIManager : MonoBehaviour
 
     public VideoPlayer video_player;
 
+    public List<GameDescriptionSO> games_description = new List<GameDescriptionSO>();
 
     private string chosen_mode;
     
+
 
 
     private void Start()
@@ -203,6 +208,11 @@ public class UIManager : MonoBehaviour
 
 
 
+    public void SetDescription(int indexVal)
+    {
+        game_description_txt.text = games_description[indexVal].game_description;
+        game_image.sprite = games_description[indexVal].game_image;
+    }
 
 
     public IEnumerator Lives()

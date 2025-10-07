@@ -159,7 +159,6 @@ public class DecisionManager : AbstractGameManager
     {
         if (!gamestarted && righthandpressed && lefthandpressed)
         {
-           
             StartCoroutine(flickering_manager.Flickering());
             SwitchColor();
             StartCoroutine(ui_manager.Timer());

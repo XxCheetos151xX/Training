@@ -6,43 +6,35 @@ using TMPro;
 
 public class GameDataSetter : MonoBehaviour
 {
+    [SerializeField] private UIManager ui_manager;
+
+
     public GameMode gameMode;
     public GameType gameType;
 
-    public TextMeshProUGUI description_txt; 
 
     public List<int> quickplay_game_types = new List<int>();
     public List<int> quickplay_game_levels = new List<int>();
     public List<int> antistress_game_types = new List<int>();
     public List<int> antistress_game_levels = new List<int>();
     public List<int> timeless_mode_levels = new List<int>();
-    public List<GameDescriptionSO> games_descriptions = new List<GameDescriptionSO>();
 
     
 
-    public void SetDescription(int indexVal)
-    {
-        description_txt.text = games_descriptions[indexVal].game_description;
-    }
+
 
     public void SetGameType(int Val)
     {
         gameType = (GameType)Val;
-        if (Val <= games_descriptions.Count - 1)
+        if (Val <= ui_manager.games_description.Count - 1)
         {
-            SetDescription(Val - 1);
+            ui_manager.SetDescription(Val - 1);
         }
     }
 
     public void SetGameMode(int Val)
     {
         gameMode = (GameMode)Val;
-    }
-
-
-    public void SetGameDescription(int index)
-    {
-        description_txt.text = games_descriptions[index].game_description;
     }
 
     public void SelectLevel(int Level)=>PlayerPrefs.SetInt("LevelSelected",Level); 

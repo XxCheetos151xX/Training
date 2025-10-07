@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Training\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\recognitionspeedmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\recognitionspeedmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\game selction scripts\\main\\gamedatasetter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\general managers\\ui manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\scriptable objects\\gamedescriptionso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\scriptable objects\\gamedescriptionso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|c:\\training\\assets\\_scripts\\managers\\spacingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06643ECF-9AF3-C570-933B-29911587D09B}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\managers\\spacingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RecognitionSpeedManager.cs",
-              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
-              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Managers\\RecognitionSpeedManager.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAAHIAAAARAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "UI Manager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\General Managers\\UI Manager.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAwCwAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T17:02:04.348Z",
+              "WhenOpened": "2025-10-07T17:29:42.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameDataSetter.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Game Selction Scripts\\Main\\GameDataSetter.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAewBoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T16:51:14.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GameDescriptionSO.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Scriptable Objects\\GameDescriptionSO.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Scriptable Objects\\GameDescriptionSO.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Scriptable Objects\\GameDescriptionSO.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Scriptable Objects\\GameDescriptionSO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T16:49:41.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SpacingManager.cs",
+              "DocumentMoniker": "C:\\Training\\Assets\\_Scripts\\Managers\\SpacingManager.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Managers\\SpacingManager.cs",
+              "ToolTip": "C:\\Training\\Assets\\_Scripts\\Managers\\SpacingManager.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Managers\\SpacingManager.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-07T16:45:42.867Z",
               "EditorCaption": ""
             }
           ]

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: FocusDescription
   m_EditorClassIdentifier: 
   game_description: Game Description
+  game_image: {fileID: 21300000, guid: a9b55109bc75a604f9daed49360195e0, type: 3}

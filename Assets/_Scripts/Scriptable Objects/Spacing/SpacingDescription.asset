@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SpacingDescription
   m_EditorClassIdentifier: 
   game_description: Game Description
+  game_image: {fileID: 21300000, guid: a0be5b1c428ec084392ea55c36105c77, type: 3}

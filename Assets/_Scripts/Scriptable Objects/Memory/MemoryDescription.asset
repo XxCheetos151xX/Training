@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: MemoryDescription
   m_EditorClassIdentifier: 
   game_description: Game Description
+  game_image: {fileID: 21300000, guid: fe1f7d7f4dc6f5b46820360602df8999, type: 3}
