@@ -7,45 +7,42 @@ public class NoisyFocusTargetMovement : MonoBehaviour
     private float screen_center_x;
     private float speed;
     private bool isleft;
-    private void Start()
+
+    [HideInInspector] public bool isclicked;
+
+    private void Awake()
     {
-        target_rb = gameObject.GetComponent<Rigidbody2D>();
+        target_rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+    }
+
+    private void OnEnable()
+    {
+        // Recalculate everything each time it's reused
+        isclicked = false;
+        target_rb.linearVelocity = Vector2.zero;
+
         screen_center_x = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0)).x;
-        isleft = gameObject.transform.position.x < screen_center_x;
+        isleft = transform.position.x < screen_center_x;
         speed = MiddleMan.Instance.noisyfocus_manager.spawned_target_speed;
     }
 
     private void FixedUpdate()
     {
+        if (isclicked) return;
+
         if (isleft)
-        {
-            MoveLeft();
-        }
+            target_rb.linearVelocity = new Vector2(speed, 0); // move right
         else
-        {
-            MoveRight();
-        }
+            target_rb.linearVelocity = new Vector2(-speed, 0); // move left
     }
-
-  
-
-
-    void MoveRight()
-    {
-        target_rb.linearVelocity = new Vector2(-speed, 0) ; 
-    }
-
-    void MoveLeft()
-    {
-        target_rb.linearVelocity = new Vector2(speed, 0) ; 
-    } 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Middle Line"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            MiddleMan.Instance.noisyfocus_manager.pooling.Enqueue(gameObject);
             MiddleMan.Instance.score_manager.misses++;
             MiddleMan.Instance.score_manager.LoseALife();
         }

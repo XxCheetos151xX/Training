@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983848aebc151b2478fbae209231b17d, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 40
+  timer: 30
   noisyfocuslevels:
   - starttime: 0
-    delay: 0.8
+    delay: 1.1
+    minSpeed: 2
+    maxSpeed: 4
+    scoreratio: 1
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 10
+    delay: 0.7
     minSpeed: 3
     maxSpeed: 5
     scoreratio: 1
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 13.33333
-    delay: 0.7
-    minSpeed: 4
-    maxSpeed: 6
-    scoreratio: 1
-    isflickering: 0
-    flickeringspeed: 0
-  - starttime: 26.66667
+  - starttime: 20
     delay: 0.5
     minSpeed: 4
     maxSpeed: 6
     scoreratio: 1
-    isflickering: 1
+    isflickering: 0
     flickeringspeed: 0.1

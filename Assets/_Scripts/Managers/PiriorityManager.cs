@@ -45,7 +45,7 @@ public class PiriorityManager : AbstractGameManager
     private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
     private List<Vector3> active_pos = new List<Vector3>();
-    private List<GameObject> active_targets = new List<GameObject>();
+    private Queue<GameObject> pooling = new Queue<GameObject>();
 
     void Start()
     {
@@ -66,6 +66,17 @@ public class PiriorityManager : AbstractGameManager
         minX = cam.transform.position.x - halfWidth;
         maxX = cam.transform.position.x + halfWidth;
         maxY = cam.transform.position.y + halfHeight;
+    }
+
+    void InitializePool()
+    {
+        for (int i = 0; i < 40; i++)
+        {
+            GameObject obj = Instantiate(target_prefab);
+            obj.SetActive(false);
+            obj.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+            pooling.Enqueue(obj);
+        }
     }
 
     void GameSetup()
@@ -118,13 +129,13 @@ public class PiriorityManager : AbstractGameManager
 
         if (valid_pos)
         {
-            spawned_target = Instantiate(target_prefab, pos, Quaternion.identity);
+            spawned_target = pooling.Dequeue();
             spawned_target_renderer = spawned_target.GetComponent<SpriteRenderer>();
-            spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-
+            spawned_target.transform.position = pos;
+            spawned_target.SetActive(true);
+            
             scoremanager.total_score += score_tobe_added_each_spawn;
             active_pos.Add(pos);
-            active_targets.Add(spawned_target);
 
             StartCoroutine(HandleTargetLifeCycle(spawned_target, spawned_target_renderer, life_span));
         }
@@ -177,15 +188,16 @@ public class PiriorityManager : AbstractGameManager
         }
 
         active_pos.Remove(t.transform.position);
-        active_targets.Remove(t);
+        t.SetActive(false);
+        pooling.Enqueue(t);
     }
 
     public void GameEnd()
     {
         StopAllCoroutines();
-        foreach (var target in active_targets)
+        foreach (var t in pooling)
         {
-            Destroy(target);
+            Destroy(t);
         }
     }
 
@@ -209,7 +221,15 @@ public class PiriorityManager : AbstractGameManager
         SetupScreen();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
-        StartCoroutine(uimanager.Timer());
+        InitializePool();
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(uimanager.Lives());
+        }
+        else
+        {
+            StartCoroutine(uimanager.Timer());
+        }
         StartCoroutine(GameLoop());
         StartCoroutine(SpawnTargets());
         StartCoroutine(flickeringmanager.Flickering());
@@ -251,9 +271,9 @@ public class PiriorityManager : AbstractGameManager
 
         if (target != null)
         {
-            Destroy(target);
+            target.SetActive(false);
             active_pos.Remove(target.transform.position);
-            active_targets.Remove(target);
+            pooling.Enqueue(target);
             scoremanager.misses++;
         } 
     }

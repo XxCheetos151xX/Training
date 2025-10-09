@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,22 +49,15 @@ public class ComplexFunctionManager : AbstractGameManager
     private List<float> _maxdelaybetweentargets = new List<float>();
     private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickeringtogether = new List<bool>();
-    private List<GameObject> active_targets = new List<GameObject>();
+    private Queue<GameObject> pooling = new Queue<GameObject>();
 
     void Start()
     {
-        SetupScreen();
-        GameSetup();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
-        StartCoroutine(uimanager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(StartFlickering());
-        StartCoroutine(SpawnTargets());
+        StartCoroutine(GameInit());
     }
 
     void SetupScreen()
     {
-        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         cam = Camera.main;
 
@@ -86,6 +79,8 @@ public class ComplexFunctionManager : AbstractGameManager
     void GameSetup()
     {
         initial_timer = activeComplexFunctionsSO.timer;
+
+        chosen_mode = PlayerPrefs.GetString("GameMode");
 
         timer = 0;
 
@@ -110,9 +105,22 @@ public class ComplexFunctionManager : AbstractGameManager
         }
     }
 
+
+    void InitializePool()
+    {
+        for (int i = 0; i < 40; i++)
+        {
+            GameObject obj = Instantiate(target_prefab);
+            obj.SetActive(false);
+            obj.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+            pooling.Enqueue(obj);
+        }
+    } 
+
+
     void ClearTargets()
     {
-        foreach (var t in active_targets)
+        foreach (var t in pooling)
         {
             Destroy(t);
         }
@@ -159,89 +167,101 @@ public class ComplexFunctionManager : AbstractGameManager
     void SpawnRightTarget()
     {
         GeneratePositions();
-        right_spawned_target = Instantiate(target_prefab, rightpos, Quaternion.identity);
-        right_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-        active_targets.Add(right_spawned_target);
+        right_spawned_target = pooling.Dequeue();
+        right_spawned_target.transform.position = rightpos;
+
+        var t = right_spawned_target.GetComponent<ComplexTargetValidity>();
+        t.isvalid = is_flickering && (!is_flickering_together ? isright : true);
+        t.isright = true;
+
+        right_spawned_target.SetActive(true);
         StartCoroutine(HandleTarget(right_spawned_target));
-        if (is_flickering_together && is_flickering)
+        if ( (is_flickering_together && is_flickering) || (!is_flickering_together && is_flickering && isright))
         {
             scoremanager.total_score += score_tobe_added;
         }
-        else if (!is_flickering_together && is_flickering && isright)
-        {
-            scoremanager.total_score += score_tobe_added;
-        }
+        print(scoremanager.total_score);
     }
 
 
-   void SpawnLeftTarget()
+
+    void SpawnLeftTarget()
     {
         GeneratePositions();
-        left_spawned_target = Instantiate(target_prefab, leftpos, Quaternion.identity);
-        left_spawned_target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
-        active_targets.Add(left_spawned_target);
+        left_spawned_target = pooling.Dequeue();
+        left_spawned_target.transform.position = leftpos;
+
+        var t = left_spawned_target.GetComponent<ComplexTargetValidity>();
+        t.isvalid = is_flickering && (!is_flickering_together ? !isright : true);
+        t.isright = false;
+
+        left_spawned_target.SetActive(true);
         StartCoroutine(HandleTarget(left_spawned_target));
-        if (is_flickering_together && is_flickering)
+        if ((is_flickering_together && is_flickering) || (!is_flickering_together && is_flickering && !isright))
         {
             scoremanager.total_score += score_tobe_added;
         }
-        else if (!is_flickering_together && is_flickering && !isright)
-        {
-            scoremanager.total_score += score_tobe_added;
-        }
+        print(scoremanager.total_score);
     }
+
 
     public override void TargetClicked(GameObject clickedtarget)
     {
-        if (!is_flickering)
+        if (is_flickering_together && is_flickering)
         {
-            scoremanager.user_score -= (score_tobe_added * 2);
-            scoremanager.LoseALife();
+            scoremanager.user_score += score_tobe_added;
         }
-
-        if (activeComplexFunctionsSO.complexfunctionslevels.Count > 1)
+        else if (!is_flickering_together && is_flickering && !isright)
         {
-            if (!is_flickering_together)
+            if (!clickedtarget.GetComponent<ComplexTargetValidity>().isright)
             {
-                if (clickedtarget == left_spawned_target && !isright)
-                {
-                    scoremanager.user_score += score_tobe_added * score_ratio;
-                }
-                else if (clickedtarget == right_spawned_target && isright)
-                {
-                    scoremanager.user_score += score_tobe_added * score_ratio;
-                }
+                scoremanager.user_score += score_tobe_added; 
             }
             else
-            {
-                scoremanager.user_score += score_tobe_added * score_ratio;
-            }
+                scoremanager.user_score -= score_tobe_added;    
         }
-
-        else
+        else if(!is_flickering_together && is_flickering && isright)
         {
-            if (!is_flickering_together)
-            {
-                if (clickedtarget == left_spawned_target && !isright)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
-                else if (clickedtarget == right_spawned_target && isright)
-                {
-                    scoremanager.user_score += score_tobe_added;
-                }
-            }
-            else
+            if (clickedtarget.GetComponent<ComplexTargetValidity>().isright)
             {
                 scoremanager.user_score += score_tobe_added;
             }
+            else
+                scoremanager.user_score -= score_tobe_added;
         }
-        print(scoremanager.user_score);
+        else
+        {
+            scoremanager.user_score -= score_tobe_added;
+        }
+        clickedtarget.SetActive(false);
+        pooling.Enqueue(clickedtarget);
     }
 
 
 
     public void SetActiveComplexFunctionsSO(ComplexFunctionsSO val) => activeComplexFunctionsSO = val;
+
+
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        SetupScreen();
+        GameSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        InitializePool();
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(uimanager.Lives());
+        }
+        else
+        {
+            StartCoroutine(uimanager.Timer());
+        }
+        StartCoroutine(GameLoop());
+        StartCoroutine(StartFlickering());
+        StartCoroutine(SpawnTargets());
+    }
 
 
     IEnumerator SpawnTargets()
@@ -260,7 +280,8 @@ public class ComplexFunctionManager : AbstractGameManager
         if (target != null)
         {
             yield return new WaitForSeconds(target_life_span);
-            Destroy(target);
+            target.SetActive(false);
+            pooling.Enqueue(target);
         }
     }
 
@@ -320,15 +341,13 @@ public class ComplexFunctionManager : AbstractGameManager
             if (!is_flickering_together)
                 isright = Random.value < 0.5f;
 
-            is_flickering = true;
             Coroutine flickerRoutine = StartCoroutine(Flicker());
-
+            is_flickering = true;
             yield return new WaitForSeconds(flickering_time);
 
             StopCoroutine(flickerRoutine);
 
             is_flickering = false;
-
             left_central_point_renderer.enabled = true;
             right_central_point_renderer.enabled = true;
 
@@ -341,6 +360,7 @@ public class ComplexFunctionManager : AbstractGameManager
     {
         while (true)
         {
+
             if (!is_flickering_together)
             {
              

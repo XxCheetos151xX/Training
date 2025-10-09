@@ -12,26 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470978b2e3a3ae649af71c536a35da2d, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 40
+  timer: 30
   recognitionspeedlevels:
   - starttime: 0
-    lifespan: 3.5
-    speed: 1
+    lifespan: 4
+    speed: 1.1
     scoreratio: 1
-    size: 2
+    size: 3
+    ball_size: 2
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 13.33333
+  - starttime: 10
     lifespan: 3
     speed: 0.8
     scoreratio: 1
     size: 3
+    ball_size: 1.8
     isflickering: 0
     flickeringspeed: 0
-  - starttime: 26.66667
+  - starttime: 20
     lifespan: 2.5
     speed: 0.8
     scoreratio: 1
-    size: 4
-    isflickering: 1
+    size: 3
+    ball_size: 1.6
+    isflickering: 0
     flickeringspeed: 0.1

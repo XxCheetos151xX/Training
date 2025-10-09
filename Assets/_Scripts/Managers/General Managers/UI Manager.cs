@@ -32,7 +32,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AbstractGameManager manager;
 
     [SerializeField] private GameObject sequence_manager_prefab;
+    [SerializeField] private TextMeshProUGUI game_title_txt;
     [SerializeField] private TextMeshProUGUI game_description_txt;
+    [SerializeField] private TextMeshProUGUI game_tutorial_txt;
     [SerializeField] private Image game_image;
 
     [Header("Video Mode")]
@@ -104,7 +106,7 @@ public class UIManager : MonoBehaviour
 
         if (next_game_title != null)
         {
-            next_game_title.text = "Next Game Is " + SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex].ToString();
+            next_game_title.text = "Next Game Is " + SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex].ToString().Replace("_"," ");
         }
     }
 
@@ -124,7 +126,7 @@ public class UIManager : MonoBehaviour
 
             if (next_game_title != null)
             {
-                string nextScene = SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex + 1];
+                string nextScene = SequenceManager.Instance.drillScenes[SequenceManager.Instance.currentIndex + 1].Replace("_"," ");
                 next_game_title.text = "Next Game Is " + nextScene;
             }
         }
@@ -173,7 +175,7 @@ public class UIManager : MonoBehaviour
                         var textObj = Instantiate(resultTextPrefab, resultsContainer);
                         var textInstance = textObj.GetComponent<TextMeshProUGUI>();
                         textInstance.enabled = true;
-                        textInstance.text = $"{entry.scene_name}: {entry.score:F1}%";
+                        textInstance.text = entry.scene_name.Replace("_"," ") + ":" + entry.score.ToString("F2") + "%";
                     }
 
                     // --- Show 3 lowest scores (only from valid general eval scenes) ---
@@ -188,11 +190,11 @@ public class UIManager : MonoBehaviour
                         var textObj = Instantiate(resultTextPrefab, lowestResultsContainer);
                         var textInstance = textObj.GetComponent<TextMeshProUGUI>();
                         textInstance.enabled = true;
-                        textInstance.text = $"{entry.scene_name}";
+                        textInstance.text = entry.scene_name.Replace("_"," ");
                     }
 
                     // --- Average ---
-                    average_score_txt.text = "CI Index: \n" + score_manager.average.ToString("F1") + "%";
+                    average_score_txt.text = "CI Index: " + score_manager.average.ToString("F1") + "%";
                 }
             }
         }
@@ -210,8 +212,26 @@ public class UIManager : MonoBehaviour
 
     public void SetDescription(int indexVal)
     {
-        game_description_txt.text = games_description[indexVal].game_description;
-        game_image.sprite = games_description[indexVal].game_image;
+        if (game_title_txt != null)
+        {
+            game_title_txt.text = games_description[indexVal].game_title;
+        }
+
+        if (game_tutorial_txt != null)
+        {
+            game_tutorial_txt.text = games_description[indexVal].game_tutorial;
+        }
+
+        if (game_description_txt != null)
+        {
+            game_description_txt.text = games_description[indexVal].game_description;
+        }
+
+        if (game_image != null)
+        {
+            game_image.sprite = games_description[indexVal].game_image;
+            game_image.SetNativeSize();
+        }
     }
 
 

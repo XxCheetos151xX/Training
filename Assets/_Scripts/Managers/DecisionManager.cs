@@ -161,7 +161,14 @@ public class DecisionManager : AbstractGameManager
         {
             StartCoroutine(flickering_manager.Flickering());
             SwitchColor();
-            StartCoroutine(ui_manager.Timer());
+            if (chosen_mode == GameMode.Timeless.ToString())
+            {
+                StartCoroutine(ui_manager.Lives());
+            }
+            else
+            {
+                StartCoroutine(ui_manager.Timer());
+            }
             StartCoroutine(GameLoop());
             StartCoroutine(SpawnTargets());
             gamestarted = true;

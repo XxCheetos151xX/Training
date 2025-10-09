@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962e329eb8e55734fb44e62c49dad2be, type: 3}
+  m_Name: QuickEvalSO
+  m_EditorClassIdentifier: 
+  timer: 120
+  focuslevels:
+  - starttime: 0
+    lifespan: 2
+    scale: 2
+    scoreratio: 0.125
+    isflickering: 0
+    flickeringspeed: 0.1
+  - starttime: 15
+    lifespan: 1.85
+    scale: 1.85
+    scoreratio: 0.25
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 30
+    lifespan: 1.7
+    scale: 1.7
+    scoreratio: 0.375
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 45
+    lifespan: 1.55
+    scale: 1.55
+    scoreratio: 0.5
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 60
+    lifespan: 1.4
+    scale: 1.4
+    scoreratio: 0.625
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 75
+    lifespan: 1.25
+    scale: 1.25
+    scoreratio: 0.75
+    isflickering: 0
+    flickeringspeed: 0
+  - starttime: 90
+    lifespan: 1.5
+    scale: 1.55
+    scoreratio: 0.875
+    isflickering: 1
+    flickeringspeed: 0.1
+  - starttime: 105
+    lifespan: 1.5
+    scale: 1.4
+    scoreratio: 1
+    isflickering: 1
+    flickeringspeed: 0.2

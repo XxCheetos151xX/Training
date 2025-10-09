@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2becadaa36d584fb72c2d9d4b62507, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 40
+  timer: 30
   memorylevels:
   - flickerstarttime: 0
     patternspeed: 1.7
@@ -23,7 +23,7 @@ MonoBehaviour:
     cols: 6
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 13.33333
+  - flickerstarttime: 10
     patternspeed: 1.4
     usertimewindow: 3
     scoreratio: 1
@@ -32,7 +32,7 @@ MonoBehaviour:
     cols: 8
     isflickering: 0
     flickeringspeed: 0
-  - flickerstarttime: 26.66667
+  - flickerstarttime: 20
     patternspeed: 1.1
     usertimewindow: 2.5
     scoreratio: 1

@@ -8,8 +8,7 @@ public class BackgroundGenerator : MonoBehaviour
     [SerializeField, Range(0.1f, 1f)] private float fillPercent = 0.9f;
     [SerializeField, Range(1, 5)] private int dotDensity = 1;
     [SerializeField] private bool circularTile = false;
-
-    
+        
 
     private float minX, minY, maxX, maxY;
     private List<GameObject> active_tiles = new List<GameObject>();
@@ -80,6 +79,9 @@ public class BackgroundGenerator : MonoBehaviour
 
         ClearBackGround();
 
+    
+
+
         if (circularTile)
         {
             float circleDiameter = Mathf.Min(cellWidth, cellHeight) * 0.98f;
@@ -88,6 +90,7 @@ public class BackgroundGenerator : MonoBehaviour
 
             float dotSize = circleDiameter * fillPercent / dotDensity;
             Vector3 scale = new Vector3(dotSize, dotSize, 1f);
+
 
             for (int y = 0; y < rows; y++)
             {
@@ -143,6 +146,7 @@ public class BackgroundGenerator : MonoBehaviour
                 }
             }
         }
+        
     }
 
     private void SetupScreen()

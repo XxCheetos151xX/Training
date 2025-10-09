@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
+  m_Name: ChaseDescription
+  m_EditorClassIdentifier: 
+  game_title: Eye Tracking
+  game_description: The objective is to train your response time. \n Predict the
+    opponent's and chase them quitley
+  game_tutorial: Click and drag the red circle. \n Keep the line short between the
+    circles.
+  game_image: {fileID: 3282569594026017228, guid: de05fa3e77c6d844591e59797a025df8, type: 3}

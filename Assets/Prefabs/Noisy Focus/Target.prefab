@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8237305503798496506}
   - component: {fileID: 2079417373341475481}
   - component: {fileID: 117666364228007037}
-  - component: {fileID: 1247785623014629744}
   - component: {fileID: -5329546114828715464}
   - component: {fileID: 6530133633718242445}
   - component: {fileID: 1738372174871423471}
@@ -146,34 +145,10 @@ MonoBehaviour:
       m_Calls: []
   _Onclick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1247785623014629744}
-        m_TargetAssemblyTypeName: Destroyable, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnRelease:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1247785623014629744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6628567482248426196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdeca18ef326a4348a6245323d8c2f97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-5329546114828715464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bddedc8461d40b4eb9b6acbaf79f615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isclicked: 0
 --- !u!50 &6530133633718242445
 Rigidbody2D:
   serializedVersion: 5
@@ -247,5 +223,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.02, y: 0}
+  m_Offset: {x: -1.02, y: 0}
   m_Radius: 0.5

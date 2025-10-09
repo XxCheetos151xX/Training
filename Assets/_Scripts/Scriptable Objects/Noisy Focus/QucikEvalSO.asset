@@ -15,44 +15,44 @@ MonoBehaviour:
   timer: 120
   noisyfocuslevels:
   - starttime: 0
-    delay: 1
-    minSpeed: 2
-    maxSpeed: 4
+    delay: 1.5
+    minSpeed: 1
+    maxSpeed: 3
     scoreratio: 0.125
     isflickering: 0
     flickeringspeed: 0
   - starttime: 15
-    delay: 1
-    minSpeed: 3
-    maxSpeed: 5
+    delay: 1.3
+    minSpeed: 1.5
+    maxSpeed: 3.5
     scoreratio: 0.25
     isflickering: 0
     flickeringspeed: 0
   - starttime: 30
-    delay: 0.8
-    minSpeed: 3
-    maxSpeed: 5
+    delay: 1.1
+    minSpeed: 2
+    maxSpeed: 4
     scoreratio: 0.375
     isflickering: 0
     flickeringspeed: 0
   - starttime: 45
-    delay: 0.8
-    minSpeed: 3
-    maxSpeed: 5
+    delay: 0.9
+    minSpeed: 2.5
+    maxSpeed: 4.5
     scoreratio: 0.5
     isflickering: 0
     flickeringspeed: 0
   - starttime: 60
     delay: 0.7
-    minSpeed: 4
-    maxSpeed: 6
+    minSpeed: 3
+    maxSpeed: 5
     scoreratio: 0.625
     isflickering: 0
     flickeringspeed: 0
   - starttime: 75
-    delay: 0.7
-    minSpeed: 4
-    maxSpeed: 6
+    delay: 0.6
+    minSpeed: 3.5
+    maxSpeed: 5.5
     scoreratio: 0.75
     isflickering: 0
     flickeringspeed: 0
@@ -61,12 +61,12 @@ MonoBehaviour:
     minSpeed: 4
     maxSpeed: 6
     scoreratio: 0.875
-    isflickering: 1
+    isflickering: 0
     flickeringspeed: 0.1
   - starttime: 105
     delay: 0.5
-    minSpeed: 4
-    maxSpeed: 6
+    minSpeed: 4.5
+    maxSpeed: 6.5
     scoreratio: 1
-    isflickering: 1
+    isflickering: 0
     flickeringspeed: 0.5

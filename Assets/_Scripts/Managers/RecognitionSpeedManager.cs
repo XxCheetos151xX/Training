@@ -241,7 +241,14 @@ public class RecognitionSpeedManager : AbstractGameManager
         SetupScreen();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
         GameSetup();
-        StartCoroutine(uimanager.Timer());
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(uimanager.Lives());
+        }
+        else
+        {
+            StartCoroutine(uimanager.Timer());
+        }
         StartCoroutine(GameLoop());
         StartCoroutine(flickermanager.Flickering());
         StartCoroutine(SpawnTargets());

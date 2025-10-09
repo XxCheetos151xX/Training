@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d620a6669b37fe4b80ca2126e0334f3, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 40
+  timer: 30
   complexfunctionslevels:
   - starttime: 0
     flickeringtime: 3.5
@@ -23,7 +23,7 @@ MonoBehaviour:
     maxdelaybetweentargets: 2.8
     scoreratio: 1
     isflickeringtogether: 0
-  - starttime: 13.33333
+  - starttime: 10
     flickeringtime: 2.5
     minflickeringcooldown: 1.8
     maxflickeringcooldown: 2.8
@@ -32,7 +32,7 @@ MonoBehaviour:
     maxdelaybetweentargets: 2.2
     scoreratio: 1
     isflickeringtogether: 0
-  - starttime: 26.66667
+  - starttime: 20
     flickeringtime: 2
     minflickeringcooldown: 1.3
     maxflickeringcooldown: 2.2

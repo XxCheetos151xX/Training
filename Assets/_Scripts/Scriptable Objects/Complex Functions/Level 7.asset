@@ -15,10 +15,11 @@ MonoBehaviour:
   timer: 90
   complexfunctionslevels:
   - starttime: 0
-    flickeringtime: 2
-    minflickeringcooldown: 1.3
-    maxflickeringcooldown: 2.2
-    targetlifespan: 2.7
-    mindelaybetweentargets: 0.9
-    maxdelaybetweentargets: 1.8
+    flickeringtime: 1
+    minflickeringcooldown: 2
+    maxflickeringcooldown: 3
+    targetlifespan: 2
+    mindelaybetweentargets: 0.5
+    maxdelaybetweentargets: 1
+    scoreratio: 0
     isflickeringtogether: 0

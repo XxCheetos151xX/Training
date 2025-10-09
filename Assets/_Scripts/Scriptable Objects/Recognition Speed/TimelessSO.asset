@@ -15,17 +15,19 @@ MonoBehaviour:
   timer: 0
   recognitionspeedlevels:
   - starttime: 0
-    lifespan: 3.5
-    speed: 1
+    lifespan: 4
+    speed: 1.1
     scoreratio: 1
-    size: 2
+    size: 3
+    ball_size: 2
     isflickering: 0
     flickeringspeed: 0
   - starttime: 30
     lifespan: 3.5
-    speed: 1
+    speed: 0.9
     scoreratio: 1
     size: 3
+    ball_size: 1.9
     isflickering: 0
     flickeringspeed: 0
   - starttime: 60
@@ -33,26 +35,30 @@ MonoBehaviour:
     speed: 0.8
     scoreratio: 1
     size: 3
+    ball_size: 1.8
     isflickering: 0
     flickeringspeed: 0
   - starttime: 90
-    lifespan: 3
+    lifespan: 2.8
     speed: 0.8
     scoreratio: 1
     size: 3
+    ball_size: 1.7
     isflickering: 0
     flickeringspeed: 0
   - starttime: 120
     lifespan: 2.5
     speed: 0.8
     scoreratio: 1
-    size: 4
-    isflickering: 1
+    size: 3
+    ball_size: 1.6
+    isflickering: 0
     flickeringspeed: 0.1
   - starttime: 150
     lifespan: 2.5
     speed: 0.8
     scoreratio: 1
     size: 4
-    isflickering: 1
+    ball_size: 1.6
+    isflickering: 0
     flickeringspeed: 0.5

@@ -16,9 +16,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private bool has_lines;
 
     [Header("Notch Settings")]
-    [SerializeField] private float offset; 
-    [SerializeField] private float notch_min_x;
-    [SerializeField] private float notch_max_x;
+    public float offset;
+    public float notch_min_x;
+    public float notch_max_x;
 
     [SerializeField] private bool shuffle_grid = false;
     [SerializeField] private bool circular_tile = false;

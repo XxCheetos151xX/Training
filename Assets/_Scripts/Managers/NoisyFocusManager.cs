@@ -20,6 +20,7 @@ public class NoisyFocusManager : AbstractGameManager
     [SerializeField] private UnityEvent SequenceEnd;
 
     [HideInInspector] public float spawned_target_speed;
+    [HideInInspector] public Queue<GameObject> pooling = new Queue<GameObject>();
 
     private NoisyFocusSO activeNoisyFocusSO;
     private Camera cam;
@@ -38,20 +39,24 @@ public class NoisyFocusManager : AbstractGameManager
     private List<float> _flickeringspeed = new List<float>();
     private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
-    private List<GameObject> active_targets = new List<GameObject>();
 
     void Start()
-    {        
-        ScreenSetup();
-        backgroundgenerator.GenerateConstantBackGround(0.5f);
-        GameSetup();
-        StartCoroutine(uimanager.Timer());
-        StartCoroutine(GameLoop());
-        StartCoroutine(flickeringmanager.Flickering());
-        StartCoroutine(SpawnTargets());
+    {
+        StartCoroutine(GameInit());
     }
 
     
+    void InitailizePool()
+    {
+        for (int  i = 0; i < 25; i++)
+        {
+            GameObject target = Instantiate(target_prefab);
+            target.SetActive(false);
+            target.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+            pooling.Enqueue(target);
+        }
+    }
+
     void ScreenSetup()
     {
         cam = Camera.main;
@@ -88,15 +93,17 @@ public class NoisyFocusManager : AbstractGameManager
             inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
         }
 
-        spawned_target = Instantiate(target_prefab, new Vector3(posx, posy, 0), Quaternion.identity);
-        spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
-        active_targets.Add(spawned_target);
+        spawned_target = pooling.Dequeue();
+        spawned_target.transform.position = new Vector2(posx, posy);
+        spawned_target.GetComponent<NoisyFocusTargetMovement>().isclicked = false;
+        spawned_target.SetActive(true);
+
         scoremanager.total_score += score_tobe_added;
     }
 
 
 
-    public void TargetClicked()
+    public override void TargetClicked(GameObject target)
     {
         if (activeNoisyFocusSO.noisyfocuslevels.Count > 1)
         {
@@ -104,6 +111,10 @@ public class NoisyFocusManager : AbstractGameManager
         }
         else
             scoremanager.user_score += score_tobe_added;
+        
+        target.GetComponent<NoisyFocusTargetMovement>().isclicked = true;
+        target.SetActive(false);
+        pooling.Enqueue(target);
     }
 
     void GameSetup()
@@ -130,7 +141,7 @@ public class NoisyFocusManager : AbstractGameManager
     public void GameEnd()
     {
         StopAllCoroutines();
-        foreach (var t in active_targets)
+        foreach (var t in pooling)
         {
             Destroy(t);
         }
@@ -176,9 +187,9 @@ public class NoisyFocusManager : AbstractGameManager
 
     //        float screenCenterX = cam.transform.position.x;
 
-            
 
-            
+
+
     //        if (isLeft && target.transform.position.x >= screenCenterX)
     //        {
     //            Destroy(target);
@@ -187,7 +198,7 @@ public class NoisyFocusManager : AbstractGameManager
     //            yield break;
     //        }
 
-            
+
     //        if (!isLeft && target.transform.position.x <= screenCenterX)
     //        {
     //            Destroy(target);
@@ -199,6 +210,27 @@ public class NoisyFocusManager : AbstractGameManager
     //    }
     //}
 
+
+    IEnumerator GameInit()
+    {
+        yield return null;
+
+        ScreenSetup();
+        backgroundgenerator.GenerateConstantBackGround(0.5f);
+        GameSetup();
+        InitailizePool();
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(uimanager.Lives());
+        }
+        else
+        {
+            StartCoroutine(uimanager.Timer());
+        }
+        StartCoroutine(GameLoop());
+        StartCoroutine(flickeringmanager.Flickering());
+        StartCoroutine(SpawnTargets());
+    }
 
 
     IEnumerator GameLoop()

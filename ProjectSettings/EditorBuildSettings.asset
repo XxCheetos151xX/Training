@@ -9,34 +9,34 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/Chase.unity
+    path: Assets/Scenes/Eye_Tracking.unity
     guid: 4bd7f5a2daa5dcf40841ee9220eb6c07
   - enabled: 1
-    path: Assets/Scenes/Focus.unity
+    path: Assets/Scenes/Peripheral_Field.unity
     guid: 7230d73eaf0feaf4b9c21d9117ee77d7
   - enabled: 1
-    path: Assets/Scenes/Spacing.unity
+    path: Assets/Scenes/Space_Recognition.unity
     guid: bdc1d5db0c8c8ae4da1d490e8f869886
   - enabled: 1
-    path: Assets/Scenes/Decision.unity
+    path: Assets/Scenes/Decision_Making.unity
     guid: 695b5d471fb4fc246a2b84f28351c6a5
   - enabled: 1
     path: Assets/Scenes/Memory.unity
     guid: 348546280710abb4c8b6f898d31eb738
   - enabled: 1
-    path: Assets/Scenes/Piriority.unity
+    path: Assets/Scenes/Risk_Management.unity
     guid: fd459944ca65b8c4b96fedbb48a65518
   - enabled: 1
-    path: Assets/Scenes/NoisyFocus.unity
+    path: Assets/Scenes/Noisy_Focus.unity
     guid: 1994021520b82ab4f94123ced520b0ad
   - enabled: 1
-    path: Assets/Scenes/RecognitionSpeed.unity
+    path: Assets/Scenes/Recognition_Speed.unity
     guid: cc5b6b867749b2e4ca126e4d6b060f7d
   - enabled: 1
     path: Assets/Scenes/Flickering.unity
     guid: 5426a4e606efbcf41a745c90893ce37a
   - enabled: 1
-    path: Assets/Scenes/ComplexFunctions.unity
+    path: Assets/Scenes/Complex_Functions.unity
     guid: d61f1cb4945425a4f9f9237a54e24f8b
   - enabled: 1
     path: Assets/Scenes/FollowShape.unity

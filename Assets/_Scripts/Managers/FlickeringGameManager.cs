@@ -43,7 +43,7 @@ public class FlickeringGameManager : AbstractGameManager
     private List<float> _flickeringspeed = new List<float>();
     private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
-    private List<GameObject> active_targets = new List<GameObject>();
+    private Queue<GameObject> pooling = new Queue<GameObject>();
 
     void Start()
     {
@@ -92,12 +92,32 @@ public class FlickeringGameManager : AbstractGameManager
         }
     }
 
+    void InitializePool()
+    {
+        for (int i = 0; i < 40; i++)
+        {
+            GameObject obj = Instantiate(target_prefab);
+            obj.SetActive(false);
+            obj.GetComponent<ClickableObject>().OnClick.AddListener(TargetClicked);
+            pooling.Enqueue(obj);
+        }
+    }
+
     void SpawnSingleTarget()
     {
         float posx = Random.Range(left_spawning_area_border, right_spawning_area_border);
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
 
         bool isleft = Random.value > 0.5f;
+
+
+        float speed = Random.Range(min_speed, max_speed);
+
+
+        spawned_target = pooling.Dequeue();
+        spawned_target.transform.localScale = new Vector3(target_scale, target_scale, target_scale);
+        spawned_target.transform.position = new Vector2(posx, posy);
+        spawned_target.GetComponent<FlickeringTargetState>().isclicked = false;
 
         if (isleft)
         {
@@ -109,22 +129,16 @@ public class FlickeringGameManager : AbstractGameManager
             inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
         }
 
-        float speed = Random.Range(min_speed, max_speed);
-
-
-        spawned_target = Instantiate(target_prefab, new Vector2(posx, posy), Quaternion.identity);
-        spawned_target.transform.localScale = new Vector3(target_scale, target_scale, target_scale);
-        spawned_target.GetComponent<ClickableObject>()._Onclick.AddListener(TargetClicked);
+        spawned_target.GetComponent<FlickeringTargetState>().isleft = isleft;
+        spawned_target.SetActive(true);
 
         scoremanager.total_score += score_tobe_added;
-
-        active_targets.Add(spawned_target);
 
         StartCoroutine(TargetBehaviour(spawned_target, speed, isleft));
     }
 
 
-    void TargetClicked()
+    public override void TargetClicked(GameObject t)
     {
         if (activeFlickeringSO.flickeringlevels.Count > 1)
         {
@@ -132,11 +146,14 @@ public class FlickeringGameManager : AbstractGameManager
         }
         else
             scoremanager.user_score += score_tobe_added;
+        t.GetComponent<FlickeringTargetState>().isclicked = true;
+        t.SetActive(false);
+        pooling.Enqueue(t);
     }
 
     void ClearActiveTargets()
     {
-        foreach (var target in active_targets)
+        foreach (var target in pooling)
         {
             Destroy(target);
         }
@@ -167,7 +184,15 @@ public class FlickeringGameManager : AbstractGameManager
         SetupScreen();
         GameSetup();
         backgroundgenerator.GenerateConstantBackGround(0.5f);
-        StartCoroutine(uimanager.Timer());
+        InitializePool();
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(uimanager.Lives());
+        }
+        else
+        {
+            StartCoroutine(uimanager.Timer());
+        }
         StartCoroutine(GameLoop());
         StartCoroutine(flickeringmanager.Flickering());
         StartCoroutine(SpawnTargets());
@@ -228,6 +253,8 @@ public class FlickeringGameManager : AbstractGameManager
 
     IEnumerator TargetBehaviour(GameObject target, float speed, bool isleft)
     {
+        FlickeringTargetState state = target.GetComponent<FlickeringTargetState>();
+
         Vector3 destination;
 
         if (isleft)
@@ -235,13 +262,14 @@ public class FlickeringGameManager : AbstractGameManager
         else
             destination = right_goal.transform.position;
 
-        while (target != null)
+        while (target != null && state != null && !state.isclicked)
         {
             target.transform.position = Vector3.MoveTowards(target.transform.position, destination, speed * Time.deltaTime);
 
             if (Vector3.Distance(target.transform.position, destination) <= 0.01)
             {
-                Destroy(target);
+                target.SetActive(false);
+                pooling.Enqueue(target);
                 scoremanager.misses++;
                 scoremanager.LoseALife();
                 yield break;
