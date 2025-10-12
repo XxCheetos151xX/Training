@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
+        print(chosen_mode);
 
         if (chosen_mode == GameMode.Timeless.ToString() && timer_txt != null && lives_txt != null)
         {

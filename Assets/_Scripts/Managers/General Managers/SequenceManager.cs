@@ -26,25 +26,25 @@ public class SequenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Listen to scene load events
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+    //private void OnDestroy()
+    //{
+    //    SceneManager.sceneLoaded -= OnSceneLoaded;
+    //}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // When we reach main menu or any non-general eval scene,
-        // destroy this SequenceManager if not in GeneralEval mode
-        string chosenMode = PlayerPrefs.GetString("GameMode", "None");
+    //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    // When we reach main menu or any non-general eval scene,
+    //    // destroy this SequenceManager if not in GeneralEval mode
+    //    string chosenMode = PlayerPrefs.GetString("GameMode", "None");
 
-        if (scene.name == "Main Menu" && chosenMode != GameMode.GeneralEval.ToString())
-        {
-            Destroy(gameObject);
-        }
-    }
+    //    if (scene.name == "Main Menu" && chosenMode != GameMode.GeneralEval.ToString())
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 
     // --- Start the sequence ---
     public void StartSequence()

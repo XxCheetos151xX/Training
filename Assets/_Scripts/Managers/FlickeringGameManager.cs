@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,6 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private GameObject target_prefab;
     [SerializeField] private Transform left_goal;
     [SerializeField] private Transform right_goal;
-    [SerializeField] private CircleCollider2D inverted_collider;
     [SerializeField] private FlickeringManager flickeringmanager;
     [SerializeField] private ScoreManager scoremanager;
     [SerializeField] private UIManager uimanager;
@@ -20,7 +19,6 @@ public class FlickeringGameManager : AbstractGameManager
     [SerializeField] private float score_tobe_added;
     [SerializeField] private float target_scale;
     [SerializeField] private float spawning_area_width;
-    [SerializeField] private float inverted_collider_pos;
     [SerializeField] private UnityEvent GameEnded;
     [SerializeField] private UnityEvent SequenceEnd;
 
@@ -109,33 +107,23 @@ public class FlickeringGameManager : AbstractGameManager
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
 
         bool isleft = Random.value > 0.5f;
-
-
         float speed = Random.Range(min_speed, max_speed);
-
 
         spawned_target = pooling.Dequeue();
         spawned_target.transform.localScale = new Vector3(target_scale, target_scale, target_scale);
         spawned_target.transform.position = new Vector2(posx, posy);
         spawned_target.GetComponent<FlickeringTargetState>().isclicked = false;
 
-        if (isleft)
-        {
-            inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
-        }
+        var state = spawned_target.GetComponent<FlickeringTargetState>();
+        state.isleft = isleft;
+        state.UpdateInvertedCollider(); 
 
-        if (!isleft)
-        {
-            inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
-        }
-
-        spawned_target.GetComponent<FlickeringTargetState>().isleft = isleft;
         spawned_target.SetActive(true);
-
         scoremanager.total_score += score_tobe_added;
 
         StartCoroutine(TargetBehaviour(spawned_target, speed, isleft));
     }
+
 
 
     public override void TargetClicked(GameObject t)
