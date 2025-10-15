@@ -22,4 +22,4 @@ MonoBehaviour:
     mindelaybetweentargets: 2.5
     maxdelaybetweentargets: 3.5
     scoreratio: 0
-    isflickeringtogether: 1
+    isflickeringtogether: 0

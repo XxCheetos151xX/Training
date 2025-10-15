@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
   m_Name: MemoryDescription
   m_EditorClassIdentifier: 
-  game_description: Game Description
-  game_image: {fileID: 21300000, guid: fe1f7d7f4dc6f5b46820360602df8999, type: 3}
+  game_title: Memory
+  game_description: Improve visual memory.
+  game_tutorial: Memorize the pattern, then recall it \n by clicking on the same
+    squares.
+  game_image: {fileID: -1327149588919777023, guid: f28c494d2aa686042ab1fa3fe4003d9a, type: 3}

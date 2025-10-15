@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e86504ee14557429ca3a8f5790877d, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 5
+  timer: 30
   pirioritylevels:
   - starttime: 0
     targetlifetime: 6.2

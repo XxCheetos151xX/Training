@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
   m_Name: SpacingDescription
   m_EditorClassIdentifier: 
-  game_title: Title
-  game_description: Description
-  game_tutorial: Description
-  game_image: {fileID: 0}
+  game_title: Space Recognition
+  game_description: Train visual capabilities.
+  game_tutorial: Click on the empty spaces.
+  game_image: {fileID: -4407773094323667191, guid: 240f1b0ca0547e74383cf751f4999350, type: 3}

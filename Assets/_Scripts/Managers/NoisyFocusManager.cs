@@ -35,7 +35,7 @@ public class NoisyFocusManager : AbstractGameManager
     private List<float> _starttime = new List<float>();
     private List<float> _delay = new List<float>();
     private List<float> _minspeed = new List<float>();
-    private List<float> _maxspeed = new List<float>(); 
+    private List<float> _maxspeed = new List<float>();
     private List<float> _flickeringspeed = new List<float>();
     private List<float> _scoreratio = new List<float>();
     private List<bool> _isflickering = new List<bool>();
@@ -45,10 +45,10 @@ public class NoisyFocusManager : AbstractGameManager
         StartCoroutine(GameInit());
     }
 
-    
+
     void InitailizePool()
     {
-        for (int  i = 0; i < 25; i++)
+        for (int i = 0; i < 25; i++)
         {
             GameObject target = Instantiate(target_prefab);
             target.SetActive(false);
@@ -78,24 +78,25 @@ public class NoisyFocusManager : AbstractGameManager
         float posy = Random.Range(minY + 0.5f, maxY - 0.5f);
         float posx;
         spawned_target_speed = Random.Range(min_speed, max_speed);
+        spawned_target = pooling.Dequeue();
+        var target_condition = spawned_target.GetComponent<NoisyFocusTargetMovement>();
 
-        bool isleft = Random.value > 0.5f;
-        
-        if (isleft)
+        target_condition.isleft = Random.value > 0.5f;
+
+        if (target_condition.isleft)
         {
             posx = minX + 0.5f;
-            inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
+            target_condition.inverted_collider.offset = new Vector2(-inverted_collider_pos, 0);
         }
 
         else
         {
             posx = maxX - 0.5f;
-            inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
+            target_condition.inverted_collider.offset = new Vector2(inverted_collider_pos, 0);
         }
 
-        spawned_target = pooling.Dequeue();
         spawned_target.transform.position = new Vector2(posx, posy);
-        spawned_target.GetComponent<NoisyFocusTargetMovement>().isclicked = false;
+        target_condition.isclicked = false;
         spawned_target.SetActive(true);
 
         scoremanager.total_score += score_tobe_added;
@@ -111,7 +112,7 @@ public class NoisyFocusManager : AbstractGameManager
         }
         else
             scoremanager.user_score += score_tobe_added;
-        
+
         target.GetComponent<NoisyFocusTargetMovement>().isclicked = true;
         target.SetActive(false);
         pooling.Enqueue(target);
@@ -271,7 +272,7 @@ public class NoisyFocusManager : AbstractGameManager
                     GameEnded.Invoke();
                 }
             }
-          
+
             yield return null;
         }
     }

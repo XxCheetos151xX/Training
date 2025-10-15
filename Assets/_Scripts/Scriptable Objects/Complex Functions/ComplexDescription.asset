@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
   m_Name: ComplexDescription
   m_EditorClassIdentifier: 
-  game_description: Game Description
-  game_image: {fileID: 21300000, guid: c3e567c9df1c55047969838586606ff4, type: 3}
+  game_title: Complex Function
+  game_description: 'Improve decision-making. '
+  game_tutorial: Click on the green circles when the red circle flickers.
+  game_image: {fileID: 1642793506499084268, guid: 9096b542013272549b1d04bc674aebd6, type: 3}

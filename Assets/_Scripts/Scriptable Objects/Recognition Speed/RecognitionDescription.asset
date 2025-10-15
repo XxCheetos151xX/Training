@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
   m_Name: RecognitionDescription
   m_EditorClassIdentifier: 
-  game_description: Game Description
-  game_image: {fileID: 21300000, guid: e546c5c63ee19d7468cf69f014e70c87, type: 3}
+  game_title: Recognition Speed
+  game_description: Train visual memory.
+  game_tutorial: Memorize the circles pattern then reclick the. \n The closer to
+    the center, the higher the score.
+  game_image: {fileID: 2498199088298434201, guid: 7b43f20e94355264890a8d4e40e4bedc, type: 3}

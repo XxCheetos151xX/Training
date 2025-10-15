@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7364c0631a929f4da10052e91d5fa35, type: 3}
   m_Name: DecisionDescription
   m_EditorClassIdentifier: 
-  game_description: Game Description
-  game_image: {fileID: 21300000, guid: 2cfaed1e20e3d7342aaee347414717b1, type: 3}
+  game_title: Decision Making
+  game_description: Link vision and physical readiness.
+  game_tutorial: Maintain your hands on both squares. \n Click a circle with the
+    same color.
+  game_image: {fileID: -94385614002522144, guid: 2cfaed1e20e3d7342aaee347414717b1, type: 3}

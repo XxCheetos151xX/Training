@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isclicked: 0
+  isleft: 0
+  inverted_collider: {fileID: 1738372174871423471}
 --- !u!50 &6530133633718242445
 Rigidbody2D:
   serializedVersion: 5
@@ -188,7 +190,7 @@ Rigidbody2D:
   m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6
 --- !u!58 &1738372174871423471
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -223,5 +225,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -1.02, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_Radius: 0.5

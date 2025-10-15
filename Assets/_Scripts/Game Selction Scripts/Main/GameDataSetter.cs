@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameDataSetter : MonoBehaviour
 {
@@ -26,10 +25,6 @@ public class GameDataSetter : MonoBehaviour
     public void SetGameType(int Val)
     {
         gameType = (GameType)Val;
-        if (Val <= ui_manager.games_description.Count - 1)
-        {
-            ui_manager.SetDescription(Val - 1);
-        }
     }
 
     public void SetGameMode(int Val)
@@ -113,8 +108,8 @@ public enum GameType
     Risk_Management,
     Noisy_Focus,
     Recognition_Speed,
-    Flickering,
     Complex_Functions,
+    Flickering,
     EyeTraining,
     FollowShape,
 }

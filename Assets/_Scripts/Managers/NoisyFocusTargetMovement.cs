@@ -6,9 +6,11 @@ public class NoisyFocusTargetMovement : MonoBehaviour
     private Camera cam;
     private float screen_center_x;
     private float speed;
-    private bool isleft;
 
     [HideInInspector] public bool isclicked;
+
+    public bool isleft;
+    public CircleCollider2D inverted_collider;
 
     private void Awake()
     {

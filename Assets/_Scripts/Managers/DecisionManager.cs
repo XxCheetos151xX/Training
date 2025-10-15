@@ -61,6 +61,19 @@ public class DecisionManager : AbstractGameManager
     {
         GameSetup();
         background_generator.GenerateConstantBackGround(0.5f);
+        StartCoroutine(flickering_manager.Flickering());
+        SwitchColor();
+        if (chosen_mode == GameMode.Timeless.ToString())
+        {
+            StartCoroutine(ui_manager.Lives());
+        }
+        else
+        {
+            StartCoroutine(ui_manager.Timer());
+        }
+        StartCoroutine(GameLoop());
+        StartCoroutine(SpawnTargets());
+        gamestarted = true;
 
     }
 
@@ -227,7 +240,7 @@ public class DecisionManager : AbstractGameManager
         {
         StartNextSpawn:
 
-            float x = Random.Range(minX, maxX);
+            float x = Random.Range(minX + 0.5f, maxX - 0.5f);
             float y = Random.Range(minY + 3.5f, maxY - 2.5f);
             bool spawn_wrong_target = Random.value > ((11 - not_todo_prob) / 10);
 

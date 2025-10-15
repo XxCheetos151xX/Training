@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017c6fdc7964dbb4581681dabf55e574, type: 3}
   m_Name: GeneralEvalSO
   m_EditorClassIdentifier: 
-  timer: 5
+  timer: 30
   ChaseLevels:
   - startTime: 0
     ballSpeed: 7.5

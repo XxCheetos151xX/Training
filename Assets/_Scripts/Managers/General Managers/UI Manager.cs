@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Video;
-using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,11 +15,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI next_game_title;
     [SerializeField] private TextMeshProUGUI lives_txt;
 
-    [Header("Result Prefab & Container")]
-    [SerializeField] private GameObject resultTextPrefab;   // Prefab with TextMeshProUGUI
-    [SerializeField] private Transform resultsContainer;
-    [SerializeField] private Transform lowestResultsContainer;
-    [SerializeField] private TextMeshProUGUI average_score_txt;
+    [Header("CI Index Scores")]
+    [SerializeField] private TextMeshProUGUI vision_score_txt;
+    [SerializeField] private TextMeshProUGUI anticipation_score_txt;
+    [SerializeField] private TextMeshProUGUI reaction_time_score_txt;
+    [SerializeField] private TextMeshProUGUI inhibition_control_score_txt;
+    [SerializeField] private TextMeshProUGUI ci_index_score_txt;
+    [SerializeField] private TextMeshProUGUI lowest_1_txt;
+    [SerializeField] private TextMeshProUGUI lowest_2_txt;
+    [SerializeField] private TextMeshProUGUI lowest_3_txt;
+    [SerializeField] private Image vision_circle;
+    [SerializeField] private Image anticipation_circle;
+    [SerializeField] private Image reaction_time_circle;
+    [SerializeField] private Image inhibiton_circle;
+    [SerializeField] private Color weak_color;
+    [SerializeField] private Color normal_color;
+    [SerializeField] private Color good_color;
+ 
 
     [Header("Panels")]
     [SerializeField] private GameObject ending_panel;
@@ -36,6 +48,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI game_description_txt;
     [SerializeField] private TextMeshProUGUI game_tutorial_txt;
     [SerializeField] private Image game_image;
+
+    [Header("User Data")]
+    [SerializeField] private TMP_InputField name_input;
+    [SerializeField] private TMP_InputField age_input;
+    [SerializeField] private TMP_InputField sport_input;
+    [SerializeField] private TMP_InputField pos_input;
+    [SerializeField] private TextMeshProUGUI name_txt;
+    [SerializeField] private TextMeshProUGUI age_txt;
+    [SerializeField] private TextMeshProUGUI sport_txt;
+    [SerializeField] private TextMeshProUGUI pos_txt;
+
 
     [Header("Video Mode")]
     [SerializeField] private bool isvideo;
@@ -54,7 +77,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         chosen_mode = PlayerPrefs.GetString("GameMode");
-        print(chosen_mode);
 
         if (chosen_mode == GameMode.Timeless.ToString() && timer_txt != null && lives_txt != null)
         {
@@ -64,7 +86,7 @@ public class UIManager : MonoBehaviour
         if (ending_panel != null)
         {
             ending_panel.SetActive(false);
-        }
+        } 
     }
 
     // ================== Menu Buttons ==================
@@ -133,7 +155,12 @@ public class UIManager : MonoBehaviour
         }
         else if (SequenceManager.Instance.currentIndex >= SequenceManager.Instance.drillScenes.Count - 1)
         {
+            score_manager.CalculateTraitsScores();
             score_manager.GetAverageScore();
+            SetAnticipationCircle();
+            SetInhibitionControlCircle();
+            SetReactionTimeCircle();
+            SetVisionCircle();
             ShowGeneralEvalEnding();
         }
     }
@@ -144,61 +171,40 @@ public class UIManager : MonoBehaviour
         if (generaleval_ending_panel != null)
         {
             generaleval_ending_panel.SetActive(true);
-
-            // Clear old children first
-            foreach (Transform child in resultsContainer)
-                Destroy(child.gameObject);
-
-            foreach (Transform child in lowestResultsContainer)
-                Destroy(child.gameObject);
-
-            if (save_and_load_manager != null)
-            {
-                var saved = save_and_load_manager.LoadScore();
-
-                if (saved.wrapper.Count == 0)
-                {
-                    var noResultObj = Instantiate(resultTextPrefab, resultsContainer);
-                    var noResultText = noResultObj.GetComponent<TextMeshProUGUI>();
-                    noResultText.text = "No results recorded.";
-                }
-                else
-                {
-                    // --- Show all results ---
-                    var validScenes = SequenceManager.Instance.drillScenes;
-
-                    var filteredResults = saved.wrapper
-                        .Where(entry => validScenes.Contains(entry.scene_name))
-                        .ToList();
-
-                    foreach (var entry in filteredResults)
-                    {
-                        var textObj = Instantiate(resultTextPrefab, resultsContainer);
-                        var textInstance = textObj.GetComponent<TextMeshProUGUI>();
-                        textInstance.enabled = true;
-                        textInstance.text = entry.scene_name.Replace("_"," ") + ":" + entry.score.ToString("F2") + "%";
-                    }
-
-                    // --- Show 3 lowest scores (only from valid general eval scenes) ---
-                    var lowestThree = saved.wrapper
-                        .Where(entry => validScenes.Contains(entry.scene_name))
-                        .OrderBy(entry => entry.score)
-                        .Take(3);
-
-
-                    foreach (var entry in lowestThree)
-                    {
-                        var textObj = Instantiate(resultTextPrefab, lowestResultsContainer);
-                        var textInstance = textObj.GetComponent<TextMeshProUGUI>();
-                        textInstance.enabled = true;
-                        textInstance.text = entry.scene_name.Replace("_"," ");
-                    }
-
-                    // --- Average ---
-                    average_score_txt.text = "CI Index: " + score_manager.average.ToString("F1") + "%";
-                }
-            }
         }
+
+        if (ci_index_score_txt != null)
+        {
+            ci_index_score_txt.text = "CI Index :" + " " + score_manager.average.ToString("F2");
+        }
+
+        if (vision_score_txt != null)
+        {
+            vision_score_txt.text = score_manager.vision_score.ToString("F2") + "%";
+        }
+
+        if (anticipation_score_txt != null)
+        {
+            anticipation_score_txt.text = score_manager.anticipation_score.ToString("F2") + "%";
+        }
+
+        if (reaction_time_score_txt != null)
+        {
+            reaction_time_score_txt.text = score_manager.reaction_time_score.ToString("F2") + "%";
+        }
+
+        if (inhibition_control_score_txt != null)
+        {
+            inhibition_control_score_txt.text = score_manager.inhibition_control_score.ToString("F2") + "%";
+        }
+
+        if (lowest_1_txt != null && lowest_2_txt != null && lowest_3_txt != null)
+        {
+            lowest_1_txt.text = score_manager.improvement_needed[score_manager.improvement_needed.Count - 1].Replace("_", " ");
+            lowest_2_txt.text = score_manager.improvement_needed[score_manager.improvement_needed.Count - 2].Replace("_", " ");
+            lowest_3_txt.text = score_manager.improvement_needed[score_manager.improvement_needed.Count - 3].Replace("_", " ");
+        }
+        GetUserData();
     }
 
 
@@ -209,7 +215,48 @@ public class UIManager : MonoBehaviour
         SequenceManager.Instance.StartSequence();
     }
 
+    public void ReadUserData()
+    {
+        if (save_and_load_manager != null && name_input != null && age_input != null && sport_input != null && pos_input != null)
+        {
+            save_and_load_manager.user_data = new UserVariables
+            {
+                name = name_input.text,
+                age = age_input.text,
+                sport = sport_input.text,
+                position = pos_input.text
+            };
 
+            save_and_load_manager.SaveData();
+        }
+    }
+
+    public void GetUserData()
+    {
+        if (save_and_load_manager == null) return;
+
+        var data = save_and_load_manager.LoadData();
+
+        if (data != null)
+        {
+            if (name_txt != null)
+            {
+                name_txt.text = "Name :"+" "+data.name;
+            }
+            if (age_txt != null)
+            {
+                age_txt.text = "Age :" + " " + data.age;
+            }
+            if (sport_txt != null)
+            {
+                sport_txt.text = "Sport :" + " " + data.sport;
+            }
+            if (pos_txt != null)
+            {
+                pos_txt.text = "Position :" + " " + data.position;
+            }
+        }
+    }
 
     public void SetDescription(int indexVal)
     {
@@ -231,10 +278,101 @@ public class UIManager : MonoBehaviour
         if (game_image != null)
         {
             game_image.sprite = games_description[indexVal].game_image;
-            game_image.SetNativeSize();
         }
     }
 
+
+    public void SetVisionCircle()
+    {
+        if (vision_circle != null)
+        {
+            vision_circle.fillAmount = score_manager.vision_score / 100;
+
+            if (score_manager.vision_score >= 0 && score_manager.vision_score <= 30)
+            {
+                vision_circle.color = weak_color;
+            }
+
+            else if (score_manager.vision_score >= 30.1f && score_manager.vision_score <= 70)
+            {
+                vision_circle.color = normal_color;
+            }
+
+            else if (score_manager.vision_score >= 70.1f && score_manager.vision_score <= 100)
+            {
+                vision_circle.color = good_color;
+            }
+        }
+    }
+
+    public void SetAnticipationCircle()
+    {
+        if (anticipation_circle != null)
+        {
+            anticipation_circle.fillAmount = score_manager.anticipation_score / 100;
+
+            if (score_manager.anticipation_score >= 0 && score_manager.anticipation_score <= 30)
+            {
+                anticipation_circle.color = weak_color;
+            }
+
+            else if (score_manager.anticipation_score >= 30.1f && score_manager.anticipation_score <= 70)
+            {
+                anticipation_circle.color = normal_color;
+            }
+
+            else if (score_manager.anticipation_score >= 70.1f && score_manager.anticipation_score <= 100)
+            {
+                anticipation_circle.color = good_color;
+            }
+        }
+    }
+
+    public void SetReactionTimeCircle()
+    {
+        if (reaction_time_circle != null)
+        {
+            reaction_time_circle.fillAmount = score_manager.reaction_time_score / 100;
+
+            if (score_manager.reaction_time_score >= 0 && score_manager.reaction_time_score <= 30)
+            {
+                reaction_time_circle.color = weak_color;
+            }
+
+            else if (score_manager.reaction_time_score >= 30.1 && score_manager.reaction_time_score <= 70)
+            {
+                reaction_time_circle.color = normal_color;
+            }
+
+            else if (score_manager.reaction_time_score >= 70.1f && score_manager.reaction_time_score <= 100)
+            {
+                reaction_time_circle.color = good_color;
+            }
+        }
+    }
+
+    public void SetInhibitionControlCircle()
+    {
+        if (inhibiton_circle != null)
+        {
+            inhibiton_circle.fillAmount = score_manager.inhibition_control_score / 100;
+
+            if (score_manager.inhibition_control_score >= 0 && score_manager.inhibition_control_score <= 30)
+            {
+                inhibiton_circle.color = weak_color;
+            }
+
+            else if (score_manager.inhibition_control_score >= 30.1f && score_manager.inhibition_control_score <= 70)
+            {
+                inhibiton_circle.color = normal_color;
+            }
+
+            else if (score_manager.inhibition_control_score >= 70.1f && score_manager.inhibition_control_score <= 100)
+            {
+                inhibiton_circle.color = good_color;
+            }
+        }
+    }
 
     public IEnumerator Lives()
     {
